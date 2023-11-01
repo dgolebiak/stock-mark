@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    @RequestMapping("/request-login")
+    @RequestMapping("/login")
     public String hello() {
         return "This is the login page!";
     }
