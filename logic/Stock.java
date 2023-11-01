@@ -1,0 +1,1 @@
+record Stock(String stockname, double price){}
