@@ -11,7 +11,15 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+record Stock(String name, String ticker){}
+
 public class Market {
+    static Stock[] tickers = new Stock[]{
+        new Stock("Apple", "AAPL"),
+        new Stock("Amazon", "AMZN"),
+        new Stock("Google", "GOOG"),
+        // Add more that we want to support, probably upto 20
+    };
 
     // For reference
     /* class ApiResponse {
@@ -23,7 +31,7 @@ public class Market {
 
     // Just for testing purposes right now
     public static String inquirePrice(String ticker) {
-        if (ticker.equals("")) return "Marke.getPric(ticker) -> Error: Provide Ticker!";
+        if (ticker.equals("")) return "Marke.inquirePrice(ticker) -> Error: Provide Ticker!";
         HttpRequest request = HttpRequest.newBuilder()
 		.uri(URI.create("https://realstonks.p.rapidapi.com/"+ticker))
 		.header("X-RapidAPI-Key", "bffff99a21msh3201484be4f30c1p1ab348jsn39aebb9ede1c")
