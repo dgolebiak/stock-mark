@@ -11,5 +11,5 @@ public class PriceTest {
     @GetMapping("/price/{ticker}")
     String getPrice(@PathVariable String ticker) {
         return Market.inquirePrice(ticker);
-    }   
+    }
 }
