@@ -1,0 +1,19 @@
+[
+    {
+        "companyName": "Apple",
+        "stockTicker": "AAPL",
+        "daysHistory": [130.1]
+    },
+    {
+        "companyName": "Amazon",
+        "stockTicker": "AMZN"
+    },
+    {
+        "companyName": "Google",
+        "stockTicker": "GOOG"
+    },
+    {
+        "companyName": "Tesla",
+        "stockTicker": "TSLA"
+    }
+]
