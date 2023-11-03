@@ -2,7 +2,8 @@ package stockmark.stockmark.logic;
 
 import java.util.List;
 
-record Stock(int id, int amount){}
+// Stock("TSLA", 4)
+record Stock(String stockTicker, int amount){}
 
 // Single account for one user
 public class Account {

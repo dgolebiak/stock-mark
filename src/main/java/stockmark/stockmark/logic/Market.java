@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-record Ticker(String name, String ticker){}
+record Ticker(String companyName, String stockTicker){}
 
 public class Market {
     static Ticker[] tickers = new Ticker[]{
