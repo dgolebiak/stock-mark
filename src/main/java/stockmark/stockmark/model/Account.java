@@ -1,4 +1,4 @@
-package stockmark.stockmark.logic;
+package stockmark.stockmark.model;
 
 import java.util.List;
 
