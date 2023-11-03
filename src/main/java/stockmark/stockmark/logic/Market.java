@@ -11,13 +11,13 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-record Stock(String name, String ticker){}
+record Ticker(String name, String ticker){}
 
 public class Market {
-    static Stock[] tickers = new Stock[]{
-        new Stock("Apple", "AAPL"),
-        new Stock("Amazon", "AMZN"),
-        new Stock("Google", "GOOG"),
+    static Ticker[] tickers = new Ticker[]{
+        new Ticker("Apple", "AAPL"),
+        new Ticker("Amazon", "AMZN"),
+        new Ticker("Google", "GOOG"),
         // Add more that we want to support, probably upto 20
     };
 

@@ -1,0 +1,30 @@
+a {
+    text-decoration: none;
+}
+
+.rubik {font-family: "Rubik"}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    font-family: "Rubik";
+}
+
+header > .header-title {
+    font-weight: 800;
+    font-size: 30px;
+    color: black;
+}
+
+header > nav > a {
+    color: black;
+    font-size: 18px;
+    border-bottom: 2px solid transparent;
+    padding: 6px;
+}
+
+header > nav > a:hover {border-bottom: 2px solid black;}
