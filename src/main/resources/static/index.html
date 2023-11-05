@@ -43,23 +43,9 @@
             </ul>
         </div>
 
-        <div class="balance-div">
+        <div class="balance">
             <span id="balance"></span>
         </div>
-
-        <script>
-            function getBalance(){
-                fetch('testaccount.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById("balance").textContent = "$" + data.balance;
-                    })
-                    .catch(error => {
-                        console.error("Error fetching balance: " + error);
-                    })
-            }
-            window.addEventListener("load", getBalance);
-        </script>
     </header>
 </body>
 </html>
