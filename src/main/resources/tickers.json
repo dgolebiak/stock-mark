@@ -1,8 +1,7 @@
 [
     {
         "companyName": "Apple",
-        "stockTicker": "AAPL",
-        "daysHistory": [130.1]
+        "stockTicker": "AAPL"
     },
     {
         "companyName": "Amazon",

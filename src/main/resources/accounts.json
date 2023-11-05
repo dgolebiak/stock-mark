@@ -1,0 +1,12 @@
+[
+    {
+        "email": "hk.32@outlook.com",
+        "password": "1245",
+        "balance": 12000
+    },
+    {
+        "email": "david@outlook.com",
+        "password": "54321",
+        "balance": 11
+    }
+]
