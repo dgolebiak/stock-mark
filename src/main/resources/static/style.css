@@ -3,15 +3,20 @@ a {
 }
 
 .rubik {font-family: "Rubik"}
+.display {display: block;}
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
-    padding-top: 20px;
     font-family: "Rubik";
+    padding: 20px 50px;
+}
+
+#burger-icon {
+    display: none;
 }
 
 header > .header-title {
@@ -28,3 +33,33 @@ header > nav > a {
 }
 
 header > nav > a:hover {border-bottom: 2px solid black;}
+
+.dropdown .dropdown-item-mobile {
+    display: none;
+}
+
+.logreg-form {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 220px;
+    font-family: "Rubik";
+    padding: 0px 50px;
+}
+
+@media screen and (max-width: 1250px) {
+    #burger-icon {
+        display:initial;
+    }
+
+    #profile-icon {
+        display: none;
+    }
+
+    header > nav {
+        display: none;
+    }
+
+    .dropdown .dropdown-item-mobile {
+        display: initial;
+    }
+}
