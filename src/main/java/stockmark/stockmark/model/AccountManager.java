@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class AccountManager {
     
-    private ArrayList<Account> accounts;
+    private ArrayList<Account> accounts; // Will change to a hashmap in the future.
 
     public AccountManager() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -42,6 +42,10 @@ public class AccountManager {
             e.printStackTrace();
             System.out.println("Error saving accounts.");
         }
+    }
+
+    public ArrayList<Account> getAccounts() {
+        return accounts;
     }
 
 }
