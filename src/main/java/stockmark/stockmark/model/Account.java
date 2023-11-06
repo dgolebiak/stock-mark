@@ -14,6 +14,28 @@ public class Account {
     private double balance; // amount of liquid money in the account
     private ArrayList<Double> assets;
 
+    public Account(String email, String password) {
+        this.email = email;
+        this.password = password;
+        this.balance = 10000;
+    }
+
+    public void setMail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public void setAssets(ArrayList<Double> assets) {
+        this.assets = assets;
+    }
+
     public String getEmail() {
         return email;
     }
