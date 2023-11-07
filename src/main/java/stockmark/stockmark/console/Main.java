@@ -1,14 +1,17 @@
 package stockmark.stockmark.console;
 
-import java.util.Arrays;
-
 import stockmark.stockmark.model.Market;
+import stockmark.stockmark.model.NonExistentTickerException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("STOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONKSSS!");
-
+        System.out.println("STONKSSS!");
         Market.Initialize();
-        System.out.println(Arrays.toString(Market.getSupportedTickers()[0].daysHistory()));
+
+        try {
+            System.out.println(Market.getPrice("TSLA"));
+        } catch (NonExistentTickerException e) {
+            System.out.println("Ticker not found!");
+        }
     }
 }
