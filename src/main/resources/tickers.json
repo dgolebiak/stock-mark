@@ -14,5 +14,9 @@
     {
         "companyName": "Tesla",
         "stockTicker": "TSLA"
+    },
+    {
+        "companyName": "Microsoft",
+        "stockTicker": "MSFT"
     }
 ]
