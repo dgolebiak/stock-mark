@@ -12,7 +12,11 @@ header {
     max-width: 1250px;
     margin: 0 auto;
     font-family: "Rubik";
-    padding: 20px 50px;
+    padding: 25px 50px;
+}
+
+.mobile {
+    display: none;
 }
 
 #burger-icon {
@@ -20,7 +24,7 @@ header {
 }
 
 header > .header-title {
-    font-weight: 800;
+    font-weight: 600;
     font-size: 30px;
     color: black;
 }
@@ -28,11 +32,24 @@ header > .header-title {
 header > nav > a {
     color: black;
     font-size: 18px;
-    border-bottom: 2px solid transparent;
-    padding: 6px;
+    border-bottom: 3px solid transparent;
+    padding: 10px;
+    padding-top: 16px;
+    font-size: 23px;
+    font-weight: 500;
+    margin-right: 20px;
 }
 
-header > nav > a:hover {border-bottom: 2px solid black;}
+header > nav > a:hover {
+    border-bottom: 3px solid grey;
+    background-color: rgb(244, 244, 244);
+}
+
+header > nav > .active {border-bottom: 3px solid black;}
+header > nav > .active:hover {
+    border-bottom: 3px solid black;
+    background-color: white
+}
 
 .dropdown .dropdown-item-mobile {
     display: none;
@@ -61,10 +78,8 @@ header > nav > a:hover {border-bottom: 2px solid black;}
     .dropdown .dropdown-item-mobile {
         display: initial;
     }
-}
 
-@media screen and (max-width: 700px) {
-    .logreg-form {
-        padding: 0px 30px;
+    .mobile {
+        display: initial;
     }
 }
