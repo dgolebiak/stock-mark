@@ -1,4 +1,4 @@
-package stockmark.stockmark.model;
+package stockmark.stockmark.model.Exceptions;
 
 public class NonExistentTickerException extends Exception {
     public NonExistentTickerException() {

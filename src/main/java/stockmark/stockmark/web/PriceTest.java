@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.NonExistentTickerException;
 import stockmark.stockmark.model.Ticker;
+import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
 @RestController
 public class PriceTest {

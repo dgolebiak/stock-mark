@@ -1,7 +1,7 @@
 package stockmark.stockmark.console;
 
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.NonExistentTickerException;
+import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
 public class Main {
     public static void main(String[] args) {

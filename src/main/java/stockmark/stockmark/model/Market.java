@@ -15,6 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
+
 public class Market {
     private static String tickersFile = "./src/main/resources/tickers.json";
     private static Ticker[] tickers;
