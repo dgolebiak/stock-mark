@@ -34,7 +34,7 @@ public class AccountManager {
         }
     }
 
-    public static void createAccount(String email, String password) {
+    public static void createAccount(String email, String password) throws AccountExistsException {
         if (accounts.containsKey(email)) {
             throw new AccountExistsException();
         }
@@ -44,7 +44,7 @@ public class AccountManager {
         //return html
     }
 
-    public static void loginAccount(String email, String password) {
+    public static void loginAccount(String email, String password) throws AccountNotFoundException, IncorrectPasswordException {
         if (!accounts.containsKey(email)) {
             throw new AccountNotFoundException();
         }
