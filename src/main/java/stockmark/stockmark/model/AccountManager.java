@@ -1,77 +1,60 @@
 package stockmark.stockmark.model;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import stockmark.stockmark.model.Exceptions.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import stockmark.stockmark.model.Exceptions.*;
 
 public class AccountManager {
-    
+    private static String accountsFile = "./src/main/resources/accounts.json";
     private static HashMap<String, Account> accounts;
 
-    private AccountManager() {}
-
     public static void Initialize() {
-        ObjectMapper objectMapper = new ObjectMapper();
+        if (accounts != null) return;
         try {
-            List<Account> accountsList = objectMapper.readValue(
-                new File("src/main/resources/accounts.json"), 
-                new TypeReference<List<Account>>(){}
-            );
+            File myObj = new File(accountsFile);
+            Account[] accountsArray = new ObjectMapper().readValue(myObj, Account[].class);
+
             accounts = new HashMap<>();
-            for (Account account : accountsList) {
+            for (Account account : accountsArray) {
                 accounts.put(account.getEmail(), account);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("No accounts file found.");
+            throw new RuntimeException("No accounts file found!");
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error reading accounts file.");
+            throw new RuntimeException("IOException when loading accounts file!");
         }
     }
 
-    public static void createAccount(String email, String password) throws AccountExistsException {
-        if (accounts.containsKey(email)) {
+    public static void registerAccount(Account acc) throws AccountExistsException {
+        if (accounts.containsKey(acc.getEmail())) {
             throw new AccountExistsException();
         }
-        Account account = new Account(email, password);
-        accounts.put(email, account);
+        accounts.put(acc.getEmail(), acc);
         saveAccountsJson();
-        //return html
     }
 
     public static void loginAccount(String email, String password) throws AccountNotFoundException, IncorrectPasswordException {
-        if (!accounts.containsKey(email)) {
-            throw new AccountNotFoundException();
-        }
+        if (!accounts.containsKey(email)) throw new AccountNotFoundException();
+
         Account account = accounts.get(email);
-    
-        if (account.getPassword().equals(password)) {
-            System.out.println("Login successful!");
-            return; //return html
-        } else {
-            throw new IncorrectPasswordException();
-        }
+        if (!account.getPassword().equals(password)) throw new IncorrectPasswordException();
     }
 
-    public static void saveAccountsJson() {
+    private static void saveAccountsJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(
-                new File("src/main/resources/accounts.json"), 
+                new File(accountsFile), 
                 accounts.values()
             );
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error saving accounts.");
         }
-    }
-
-    public static HashMap<String, Account> getAccounts() {
-        return accounts;
     }
 }
