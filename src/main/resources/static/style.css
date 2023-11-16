@@ -1,9 +1,37 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+html {
+    --green: rgb(0, 206, 0);
+    --red: red;
+}
+
 a {
     text-decoration: none;
 }
 
-.rubik {font-family: "Rubik"}
-.display {display: block;}
+a:hover {
+    cursor: pointer;
+}
+
+.rubik {
+    font-family: "Rubik"
+}
+
+.text-green {
+    color: var(--green)
+}
+
+.text-red {
+    color: var(--red)
+}
+
+.br-0 {
+    border-radius: 0;
+}
 
 header {
     display: flex;
@@ -15,7 +43,7 @@ header {
     padding: 25px 50px;
 }
 
-.mobile {
+.smaller-screen-header {
     display: none;
 }
 
@@ -23,13 +51,13 @@ header {
     display: none;
 }
 
-header > .header-title {
+header>.header-title {
     font-weight: 600;
     font-size: 30px;
     color: black;
 }
 
-header > nav > a {
+header>nav>a {
     color: black;
     font-size: 18px;
     border-bottom: 3px solid transparent;
@@ -37,16 +65,23 @@ header > nav > a {
     padding-top: 16px;
     font-size: 23px;
     font-weight: 500;
-    margin-right: 20px;
 }
 
-header > nav > a:hover {
+/* Between nav items */
+header>nav>*+* {
+    margin-left: 20px;
+}
+
+header>nav>a:hover {
     border-bottom: 3px solid grey;
     background-color: rgb(244, 244, 244);
 }
 
-header > nav > .active {border-bottom: 3px solid black;}
-header > nav > .active:hover {
+header>nav>.active {
+    border-bottom: 3px solid black;
+}
+
+header>nav>.active:hover {
     border-bottom: 3px solid black;
     background-color: white
 }
@@ -55,23 +90,16 @@ header > nav > .active:hover {
     display: none;
 }
 
-.logreg-form {
-    max-width: 800px;
-    margin: 11% auto;
-    font-family: "Rubik";
-    padding: 0px 50px;
-}
-
 @media screen and (max-width: 1250px) {
     #burger-icon {
-        display:initial;
+        display: initial;
     }
 
     #profile-icon {
         display: none;
     }
 
-    header > nav {
+    header>nav {
         display: none;
     }
 
@@ -79,7 +107,19 @@ header > nav > .active:hover {
         display: initial;
     }
 
-    .mobile {
+    .smaller-screen-header {
         display: initial;
+    }
+}
+
+@media screen and (max-width: 1086px) {
+    header {
+        padding: 25px 100px;
+    }
+}
+
+@media screen and (max-width: 756px) {
+    header {
+        padding: 25px 25px;
     }
 }
