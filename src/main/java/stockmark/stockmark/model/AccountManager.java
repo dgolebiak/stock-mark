@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import stockmark.stockmark.model.Exceptions.*;
 
 public class AccountManager {
     
@@ -35,8 +36,7 @@ public class AccountManager {
 
     public static void createAccount(String email, String password) {
         if (accounts.containsKey(email)) {
-            System.out.println("Account with email already exists.");
-            return;
+            throw new AccountExistsException();
         }
         Account account = new Account(email, password);
         accounts.put(email, account);
@@ -46,8 +46,7 @@ public class AccountManager {
 
     public static void loginAccount(String email, String password) {
         if (!accounts.containsKey(email)) {
-            System.out.println("Account with this email does not exist.");
-            return;
+            throw new AccountNotFoundException();
         }
         Account account = accounts.get(email);
     
@@ -55,7 +54,7 @@ public class AccountManager {
             System.out.println("Login successful!");
             return; //return html
         } else {
-            System.out.println("Incorrect password."); //raise exception
+            throw new IncorrectPasswordException();
         }
     }
 

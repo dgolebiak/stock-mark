@@ -38,6 +38,14 @@ public class Account {
         this.assets = assets;
     }
 
+    public void setFname(String fname){
+        this.fname = fname;
+    }
+
+    public void setLname(String lname){
+        this.lname = lname;
+    }
+
     public String getFname(){
         return fname;
     }

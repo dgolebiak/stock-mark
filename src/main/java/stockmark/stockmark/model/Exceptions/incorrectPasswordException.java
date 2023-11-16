@@ -1,11 +1,10 @@
 package stockmark.stockmark.model.Exceptions;
 
-
-public class incorrectPasswordException extends Exception {
-    public incorrectPasswordException(){
-        super("Incorrect Password, please try another one! ");
+public class IncorrectPasswordException extends Exception {
+    public IncorrectPasswordException(){
+        super("Incorrect Password!");
     }
-    public incorrectPasswordException(String message) {
+    public IncorrectPasswordException(String message) {
         super(message);
     }
 }
