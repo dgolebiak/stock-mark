@@ -10,9 +10,11 @@ import java.util.List;
 
 public class AccountManager {
     
-    private HashMap<String, Account> accounts;
+    private static HashMap<String, Account> accounts;
 
-    public AccountManager() {
+    private AccountManager() {}
+
+    public static void Initialize() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             List<Account> accountsList = objectMapper.readValue(
@@ -31,7 +33,7 @@ public class AccountManager {
         }
     }
 
-    public void createAccount(String email, String password) {
+    public static void createAccount(String email, String password) {
         if (accounts.containsKey(email)) {
             System.out.println("Account with email already exists.");
             return;
@@ -42,7 +44,7 @@ public class AccountManager {
         //return html
     }
 
-    public void loginAccount(String email, String password) {
+    public static void loginAccount(String email, String password) {
         if (!accounts.containsKey(email)) {
             System.out.println("Account with this email does not exist.");
             return;
@@ -57,7 +59,7 @@ public class AccountManager {
         }
     }
 
-    public void saveAccountsJson() {
+    public static void saveAccountsJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(
@@ -70,7 +72,7 @@ public class AccountManager {
         }
     }
 
-    public HashMap<String, Account> getAccounts() {
+    public static HashMap<String, Account> getAccounts() {
         return accounts;
     }
 }
