@@ -8,13 +8,17 @@
     gap: 50px;
 }
 
+.content-left {
+    width: 60%;
+}
+
 .content-left-split {
     display: flex;
     gap: 25px;
 }
 
-.content-left {
-    width: 60%;
+.content-left-split-item {
+    height: max-content;
 }
 
 .content-right {

@@ -91,7 +91,7 @@
         <div class="content-left rubik">
             <div class="p-3"><span class="fs-4 fw-semibold">My Progress</span></div>
             <div class="content-left-split">
-                <div class="border">
+                <div class="content-left-split-item border">
                     <div class="p-3"><span class="fs-5">Overall</span></div>
                     <div class="input-group">
                         <div class="form-floating">
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="border">
+                <div class="content-left-split-item border">
                     <div class="p-3"><span class="fs-5">Today</span></div>
                     <div class="input-group">
                         <div class="form-floating">
@@ -162,10 +162,10 @@
             <span class="text-muted">graph will be here (hopefully)</span> -->
         </div>
 
-        <div class="content-right rubik" x-data="{ elems: 2 }">
+        <div class="content-right rubik" x-data>
             <div class="p-3">
                 <span class="fs-4 fw-semibold"
-                    x-text="'My Stocks (' + $refs.myStocksList.childElementCount + ')'"></span>
+                    x-text="'My Stocks (' + $refs.myStocksList.childElementCount + ')'">My Stocks</span>
             </div>
             <div class="content-right-scroll border">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
