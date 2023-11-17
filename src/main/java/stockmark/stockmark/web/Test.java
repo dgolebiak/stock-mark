@@ -11,7 +11,7 @@ import stockmark.stockmark.model.Exceptions.*;
 @Controller
 public class Test {
     @GetMapping("/test")
-    public String login() {
-        return "index";
+    public String test() {
+        return "test";
     }
 }

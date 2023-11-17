@@ -3,21 +3,13 @@ package stockmark.stockmark.model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Stock("TSLA", 4)
-record Stock(String stockTicker, int amount){}
-
 // Single account for one user
 public class Account {
     private String name;
     private String email;
-    private String password; // we don't need encryption, store as plain text. fix if TA complains
-    private double balance; // amount of liquid money in the account
+    private String password;
+    private double balance;
     private ArrayList<Double> assets;
-
-    /* Account(String email, String password) {
-        this.email = email;
-        this.password = password;
-    } */
 
     public Account(String name, String email, String password) {
         this.name = name;

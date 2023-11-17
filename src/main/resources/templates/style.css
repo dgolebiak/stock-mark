@@ -1,0 +1,127 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+[x-cloak] { display: none !important; }
+
+html {
+    --green: rgb(0, 206, 0);
+    --red: red;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.rubik {
+    font-family: "Rubik"
+}
+
+.text-green {
+    color: var(--green)
+}
+
+.text-red {
+    color: var(--red)
+}
+
+.br-0 {
+    border-radius: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1250px;
+    margin: 0 auto;
+    font-family: "Rubik";
+    padding: 25px 50px;
+}
+
+.smaller-screen-header {
+    display: none;
+}
+
+#burger-icon {
+    display: none;
+}
+
+header>.header-title {
+    font-weight: 600;
+    font-size: 30px;
+    color: black;
+}
+
+header>nav>a {
+    color: black;
+    font-size: 18px;
+    border-bottom: 3px solid transparent;
+    padding: 10px;
+    padding-top: 16px;
+    font-size: 23px;
+    font-weight: 500;
+}
+
+/* Between nav items */
+header>nav>*+* {
+    margin-left: 20px;
+}
+
+header>nav>a:hover {
+    border-bottom: 3px solid grey;
+    background-color: rgb(244, 244, 244);
+}
+
+header>nav>.active {
+    border-bottom: 3px solid black;
+}
+
+header>nav>.active:hover {
+    border-bottom: 3px solid black;
+    background-color: white
+}
+
+.dropdown .dropdown-item-mobile {
+    display: none;
+}
+
+@media screen and (max-width: 1250px) {
+    #burger-icon {
+        display: initial;
+    }
+
+    #profile-icon {
+        display: none;
+    }
+
+    header>nav {
+        display: none;
+    }
+
+    .dropdown .dropdown-item-mobile {
+        display: initial;
+    }
+
+    .smaller-screen-header {
+        display: initial;
+    }
+}
+
+@media screen and (max-width: 1086px) {
+    header {
+        padding: 25px 100px;
+    }
+}
+
+@media screen and (max-width: 756px) {
+    header {
+        padding: 25px 25px;
+    }
+}

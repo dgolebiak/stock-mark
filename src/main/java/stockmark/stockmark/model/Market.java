@@ -33,9 +33,7 @@ public class Market {
             File myObj = new File(tickersFile);
             tickers = new ObjectMapper().readValue(myObj, Ticker[].class);
         } catch (Exception e) {
-            System.out.println("Exception:" + e);
-            e.printStackTrace();
-            return;
+            throw new RuntimeException(e);
         }
 
         // load prices before letting the application continue

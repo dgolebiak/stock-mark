@@ -1,24 +1,30 @@
 package stockmark.stockmark.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Exceptions.*;
 
-@RestController
+@Controller
 public class WelcomeController {
-    @GetMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password) {
+    @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String password, Model model) {
         try {
             AccountManager.loginAccount(email, password);
-            return "<h1>Login Successful!</h1>";
+            return "portfolio";
         } catch (AccountNotFoundException e) {
-            System.out.println(e);
+            model.addAttribute("email", "");
+            model.addAttribute("errmsg", "Account with this email does not exist!");
         } catch (IncorrectPasswordException e) {
-            System.out.println(e);
+            model.addAttribute("email", email);
+            model.addAttribute("errmsg", "Incorrect password, please try again!");
         }
-        return "<h1>Login Failed!</h1>";
+
+        model.addAttribute("showError", "true");
+        // return index template
+        return "index";
     }
 }

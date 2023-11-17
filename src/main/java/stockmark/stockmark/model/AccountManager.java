@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import stockmark.stockmark.model.Exceptions.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -22,11 +21,8 @@ public class AccountManager {
             for (Account account : accountsArray) {
                 accounts.put(account.getEmail(), account);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("No accounts file found!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("IOException when loading accounts file!");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
