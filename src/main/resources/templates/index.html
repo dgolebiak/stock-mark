@@ -30,8 +30,8 @@
     </header>
 
     <div class="logreg-form rubik">
-        <div style="display: none;" x-data x-cloak th:x-show="${showError}" class="alert alert-danger alert-dismissible" role="alert">
-            <div th:text="${errmsg}"></div> <button type="button" class="btn-close"
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible" role="alert">
+            <div th:text="${errorMessage}"></div> <button type="button" class="btn-close"
                 data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <h2 class="mb-2">Login</h2>
@@ -39,7 +39,7 @@
             <!-- Email input -->
             <div class="form-outline mb-4">
                 <label class="form-label">Email address</label>
-                <input type="email" name="email" class="form-control" placeholder="john@email.com" th:value="${email}"
+                <input type="email" name="email" class="form-control" placeholder="john@email.com" th:value="${email}" 
                     required>
             </div>
 
@@ -72,7 +72,7 @@
 
             <!-- Register buttons -->
             <div class="text-center">
-                <p>Not a member? <a href="/register.html">Register!</a></p>
+                <p>Not a member? <a href="/register">Register!</a></p>
             </div>
         </form>
     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -30,8 +30,12 @@
     </header>
 
     <div class="logreg-form rubik">
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible" role="alert">
+            <div th:text="${errorMessage}"></div> <button type="button" class="btn-close"
+                data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <h2 class="mb-2">Register</h2>
-        <form action="/register" x-data="{pass:'', rpass:''}">
+        <form action="/register" method="post" x-data="{pass:'', rpass:''}">
             <label class="form-label">Name</label>
             <div class="input-group mb-4">
                 <input type="text" name="fname" class="form-control" placeholder="First name" required>

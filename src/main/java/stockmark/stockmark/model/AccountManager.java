@@ -14,15 +14,15 @@ public class AccountManager {
     public static void Initialize() {
         if (accounts != null) return;
         try {
-            File myObj = new File(accountsFile);
-            Account[] accountsArray = new ObjectMapper().readValue(myObj, Account[].class);
+            File fileObj = new File(accountsFile);
+            Account[] accountsArray = new ObjectMapper().readValue(fileObj, Account[].class);
 
             accounts = new HashMap<>();
             for (Account account : accountsArray) {
                 accounts.put(account.getEmail(), account);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.toString());
         }
     }
 

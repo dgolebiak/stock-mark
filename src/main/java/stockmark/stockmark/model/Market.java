@@ -30,8 +30,8 @@ public class Market {
             return;
         try {
             // load supported tickers from file
-            File myObj = new File(tickersFile);
-            tickers = new ObjectMapper().readValue(myObj, Ticker[].class);
+            File fileObj = new File(tickersFile);
+            tickers = new ObjectMapper().readValue(fileObj, Ticker[].class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
