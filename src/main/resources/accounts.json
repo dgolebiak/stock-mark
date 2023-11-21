@@ -10,6 +10,12 @@
                 "amount": 4,
                 "buyPrice": 235,
                 "buyDate": "timestamp"
+            },
+            {
+                "name": "AMZN",
+                "amount": 5,
+                "buyPrice": 134,
+                "buyDate": "timestamp"
             }
         ]
     },
