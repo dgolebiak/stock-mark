@@ -27,6 +27,7 @@ public class Account {
         this.password = password;
         this.history = new HashMap<>();
         this.assets = new HashMap<>();
+
     }
 
     public void buyAssets(String stockName, int amount) {
@@ -54,6 +55,7 @@ public class Account {
             } else {
                 throw new BalanceTooLowException();
             }
+            AccountManager.saveAccountsJson();
         } catch (NonExistentTickerException e) {
             e.printStackTrace();
             System.out.println("Ticker doesn't exist.");
@@ -84,6 +86,7 @@ public class Account {
             } else {
                 throw new NotEnoughAssetsException();
             }
+            AccountManager.saveAccountsJson();
         } catch (NonExistentTickerException e) {
             e.printStackTrace();
             System.out.println("Ticker doesn't exist.");
@@ -111,5 +114,9 @@ public class Account {
 
     public Map<String, Shares> getAssets() {
         return assets;
+    }
+
+    public Map<Boolean, List<Shares>> getHistory() {
+        return history;
     }
 }
