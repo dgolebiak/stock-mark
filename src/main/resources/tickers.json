@@ -1,22 +1,22 @@
 [
     {
-        "companyName": "Apple",
-        "stockTicker": "AAPL"
+        "company": "Apple",
+        "name": "AAPL"
     },
     {
-        "companyName": "Amazon",
-        "stockTicker": "AMZN"
+        "company": "Amazon",
+        "name": "AMZN"
     },
     {
-        "companyName": "Google",
-        "stockTicker": "GOOG"
+        "company": "Google",
+        "name": "GOOG"
     },
     {
-        "companyName": "Tesla",
-        "stockTicker": "TSLA"
+        "company": "Tesla",
+        "name": "TSLA"
     },
     {
-        "companyName": "Microsoft",
-        "stockTicker": "MSFT"
+        "company": "Microsoft",
+        "name": "MSFT"
     }
 ]

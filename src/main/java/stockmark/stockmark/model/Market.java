@@ -1,121 +1,79 @@
 package stockmark.stockmark.model;
 
 import java.io.File;
-
-// This class holds the information about stock prices locally in memory
-// And provides methods to lookup stock tickers such as "TSLA" or "AAPL"
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
-public class Market {
-    private static String tickersFile = "./src/main/resources/tickers.json";
-    private static Ticker[] tickers;
-    private static ConcurrentHashMap<String, Double> priceMap = new ConcurrentHashMap<String, Double>();
+public class Market implements StockObserver {
+    private static final String tickersFile = "./src/main/resources/tickers.json";
+    private static Market instance;
 
-    private Market() {}
+    private ConcurrentHashMap<String, Double> priceMap = new ConcurrentHashMap<String, Double>();
+    private Ticker[] tickers;
+    private AtomicBoolean allLoaded;
 
-    // call only once at the start of the application in StockmarkApplication.java
-    public static void Initialize() {
-        if (tickers != null)
-            return;
+    private Market() {
         try {
             // load supported tickers from file
             File fileObj = new File(tickersFile);
             tickers = new ObjectMapper().readValue(fileObj, Ticker[].class);
+
+            allLoaded = new AtomicBoolean();
+            for (Ticker ticker : tickers) {
+                new Stock(ticker, this);
+            }
+
+            // wait till all is loaded
+            while (!allLoaded.get()) {}
+            System.out.println("Initial prices have been loaded!");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        // load prices before letting the application continue
-        updateAllPrices();
-        System.out.println("Initial prices have been loaded!");
-
-        // start fetcher in the background
-        startFetcher();
     }
 
-    private static void updateAllPrices() {
-        ArrayList<Thread> threads = new ArrayList<Thread>();
+    public static void Initialize() {
+        instance = new Market();
+    }
 
-        // initial load prices
-        for (Ticker ticker : tickers) {
-            Thread th = new Thread(() -> {
-                String priceStr = inquirePriceFromAPI(ticker.stockTicker());
-                priceMap.put(ticker.stockTicker(), Double.parseDouble(priceStr));
-            });
+    public static Market getInstance() {
+        if (instance == null) throw new RuntimeException("Initialize Market first!");
+        return instance;
+    }
 
-            threads.add(th);
-            th.start();
-        }
-
-        // join all threads
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                System.out.println("Exception:" + e);
-                e.printStackTrace();
-                return;
-            }
+    // called by Stock instances
+    public void updatePrice(Ticker ticker, double price) {
+        priceMap.put(ticker.name(), price);
+        if (!allLoaded.get()) {
+            if (priceMap.size() == tickers.length) allLoaded.set(true);
         }
     }
 
-    private static void startFetcher() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(120000);
-                } catch (InterruptedException e) {
-                    System.out.println("Exception:" + e);
-                    e.printStackTrace();
-                    return;
-                }
-    
-                updateAllPrices();
-                System.out.println("Prices have been updated!");
-            }
-        }).start();
-    }
-
-    public static Ticker[] getSupportedTickers() {
-        if (tickers == null)
-            throw new RuntimeException("Market -> No Tickers found! Maybe Initialize first?");
+    public Ticker[] getSupportedTickers() {
         return tickers;
     }
 
-    public static double getPrice(String ticker) throws NonExistentTickerException {
-        if (priceMap.containsKey(ticker))
-            return priceMap.get(ticker);
-        throw new NonExistentTickerException();
+    public boolean isSupportedTicker(Ticker ticker) {
+        for (Ticker t : tickers) {
+            if (t.equals(ticker))
+                return true;
+        }
+        return false;
     }
 
-    // Just for testing purposes right now
-    public static String inquirePriceFromAPI(String ticker) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://realstonks.p.rapidapi.com/" + ticker))
-                .header("X-RapidAPI-Key", "bffff99a21msh3201484be4f30c1p1ab348jsn39aebb9ede1c")
-                .header("X-RapidAPI-Host", "realstonks.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        try {
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request,
-                    HttpResponse.BodyHandlers.ofString());
-            HashMap<String, Object> result = new ObjectMapper().readValue(response.body(), HashMap.class);
-
-            return result.get("price").toString();
-        } catch (Exception e) {
-            return e.toString();
+    public boolean isSupportedTicker(String name) {
+        for (Ticker t : tickers) {
+            if (t.name().equals(name))
+                return true;
         }
+        return false;
+    }
+
+    public double getPrice(String ticker) throws NonExistentTickerException {
+        if (isSupportedTicker(ticker))
+            return priceMap.get(ticker);
+        throw new NonExistentTickerException();
     }
 }

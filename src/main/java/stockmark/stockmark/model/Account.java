@@ -9,15 +9,16 @@ public class Account {
     private String email;
     private String password;
     private double balance;
-    private ArrayList<Double> assets;
+    private ArrayList<Shares> assets;
+
+    // required by jackson
+    Account(){}
 
     public Account(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-
-    Account(){}
 
     public String getName() {
         return name;
@@ -31,7 +32,7 @@ public class Account {
     public double getBalance() {
         return balance;
     }
-    public List<Double> getAssets() {
+    public List<Shares> getAssets() {
         return assets;
     }
 }

@@ -34,11 +34,12 @@ public class AccountManager {
         saveAccountsJson();
     }
 
-    public static void loginAccount(String email, String password) throws AccountNotFoundException, IncorrectPasswordException {
+    public static Account loginAccount(String email, String password) throws AccountNotFoundException, IncorrectPasswordException {
         if (!accounts.containsKey(email)) throw new AccountNotFoundException();
 
         Account account = accounts.get(email);
         if (!account.getPassword().equals(password)) throw new IncorrectPasswordException();
+        return account;
     }
 
     private static void saveAccountsJson() {

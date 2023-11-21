@@ -1,1 +1,44 @@
-[{"name":"Hassan Ahmed Khan","email":"hk.32@outlook.com","password":"123","balance":0.0,"assets":null},{"name":"David","email":"david@outlook.com","password":"54321","balance":11.0,"assets":null},{"name":"Sander","email":"sander@gmail.com","password":"123","balance":0.0,"assets":null}]
+[
+    {
+        "name": "Hassan Khan",
+        "email": "hk.32@outlook.com",
+        "password": "123",
+        "balance": 0.0,
+        "assets": [
+            {
+                "name": "TSLA",
+                "amount": 4,
+                "buyPrice": 235,
+                "buyDate": "timestamp"
+            }
+        ]
+    },
+    {
+        "name": "David",
+        "email": "david@outlook.com",
+        "password": "54321",
+        "balance": 11.0,
+        "assets": [
+            {
+                "name": "TSLA",
+                "amount": 4,
+                "buyPrice": 235,
+                "buyDate": "timestamp"
+            }
+        ]
+    },
+    {
+        "name": "Sander",
+        "email": "sander@gmail.com",
+        "password": "123",
+        "balance": 0.0,
+        "assets": [
+            {
+                "name": "TSLA",
+                "amount": 4,
+                "buyPrice": 235,
+                "buyDate": "timestamp"
+            }
+        ]
+    }
+]

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.Ticker;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
 @RestController
@@ -14,7 +13,7 @@ public class PriceTest {
     String getPrice(@PathVariable String ticker) {
         double price;
         try {
-            price = Market.getPrice(ticker);
+            price = Market.getInstance().getPrice(ticker);
         } catch (NonExistentTickerException e) {
             return "Ticker not found!";
         }
@@ -22,8 +21,8 @@ public class PriceTest {
         return Double.toString(price);
     }
 
-    @GetMapping("/tickers")
+    /* @GetMapping("/tickers")
     Ticker[] getSupportTickers() {
-        return Market.getSupportedTickers();
-    }
+        return Market.getInstance().getSupportedTickers();
+    } */
 }
