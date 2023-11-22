@@ -1,3 +1,18 @@
+.search-bar {
+    width:30%;
+    margin:auto;
+    margin-top:5vh;
+}
+
+.search-bar input {
+    background-color: #FFFDF5;
+}
+
+.search-bar button {
+    height: auto;
+    width:36px;
+}
+
 .content {
     display: flex;
     justify-content: center;
@@ -55,6 +70,11 @@
 }
 
 @media screen and (max-width: 756px) {
+
+    .search-bar {
+        width: 50%;
+    }
+
     .content {
         flex-direction: column;
         justify-content: flex-start;
