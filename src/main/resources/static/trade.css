@@ -6,11 +6,18 @@
 
 .search-bar input {
     background-color: #FFFDF5;
+    border-radius: 0;
 }
 
 .search-bar button {
     height: auto;
-    width:36px;
+    width:46px;
+    background-color: #5D5C5C;
+    border:none;
+}
+
+.search-bar button svg {
+    height:80%;
 }
 
 .content {
