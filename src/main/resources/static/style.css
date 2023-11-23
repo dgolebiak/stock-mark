@@ -2,6 +2,8 @@ html,
 body {
     height: 100%;
     margin: 0;
+    background-color: #2E2E2E;
+    color: #D8D8D8;
 }
 
 html {
@@ -22,16 +24,24 @@ a:hover {
 }
 
 .text-green {
-    color: var(--green)
+    color: #107F00;
 }
 
 .text-red {
-    color: var(--red)
+    color: #930000;
 }
 
 .br-0 {
     border-radius: 0;
 }
+.head-div{
+    background-color: #242424;
+}
+.separator {
+    background-color: #242424;
+    height:1rem !important;
+}
+
 
 header {
     display: flex;
@@ -54,11 +64,11 @@ header {
 header>.header-title {
     font-weight: 600;
     font-size: 30px;
-    color: black;
+    color: #D8D8D8;
 }
 
 header>nav>a {
-    color: black;
+    color: #D8D8D8;
     font-size: 18px;
     border-bottom: 3px solid transparent;
     padding: 10px;
@@ -73,17 +83,16 @@ header>nav>*+* {
 }
 
 header>nav>a:hover {
-    border-bottom: 3px solid grey;
-    background-color: rgb(244, 244, 244);
+    border-bottom: 3px solid #D8D8D8;
+
 }
 
 header>nav>.active {
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid #D8D8D8;
 }
 
 header>nav>.active:hover {
-    border-bottom: 3px solid black;
-    background-color: white
+    border-bottom: 3px solid #D8D8D8;
 }
 
 .dropdown .dropdown-item-mobile {

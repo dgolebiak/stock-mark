@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -21,17 +21,17 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="portfolio.css">
-</head>
 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="trade.css">
+</head>
 <body>
     <div class="head-div">
-       <header>
+        <header>
         <a class="header-title smaller-screen-header" href="#">Stockmark</a>
         <nav>
-            <a class="active" href="/portfolio.html">Portfolio</a>
-            <a href="#">Trade</a>
+            <a href="/portfolio.html">Portfolio</a>
+            <a class="active" href="/trade.html">Trade</a>
             <a href="#">Transactions</a>
         </nav>
 
@@ -64,113 +64,144 @@
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
             </ul>
         </div>
-    </header>     
+    </header> 
     </div>
-
+   
 
     <!-- Separator -->
     <div class="separator"></div>
 
-    <!-- MyStock Modal  -->
-    <div class="modal fade" id="myStockModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rubik">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tesla</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-dark">Button</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="input-group search-bar">
+        <input type="text" class="form-control" placeholder="Search..." aria-label="Username" aria-describedby="basic-addon1">
+        <button class="input-group-append">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#d2d2d2}</style><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>        </button>
+      </div>
 
     <div class="content">
-        <div class="content-left rubik">
-            <div class="p-3"><span class="fs-4 fw-semibold">My Progress</span></div>
-            <div class="content-left-split">
-                <div class="content-left-split-item border">
-                    <div class="p-3"><span class="fs-5">Overall</span></div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="$527" disabled>
-                            <label>Total value</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$130" disabled>
-                            <label>Change</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Samsung" disabled>
-                            <label>Most profitable</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$180" disabled>
-                            <label>Change</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Tesla" disabled>
-                            <label>Least profitable</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$62.90" disabled>
-                            <label>Change</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-left-split-item border">
-                    <div class="p-3"><span class="fs-5">Today</span></div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$23" disabled>
-                            <label>Value change</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="5.3%" disabled>
-                            <label>Percent change</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Samsung" disabled>
-                            <label>Most profitable</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$12" disabled>
-                            <label>Change</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Tesla" disabled>
-                            <label>Least profitable</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$8" disabled>
-                            <label>Change</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="p-3"><span class="fs-4 fw-semibold">My History</span></div>
-            <span class="text-muted">graph will be here (hopefully)</span> -->
-        </div>
-
         <div class="content-right rubik" x-data>
             <div class="p-3">
-                <span class="fs-4 fw-semibold"
-                    x-text="'My Stocks (' + $refs.myStocksList.childElementCount + ')'">My Stocks</span>
+                <span class="fs-6 fw-semibold">Todays most profitable</span>
             </div>
-            <div class="content-right-scroll border">
+            <div class="content-right-scroll">
+                <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
+                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <div class="d-flex flex-column align-items-end">
+                                <small class="my-stocks-item-value">$223.71</small>
+                                <small class="my-stocks-item-pc">3.14%</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="content-left rubik" x-data>
+            <div class="p-3">
+                <span class="fs-6 fw-semibold">Todays most unprofitable</span>
+            </div>
+            <div class="content-right-scroll">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
                         data-bs-toggle="modal" data-bs-target="#myStockModal"
@@ -288,5 +319,4 @@
     </div>
 
 </body>
-
 </html>
