@@ -28,11 +28,13 @@ public class WelcomeController {
 
     @PostMapping("/register")
     public String onRegisterFormSubmit(@RequestParam String fname, @RequestParam String lname,
-            @RequestParam String email, @RequestParam String password, Model model) {
+            @RequestParam String email, @RequestParam String password, Model model, HttpServletResponse response) {
 
         try {
-            AccountManager.registerAccount(new Account(fname + " " + lname, email.toLowerCase(), password));
-            return "portfolio";
+            UUID id = AccountManager.registerAccount(new Account(fname + " " + lname, email.toLowerCase(), password));
+            Cookie cookie = new Cookie("uuid", id.toString());
+            response.addCookie(cookie);
+            return "redirect:/portfolio";
         } catch (AccountExistsException e) {
             model.addAttribute("errorMessage", "Account with this email already exists!");
         }
