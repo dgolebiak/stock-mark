@@ -2,27 +2,36 @@ package stockmark.stockmark.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Exceptions.*;
 
+import java.util.UUID;
+
 @Controller
 public class WelcomeController {
     @GetMapping("/register")
-    public String onGetRegister() {
+    public String onGetRegister(@CookieValue(value = "uuid", defaultValue = "") String uuid) {
+        // if already logged in; redirect to portfolio
+        if (!uuid.equals("") && AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/portfolio";
+        // render register template
         return "register";
     }
 
     @PostMapping("/register")
     public String onRegisterFormSubmit(@RequestParam String fname, @RequestParam String lname,
-        @RequestParam String email, @RequestParam String password, Model model) {
+            @RequestParam String email, @RequestParam String password, Model model) {
 
         try {
-            AccountManager.registerAccount(new Account(fname+" "+lname, email.toLowerCase(), password));
+            AccountManager.registerAccount(new Account(fname + " " + lname, email.toLowerCase(), password));
             return "portfolio";
         } catch (AccountExistsException e) {
             model.addAttribute("errorMessage", "Account with this email already exists!");
@@ -32,26 +41,28 @@ public class WelcomeController {
     }
 
     @GetMapping("/")
-    public String onGetIndex() {
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String onGetLogin() {
-        return "index";
+    public String onGetIndex(@CookieValue(value = "uuid", defaultValue = "") String uuid) {
+        // if already logged in; redirect to portfolio
+        if (!uuid.equals("") && AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/portfolio";
+        // render login template
+        return "login";
     }
 
     @PostMapping("/login")
-    public String onLoginFormSubmit(@RequestParam String email, @RequestParam String password, Model model) {
+    public String onLoginFormSubmit(@RequestParam String email, @RequestParam String password, Model model,
+            HttpServletResponse response) {
         try {
-            AccountManager.loginAccount(email.toLowerCase(), password);
-            return "portfolio";
+            UUID id = AccountManager.loginAccount(email.toLowerCase(), password);
+            Cookie cookie = new Cookie("uuid", id.toString());
+            response.addCookie(cookie);
+            return "redirect:/portfolio";
         } catch (AccountNotFoundException e) {
             model.addAttribute("errorMessage", "Account with this email does not exist!");
         } catch (IncorrectPasswordException e) {
             model.addAttribute("email", email);
             model.addAttribute("errorMessage", "Incorrect password, please try again!");
         }
-        return "index";
+        return "login";
     }
 }
