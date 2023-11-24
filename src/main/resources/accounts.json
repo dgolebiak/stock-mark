@@ -4,47 +4,43 @@
         "email": "hk.32@outlook.com",
         "password": "123",
         "balance": 0.0,
-        "assets": [
-            {
-                "name": "TSLA",
+        "assets": {
+            "TSLA":{
                 "amount": 4,
                 "buyPrice": 235,
                 "buyDate": "timestamp"
             },
-            {
-                "name": "AMZN",
+            "AMZN":{
                 "amount": 5,
                 "buyPrice": 134,
                 "buyDate": "timestamp"
             }
-        ]
+        }
     },
     {
         "name": "David",
         "email": "david@outlook.com",
         "password": "54321",
         "balance": 11.0,
-        "assets": [
-            {
-                "name": "TSLA",
+        "assets": {
+            "TSLA":{
                 "amount": 4,
                 "buyPrice": 235,
                 "buyDate": "timestamp"
             }
-        ]
+        }
     },
     {
         "name": "Sander",
         "email": "sander@gmail.com",
         "password": "123",
         "balance": 0.0,
-        "assets": [
-            {
-                "name": "TSLA",
+        "assets": {
+            "TSLA":{
                 "amount": 4,
                 "buyPrice": 235,
                 "buyDate": "timestamp"
             }
-        ]
+        }
     }
 ]
