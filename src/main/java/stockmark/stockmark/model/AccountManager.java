@@ -57,7 +57,7 @@ public class AccountManager {
         return accounts.get(loggedIn.get(id));
     }
 
-    private static void saveAccountsJson() {
+    public static void saveAccountsJson() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(
