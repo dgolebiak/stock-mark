@@ -27,7 +27,6 @@ public class Account {
         this.password = password;
         this.history = new HashMap<>();
         this.assets = new HashMap<>();
-
     }
 
     public void buyAssets(String stockName, int amount) {

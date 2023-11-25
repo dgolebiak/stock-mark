@@ -1,10 +1,10 @@
 package stockmark.stockmark.model;
 
-public class Stock extends Thread {
+public class StockUpdater extends Thread {
     private Ticker ticker;
     private StockObserver observer;
 
-    public Stock(Ticker ticker, StockObserver ob) {
+    public StockUpdater(Ticker ticker, StockObserver ob) {
         this.ticker = ticker;
         this.observer = ob;
         this.start();

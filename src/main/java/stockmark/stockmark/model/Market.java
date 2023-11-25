@@ -24,7 +24,7 @@ public class Market implements StockObserver {
 
             allLoaded = new AtomicBoolean();
             for (Ticker ticker : tickers) {
-                new Stock(ticker, this);
+                new StockUpdater(ticker, this);
             }
 
             // wait till all is loaded
@@ -76,5 +76,18 @@ public class Market implements StockObserver {
         if (isSupportedTicker(ticker))
             return priceMap.get(ticker);
         throw new NonExistentTickerException();
+    }
+
+    public PricedStock[] getPricedStocks() {
+        PricedStock[] arr = new PricedStock[tickers.length];
+        int i = 0;
+        for (Ticker ticker : tickers) {
+            try {
+                arr[i++] = new PricedStock(ticker.company(), getPrice(ticker.name()), 3.14+i);
+            } catch (NonExistentTickerException e) {
+                e.printStackTrace();
+            }
+        }
+        return arr;
     }
 }
