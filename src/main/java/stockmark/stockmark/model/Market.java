@@ -28,7 +28,8 @@ public class Market implements StockObserver {
             }
 
             // wait till all is loaded
-            while (!allLoaded.get()) {}
+            while (!allLoaded.get()) {
+            }
             System.out.println("Initial prices have been loaded!");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -36,11 +37,14 @@ public class Market implements StockObserver {
     }
 
     public static void Initialize() {
+        if (instance != null)
+            throw new RuntimeException("AccountManager should not be initialized more than once!");
         instance = new Market();
     }
 
     public static Market getInstance() {
-        if (instance == null) throw new RuntimeException("Initialize Market first!");
+        if (instance == null)
+            throw new RuntimeException("Initialize Market first!");
         return instance;
     }
 
@@ -48,7 +52,8 @@ public class Market implements StockObserver {
     public void updatePrice(Ticker ticker, double price) {
         priceMap.put(ticker.name(), price);
         if (!allLoaded.get()) {
-            if (priceMap.size() == tickers.length) allLoaded.set(true);
+            if (priceMap.size() == tickers.length)
+                allLoaded.set(true);
         }
     }
 

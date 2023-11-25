@@ -30,8 +30,8 @@
         <header>
             <a class="header-title smaller-screen-header" href="#">Stockmark</a>
             <nav>
-                <a class="active" href="/portfolio.html">Portfolio</a>
-                <a href="#">Trade</a>
+                <a class="active" href="/portfolio">Portfolio</a>
+                <a href="trade.html">Trade</a>
                 <a href="#">Transactions</a>
             </nav>
 
@@ -51,17 +51,18 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="#">Trade</a></li>
+                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade.html">Trade</a></li>
                     <li class="dropdown-item-mobile"><a class="dropdown-item" href="#">Transactions</a></li>
                     <li class="dropdown-item-mobile">
                         <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
                 </ul>
             </div>
         </header>
@@ -73,9 +74,9 @@
     <!-- MyStock Modal  -->
     <div class="modal fade" id="myStockModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rubik">
+            <div class="modal-content rubik" style="color: black;">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color: black;">Title</h5>
+                    <h5 class="modal-title">Title</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -89,6 +90,30 @@
         </div>
     </div>
 
+    <!-- Deposit Modal  -->
+    <div class="modal fade" id="depositModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rubik" style="color: black;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deposit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/deposit" id="depositForm">
+                        <div class="mb-3">
+                            <label class="form-label">Deposit Amount</label>
+                            <input type="number" class="form-control" name="amount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark" form="depositForm" value="Submit">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
         <div class="content-left rubik">
             <div class="p-3"><span class="fs-4 fw-semibold">My Progress</span></div>
@@ -97,31 +122,37 @@
                     <div class="p-3"><span class="fs-5">Overall</span></div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="$527" disabled>
+                            <input type="text" class="form-control br-0" th:value="${totalValue}" disabled>
                             <label>Total value</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$130" disabled>
+                            <input type="text" class="form-control br-0"
+                                th:classappend="${isTotalChangePositive} ? text-green : text-red"
+                                th:value="${totalChange}" disabled>
                             <label>Change</label>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Samsung" disabled>
+                            <input type="text" class="form-control br-0" th:value="${mostProfitableName}" disabled>
                             <label>Most profitable</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$180" disabled>
+                            <input type="text" class="form-control br-0"
+                                th:classappend="${isMostProfitablePositive} ? text-green : text-red"
+                                th:value="${mostProfitableChange}" disabled>
                             <label>Change</label>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Tesla" disabled>
+                            <input type="text" class="form-control br-0" th:value="${leastProfitableName}" disabled>
                             <label>Least profitable</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$62.90" disabled>
+                            <input type="text" class="form-control br-0"
+                                th:classappend="${isLeastProfitablePositive} ? text-green : text-red"
+                                th:value="${leastProfitableChange}" disabled>
                             <label>Change</label>
                         </div>
                     </div>

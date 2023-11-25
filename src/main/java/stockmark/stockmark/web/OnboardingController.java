@@ -16,7 +16,7 @@ import stockmark.stockmark.model.Exceptions.*;
 import java.util.UUID;
 
 @Controller
-public class WelcomeController {
+public class OnboardingController {
     @GetMapping("/register")
     public String onGetRegister(@CookieValue(value = "uuid", defaultValue = "") String uuid) {
         // if already logged in; redirect to portfolio
@@ -66,5 +66,12 @@ public class WelcomeController {
             model.addAttribute("errorMessage", "Incorrect password, please try again!");
         }
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String onLogout(@CookieValue(value = "uuid", defaultValue = "") String uuid) {
+        if (!uuid.equals("")) AccountManager.logoutAccount(java.util.UUID.fromString(uuid));
+        // render login template
+        return "redirect:/";
     }
 }

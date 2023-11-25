@@ -7,6 +7,10 @@ import java.util.Map;
 import java.time.LocalDate;
 import stockmark.stockmark.model.Exceptions.*;
 
+// NOTES: Problems with:
+// private HashMap<Boolean, List<Shares>> history;
+// We need a history from start to finish, sort of like transactions in the order that it happened
+// Storing it like this will require further processing to get this into a presentable state to a user.
 
 // Single account for one user
 public class Account {
@@ -14,86 +18,80 @@ public class Account {
     private String email;
     private String password;
     private double balance;
-    private HashMap<Boolean, List<Shares>> history; // Boolean is true for buy and false for sell
-    private HashMap<String, Shares> assets;
-    private Market market = Market.getInstance();
+    private double deposited;
+    private HashMap<String, Share> assets;
+    private ArrayList<Transaction> history;
 
     // required by jackson
-    Account(){}
+    Account() {}
 
     public Account(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.history = new HashMap<>();
-        this.assets = new HashMap<>();
-
+        this.assets = new HashMap<String, Share>();
+        this.history = new ArrayList<Transaction>();
     }
 
-    public void buyAssets(String stockName, int amount) {
-        try {
-            double stockPrice = market.getPrice(stockName);
-            if (stockPrice * amount <= balance) {
-                String timestamp = LocalDate.now().toString();
-                Shares oldShare = assets.get(stockName);
-                double averagePrice;
-                int newAmount;
-                
-                if (oldShare != null) {
-                    newAmount = oldShare.amount() + amount;
-                    averagePrice = ((oldShare.buyPrice() * oldShare.amount()) + (stockPrice * amount)) / (oldShare.amount() + amount);
-                } else {
-                    newAmount = amount;
-                    averagePrice = stockPrice;
-                }
+    public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
+        double stockPrice = Market.getInstance().getPrice(ticker);
+        double assumedCost = stockPrice * buyAmount;
+        if (assumedCost > balance)
+            throw new BalanceTooLowException();
 
-                Shares newShare = new Shares(stockName, newAmount, averagePrice, timestamp);
-                assets.replace(stockName, newShare);  
+        Share oldShare = assets.get(ticker);
+        double averagePrice;
+        int newAmount;
 
-                balance -= stockPrice * amount;
-                history.get(true).add(new Shares(stockName, amount, stockPrice, timestamp));
-            } else {
-                throw new BalanceTooLowException();
-            }
-            AccountManager.saveAccountsJson();
-        } catch (NonExistentTickerException e) {
-            e.printStackTrace();
-            System.out.println("Ticker doesn't exist.");
-        } catch (BalanceTooLowException e) {
-            e.printStackTrace();
-            System.out.println("Accounts balance is too low");
+        // update existing share or else create new
+        if (oldShare != null) {
+            newAmount = oldShare.amount() + buyAmount;
+            averagePrice = ((oldShare.buyPrice() * oldShare.amount()) + (assumedCost))
+                    / (oldShare.amount() + buyAmount);
+        } else {
+            newAmount = buyAmount;
+            averagePrice = stockPrice;
         }
+
+        Share newShare = new Share(newAmount, averagePrice);
+        assets.put(ticker, newShare);
+
+        balance -= assumedCost;
+        String timestamp = LocalDate.now().toString();
+        history.add(new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
+
+        AccountManager.syncToDisk();
     }
 
-    public void sellAssets(String stockName, int amount) {
-        try {
-            double stockPrice = market.getPrice(stockName);
-            String timestamp = LocalDate.now().toString();
-            Shares oldShare = assets.get(stockName);
-            if (amount < oldShare.amount()) {
-                int newAmount = oldShare.amount() - amount;
+    public void sellAsset(String ticker, int sellAmount) throws NotEnoughAssetsException, NonExistentTickerException {
+        double stockPrice = Market.getInstance().getPrice(ticker);
+        String timestamp = LocalDate.now().toString();
+        Share share = assets.get(ticker);
 
-                Shares newShare = new Shares(stockName, newAmount, oldShare.buyPrice(), timestamp);
-                assets.replace(stockName, newShare);
+        // calm down fella, you ain't that rich
+        if (sellAmount > share.amount())
+            throw new NotEnoughAssetsException();
 
-                balance += stockPrice*amount;
-                history.get(false).add(new Shares(stockName, amount, stockPrice, timestamp));
-            } else if (amount == oldShare.amount()) {
-                assets.remove(stockName);
+        int leftoverAmount = share.amount() - sellAmount;
 
-                balance += stockPrice*amount;
-                history.get(false).add(new Shares(stockName, amount, stockPrice, timestamp));
-            } else {
-                throw new NotEnoughAssetsException();
-            }
-            AccountManager.saveAccountsJson();
-        } catch (NonExistentTickerException e) {
-            e.printStackTrace();
-            System.out.println("Ticker doesn't exist.");
-        } catch (NotEnoughAssetsException e) {
-            e.printStackTrace();
-            System.out.println("Not enough assets to sell");
-        }
+        // if some shares still left
+        if (leftoverAmount > 0) {
+            Share newShare = new Share(leftoverAmount, share.buyPrice());
+            assets.put(ticker, newShare);
+        } else assets.remove(ticker);
+
+        // profit
+        balance += stockPrice * sellAmount;
+
+        // add to history
+        history.add(new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
+        AccountManager.syncToDisk();
+    }
+
+    public void deposit(double amount) {
+        deposited += amount;
+        balance += amount;
+        AccountManager.syncToDisk();
     }
 
     public String getName() {
@@ -112,11 +110,15 @@ public class Account {
         return balance;
     }
 
-    public Map<String, Shares> getAssets() {
+    public double getDeposited() {
+        return deposited;
+    }
+
+    public Map<String, Share> getAssets() {
         return assets;
     }
 
-    public Map<Boolean, List<Shares>> getHistory() {
+    public List<Transaction> getHistory() {
         return history;
     }
 }

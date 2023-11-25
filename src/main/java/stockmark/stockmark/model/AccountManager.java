@@ -1,4 +1,5 @@
 package stockmark.stockmark.model;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stockmark.stockmark.model.Exceptions.*;
@@ -14,7 +15,8 @@ public class AccountManager {
     private static HashMap<UUID, String> loggedIn = new HashMap<UUID, String>();
 
     public static void Initialize() {
-        if (accounts != null) return;
+        if (accounts != null)
+            throw new RuntimeException("AccountManager should not be initialized more than once!");
         try {
             File fileObj = new File(accountsFile);
             Account[] accountsArray = new ObjectMapper().readValue(fileObj, Account[].class);
@@ -33,17 +35,20 @@ public class AccountManager {
             throw new AccountExistsException();
         }
         accounts.put(acc.getEmail(), acc);
-        saveAccountsJson();
+        syncToDisk();
         UUID id = java.util.UUID.randomUUID();
         loggedIn.put(id, acc.getEmail());
         return id;
     }
 
-    public static UUID loginAccount(String email, String password) throws AccountNotFoundException, IncorrectPasswordException {
-        if (!accounts.containsKey(email)) throw new AccountNotFoundException();
+    public static UUID loginAccount(String email, String password)
+            throws AccountNotFoundException, IncorrectPasswordException {
+        if (!accounts.containsKey(email))
+            throw new AccountNotFoundException();
 
         Account account = accounts.get(email);
-        if (!account.getPassword().equals(password)) throw new IncorrectPasswordException();
+        if (!account.getPassword().equals(password))
+            throw new IncorrectPasswordException();
         UUID id = java.util.UUID.randomUUID();
         loggedIn.put(id, email);
         return id;
@@ -53,17 +58,21 @@ public class AccountManager {
         return loggedIn.containsKey(id);
     }
 
+    public static void logoutAccount(UUID id) {
+        if (loggedIn.containsKey(id)) loggedIn.remove(id);
+    }
+
     public static Account getFromUUID(UUID id) {
         return accounts.get(loggedIn.get(id));
     }
 
-    public static void saveAccountsJson() {
+    // persist data to disk
+    public static void syncToDisk() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(
-                new File(accountsFile), 
-                accounts.values()
-            );
+                    new File(accountsFile),
+                    accounts.values());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error saving accounts.");
