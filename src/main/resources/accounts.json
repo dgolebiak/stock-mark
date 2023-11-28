@@ -3,11 +3,11 @@
         "name": "Hassan Khan",
         "email": "hk.32@outlook.com",
         "password": "123",
-        "balance": 78.0,
-        "deposited": 178.0,
+        "balance": 3338.7999999999997,
+        "deposited": 1510.0,
         "assets": {
             "TSLA": {
-                "amount": 6,
+                "amount": 4,
                 "buyPrice": 122.0
             },
             "AMZN": {

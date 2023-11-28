@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ExternalAPI {
     private ExternalAPI() {}
 
-    public static String inquirePrice(String ticker) {
+    public static RealStonksResponse inquireTicker(String ticker) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://realstonks.p.rapidapi.com/" + ticker))
                 .header("X-RapidAPI-Key", "bffff99a21msh3201484be4f30c1p1ab348jsn39aebb9ede1c")
@@ -24,9 +24,13 @@ public class ExternalAPI {
                     HttpResponse.BodyHandlers.ofString());
             HashMap<String, Object> result = new ObjectMapper().readValue(response.body(), HashMap.class);
 
-            return result.get("price").toString();
+            double price = Double.parseDouble(result.get("price").toString());
+            double pcChange = Double.parseDouble(result.get("change_percentage").toString());
+
+            return new RealStonksResponse(price, pcChange);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
+            return null;
         }
     }
 

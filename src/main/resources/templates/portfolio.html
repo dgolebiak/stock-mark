@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="portfolio.css">
 </head>
 
-<body>
+<body th:x-data="${globals}">
     <div class="head-div">
         <header>
             <a class="header-title smaller-screen-header" href="#">Stockmark</a>
@@ -73,18 +73,53 @@
 
     <!-- MyStock Modal  -->
     <div class="modal fade" id="myStockModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" x-data="{ amount:0, worth: 0, have:0, option: 'sell'}"
+            x-init="$watch('amount', value => worth=amount*($refs.myStockTotalWorth.valueAsNumber/$refs.myStockHaveAmount.valueAsNumber))">
             <div class="modal-content rubik" style="color: black;">
                 <div class="modal-header">
-                    <h5 class="modal-title">Title</h5>
+                    <h5 class="modal-title" id="myStockTitle"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <label class="form-label">Owned</label>
+                    <div class="input-group mb-3">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="myStockHaveAmount" x-ref="myStockHaveAmount" disabled>
+                            <label>Amount</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="number" class="form-control" x-model="have" id="myStockTotalWorth"
+                                x-ref="myStockTotalWorth" disabled>
+                            <label>Total worth in $</label>
+                        </div>
+                    </div>
+
+                    <form action="/quick" id="quickActionForm">
+                        <label class="form-label">Action</label>
+                        <select class="form-select mb-3" name="action" x-model="option">
+                            <option selected value="sell">Sell</option>
+                            <option value="buy">Buy</option>
+                        </select>
+
+                        <input type="hidden" id="myStockTicker" name="ticker"/>
+
+                        <div class="input-group mb-3">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" name="amount" x-model="amount">
+                                <label>Amount</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" x-model="worth" disabled>
+                                <label>Worth in $</label>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-dark">Button</button>
+                    <button type="submit" class="btn btn-dark" form="quickActionForm" value="Submit"
+                        :class="(0 >= amount || (option == 'sell' && amount > $refs.myStockHaveAmount.valueAsNumber) || (option == 'buy' && worth > balance)) ? 'disabled' : ''">Submit</button>
                 </div>
             </div>
         </div>
@@ -120,6 +155,12 @@
             <div class="content-left-split">
                 <div class="content-left-split-item border">
                     <div class="p-3"><span class="fs-5">Overall</span></div>
+                    <div class="input-group">
+                        <div class="form-floating">
+                            <input type="text" class="form-control br-0" th:value="${deposited}" disabled>
+                            <label>Deposited till date</label>
+                        </div>
+                    </div>
                     <div class="input-group">
                         <div class="form-floating">
                             <input type="text" class="form-control br-0" th:value="${totalValue}" disabled>
@@ -159,6 +200,12 @@
                 </div>
                 <div class="content-left-split-item border">
                     <div class="p-3"><span class="fs-5">Today</span></div>
+                    <div class="input-group">
+                        <div class="form-floating">
+                            <input type="text" class="form-control br-0" th:value="${currentBalance}" disabled>
+                            <label>Current balance</label>
+                        </div>
+                    </div>
                     <div class="input-group">
                         <div class="form-floating">
                             <input type="text" class="form-control br-0 text-green" value="$23" disabled>
@@ -202,113 +249,14 @@
             </div>
             <div class="content-right-scroll border">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
-                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                    <a th:each="stock: ${assets}" th:x-data="${stock}"
+                        :class="(pcChange > 0) ? 'stock-positive' : 'stock-negative'" @click="openQuickView($data);"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
+                            <strong class="my-stocks-item-name" x-text="ticker"></strong>
                             <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
-                            </div>
-                        </div>
-                    </a>
-                    <a x-data="{ positive: false }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
-                        class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                        <div class="d-flex w-100 align-items-center justify-content-between">
-                            <strong class="my-stocks-item-name">Tesla</strong>
-                            <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value">$223.71</small>
-                                <small class="my-stocks-item-pc">3.14%</small>
+                                <small class="my-stocks-item-value" x-text="'$'+totalValue"></small>
+                                <small class="my-stocks-item-pc" x-text="pcChange+'%'"></small>
                             </div>
                         </div>
                     </a>
@@ -317,6 +265,16 @@
         </div>
     </div>
 
+    <script>
+        var myStockModal = new bootstrap.Modal(document.getElementById('myStockModal'));
+        function openQuickView({ ticker, amount, totalValue, pcChange }) {
+            document.getElementById('myStockTitle').innerText = ticker;
+            document.getElementById('myStockHaveAmount').value = amount;
+            document.getElementById('myStockTotalWorth').value = totalValue;
+            document.getElementById('myStockTicker').value = ticker;
+            myStockModal.show();
+        }
+    </script>
 </body>
 
 </html>
