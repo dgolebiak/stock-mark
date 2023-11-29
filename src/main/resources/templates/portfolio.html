@@ -94,6 +94,11 @@
                         </div>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="myStockPricePerUnit" disabled>
+                        <label>Price per unit in $</label>
+                    </div>
+
                     <form action="/quick" id="quickActionForm">
                         <label class="form-label">Action</label>
                         <select class="form-select mb-3" name="action" x-model="option">
@@ -272,6 +277,7 @@
             document.getElementById('myStockHaveAmount').value = amount;
             document.getElementById('myStockTotalWorth').value = totalValue;
             document.getElementById('myStockTicker').value = ticker;
+            document.getElementById('myStockPricePerUnit').value = totalValue/amount;
             myStockModal.show();
         }
     </script>
