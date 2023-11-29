@@ -25,6 +25,174 @@
                 "ticker": "TSLA",
                 "amount": 2,
                 "unitPrice": 235.7,
+                "time": "2023-11-26"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
                 "time": "2023-11-25"
             },
             {
