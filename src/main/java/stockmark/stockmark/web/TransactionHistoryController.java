@@ -2,8 +2,6 @@ package stockmark.stockmark.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import stockmark.stockmark.model.Transaction;
+import stockmark.stockmark.model.Types.Transaction;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 
