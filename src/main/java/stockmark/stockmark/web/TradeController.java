@@ -39,6 +39,8 @@ public class TradeController {
         Ticker[] tickers = Market.getInstance().getSupportedTickers();
         String[] stocks = new String[tickers.length];
         
+        
+
         int i = 0;
         for (Ticker ticker : tickers){
              try {
@@ -48,6 +50,11 @@ public class TradeController {
                 e.printStackTrace();
             }
         }
+
+        Arrays.sort(stocks, Comparator.comparingDouble(s -> {
+            String[] stockDetails = s.split(",");
+            return Double.parseDouble(stockDetails[2].replaceAll("[^\\d.-]", "").trim());
+        }));
 
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
         Collections.reverse(Arrays.asList(worstStocks));
