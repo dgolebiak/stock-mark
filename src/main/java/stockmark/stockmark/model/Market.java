@@ -96,7 +96,7 @@ public class Market implements StockObserver {
         int i = 0;
         for (Ticker ticker : tickers) {
             try {
-                arr[i++] = new PricedStock(ticker.company(), getPrice(ticker.name()), 3.14+i);
+                arr[i++] = new PricedStock(ticker.company(), getPrice(ticker.name()), getPercentChangeToday(ticker.name()));
             } catch (NonExistentTickerException e) {
                 e.printStackTrace();
             }

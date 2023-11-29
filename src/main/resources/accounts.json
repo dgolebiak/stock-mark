@@ -44,11 +44,11 @@
         "email": "david@outlook.com",
         "password": "54321",
         "balance": 11.0,
-        "deposited": 100.0,
+        "deposited": 0.5,
         "assets": {
             "TSLA": {
-                "amount": 4,
-                "buyPrice": 235.0
+                "amount": 24,
+                "buyPrice": 0.5
             }
         },
         "history": null
