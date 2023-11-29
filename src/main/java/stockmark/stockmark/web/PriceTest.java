@@ -1,9 +1,12 @@
 package stockmark.stockmark.web;
 
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import stockmark.stockmark.model.Account;
+import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
@@ -21,8 +24,13 @@ public class PriceTest {
         return Double.toString(price);
     }
 
-    /* @GetMapping("/tickers")
-    Ticker[] getSupportTickers() {
-        return Market.getInstance().getSupportedTickers();
-    } */
+    @GetMapping("/balance")
+    public String onGetBalance(@CookieValue(value = "uuid", defaultValue = "") String uuid) {
+        // if not logged in; redirect to login
+        if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "0";
+            
+        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+        return acc.getBalance() + "";
+    }
 }

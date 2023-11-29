@@ -3,44 +3,68 @@
         "name": "Hassan Khan",
         "email": "hk.32@outlook.com",
         "password": "123",
-        "balance": 0.0,
+        "balance": 3338.7999999999997,
+        "deposited": 1510.0,
         "assets": {
-            "TSLA":{
+            "TSLA": {
                 "amount": 4,
-                "buyPrice": 235,
-                "buyDate": "timestamp"
+                "buyPrice": 122.0
             },
-            "AMZN":{
+            "AMZN": {
                 "amount": 5,
-                "buyPrice": 134,
-                "buyDate": "timestamp"
+                "buyPrice": 93.0
             }
-        }
+        },
+        "history": [
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            }
+        ]
     },
     {
         "name": "David",
         "email": "david@outlook.com",
         "password": "54321",
         "balance": 11.0,
+        "deposited": 100.0,
         "assets": {
-            "TSLA":{
+            "TSLA": {
                 "amount": 4,
-                "buyPrice": 235,
-                "buyDate": "timestamp"
+                "buyPrice": 235.0
             }
-        }
+        },
+        "history": null
     },
     {
         "name": "Sander",
         "email": "sander@gmail.com",
         "password": "123",
         "balance": 0.0,
+        "deposited": 100.0,
         "assets": {
-            "TSLA":{
+            "TSLA": {
                 "amount": 4,
-                "buyPrice": 235,
-                "buyDate": "timestamp"
+                "buyPrice": 235.0
             }
-        }
+        },
+        "history": null
     }
 ]

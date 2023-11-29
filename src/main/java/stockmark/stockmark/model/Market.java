@@ -8,11 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 
+record LocalStockInfo(double price, double pcChange){};
+
 public class Market implements StockObserver {
     private static final String tickersFile = "./src/main/resources/tickers.json";
     private static Market instance;
 
-    private ConcurrentHashMap<String, Double> priceMap = new ConcurrentHashMap<String, Double>();
+    private ConcurrentHashMap<String, LocalStockInfo> priceMap = new ConcurrentHashMap<String, LocalStockInfo>();
     private Ticker[] tickers;
     private AtomicBoolean allLoaded;
 
@@ -28,7 +30,8 @@ public class Market implements StockObserver {
             }
 
             // wait till all is loaded
-            while (!allLoaded.get()) {}
+            while (!allLoaded.get()) {
+            }
             System.out.println("Initial prices have been loaded!");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -36,19 +39,23 @@ public class Market implements StockObserver {
     }
 
     public static void Initialize() {
+        if (instance != null)
+            throw new RuntimeException("Market should not be initialized more than once!");
         instance = new Market();
     }
 
     public static Market getInstance() {
-        if (instance == null) throw new RuntimeException("Initialize Market first!");
+        if (instance == null)
+            throw new RuntimeException("Initialize Market first!");
         return instance;
     }
 
     // called by Stock instances
-    public void updatePrice(Ticker ticker, double price) {
-        priceMap.put(ticker.name(), price);
+    public void updatePrice(Ticker ticker, double price, double pcChange) {
+        priceMap.put(ticker.name(), new LocalStockInfo(price, pcChange));
         if (!allLoaded.get()) {
-            if (priceMap.size() == tickers.length) allLoaded.set(true);
+            if (priceMap.size() == tickers.length)
+                allLoaded.set(true);
         }
     }
 
@@ -74,7 +81,13 @@ public class Market implements StockObserver {
 
     public double getPrice(String ticker) throws NonExistentTickerException {
         if (isSupportedTicker(ticker))
-            return priceMap.get(ticker);
+            return priceMap.get(ticker).price();
+        throw new NonExistentTickerException();
+    }
+
+    public double getPercentChangeToday(String ticker) throws NonExistentTickerException {
+        if (isSupportedTicker(ticker))
+            return priceMap.get(ticker).pcChange();
         throw new NonExistentTickerException();
     }
 

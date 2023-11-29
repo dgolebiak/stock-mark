@@ -13,18 +13,18 @@ public class StockUpdater extends Thread {
     @Override
     public void run() {
         while (true) {
-            String priceStr = ExternalAPI.inquirePrice(ticker.name());
-            double price = Double.parseDouble(priceStr);
-            if (price != 0)
-                observer.updatePrice(ticker, price);
+            RealStonksResponse res = ExternalAPI.inquireTicker(ticker.name());
+            if (res != null)
+                observer.updatePrice(ticker, res.price(), res.pcChange());
 
-            try {
+                break;
+            /* try {
                 Thread.sleep(120000);
             } catch (InterruptedException e) {
                 System.out.println("Exception:" + e);
                 e.printStackTrace();
                 return;
-            }
+            } */
         }
     }
 }
