@@ -1,6 +1,10 @@
 package stockmark.stockmark.web;
 
 import org.springframework.ui.Model;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +27,10 @@ public class PortfolioController {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
             return "redirect:/";
+
+        DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        var dc = new DecimalFormat("0.00", decimalFormatSymbols);
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
 
@@ -62,8 +70,8 @@ public class PortfolioController {
 
                 // prep x-data
                 // example: x-data="{ ticker: 'TSLA', amount: 4, totalValue: 640, pcChange: 4.2
-                assetData[i] = String.format("{ ticker: '%s', amount: %d, totalValue: %d, pcChange: %.2f }", ticker,
-                        myShare.amount(), (int) myShareWorthToday, currentPcChange);
+                assetData[i] = String.format("{ ticker: '%s', amount: %d, totalValue: %d, pcChange: %s }", ticker,
+                        myShare.amount(), (int) myShareWorthToday, dc.format(currentPcChange));
                 i++;
             } catch (NonExistentTickerException e) {
                 System.out.println("Non existent ticker, but data came from database so internal error...");
@@ -98,7 +106,7 @@ public class PortfolioController {
         // display assets info
         model.addAttribute("assets", assetData);
         model.addAttribute("globals",
-                String.format("{ balance: %.2f }", acc.getBalance()));
+                String.format("{ balance: %s }", dc.format(acc.getBalance())));
         return "portfolio";
     }
 
@@ -117,7 +125,8 @@ public class PortfolioController {
     }
 
     @GetMapping("/quick")
-    public String onQuickAct(@CookieValue(value = "uuid", defaultValue = "") String uuid, @RequestParam String action, @RequestParam String ticker,
+    public String onQuickAct(@CookieValue(value = "uuid", defaultValue = "") String uuid, @RequestParam String action,
+            @RequestParam String ticker,
             @RequestParam String amount, Model model) {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
