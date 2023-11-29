@@ -15,6 +15,7 @@ import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Share;
 import stockmark.stockmark.model.Exceptions.*;
+import stockmark.stockmark.model.Types.ChangeOverTime;
 
 record ClientAsset(String ticker, int totalValue, double pcChange) {
 }
@@ -38,13 +39,14 @@ public class PortfolioController {
         // to be sent to html template
         String[] assetData = new String[assets.size()];
 
-        double totalValue = acc.getBalance();
+        ChangeOverTime mostProfitableOverall = acc.calcMostProfitableOverall();
+        ChangeOverTime leastProfitableOverall = acc.calcLeastProfitableOverall();
 
-        String mostProfitableName = "...";
-        double mostProfitableChange = Double.MIN_VALUE;
+        ChangeOverTime mostProfitableToday = acc.calcMostProfitableToday();
+        ChangeOverTime leastProfitableToday = acc.calcLeastProfitableToday();
 
-        String leastProfitableName = "...";
-        double leastProfitableChange = Double.MAX_VALUE;
+        ChangeOverTime valueChangeOverall = acc.calcValueChangeOverall();
+        ChangeOverTime valueChangeToday = acc.calcValueChangeToday();
 
         int i = 0;
         for (String ticker : assets.keySet()) {
@@ -53,55 +55,69 @@ public class PortfolioController {
                 double currentPcChange = Market.getInstance().getPercentChangeToday(ticker);
                 Share myShare = assets.get(ticker);
                 double myShareWorthToday = (double) myShare.amount() * currentPrice;
-                double howMuchIpaidForIt = (double) myShare.amount() * myShare.buyPrice();
-                totalValue += myShareWorthToday;
-
-                // calc most profitable
-                if (myShareWorthToday - howMuchIpaidForIt > mostProfitableChange) {
-                    mostProfitableChange = myShareWorthToday - howMuchIpaidForIt;
-                    mostProfitableName = ticker;
-                }
-
-                // calc least profitable
-                if (myShareWorthToday - howMuchIpaidForIt < leastProfitableChange) {
-                    leastProfitableChange = myShareWorthToday - howMuchIpaidForIt;
-                    leastProfitableName = ticker;
-                }
 
                 // prep x-data
-                // example: x-data="{ ticker: 'TSLA', amount: 4, totalValue: 640, pcChange: 4.2
-                assetData[i] = String.format("{ ticker: '%s', amount: %d, totalValue: %d, pcChange: %s }", ticker,
-                        myShare.amount(), (int) myShareWorthToday, dc.format(currentPcChange));
+                assetData[i] = String.format(
+                        "{ ticker: '%s', amount: %d, buyPrice: %s, currentPrice: %s, dayPcChange: %s, worth: %s }",
+                        ticker, myShare.amount(), dc.format(myShare.buyPrice()), dc.format(currentPrice),
+                        dc.format(currentPcChange), dc.format(myShareWorthToday));
                 i++;
             } catch (NonExistentTickerException e) {
                 System.out.println("Non existent ticker, but data came from database so internal error...");
             }
         }
 
-        double totalChange = totalValue - acc.getDeposited();
-
-        // if they are empty then reset the change values
-        if (mostProfitableName.equals("..."))
-            mostProfitableChange = 0;
-        if (leastProfitableName.equals("..."))
-            leastProfitableChange = 0;
+        if (mostProfitableOverall == null)
+            mostProfitableOverall = new ChangeOverTime("...", 0, 0);
+        if (leastProfitableOverall == null)
+            leastProfitableOverall = new ChangeOverTime("...", 0, 0);
+        if (mostProfitableToday == null)
+            mostProfitableToday = new ChangeOverTime("...", 0, 0);
+        if (leastProfitableToday == null)
+            leastProfitableToday = new ChangeOverTime("...", 0, 0);
 
         // render portfolio template
-        model.addAttribute("currentBalance", "$" + (int) acc.getBalance());
-        model.addAttribute("deposited", "$" + (int) acc.getDeposited());
+        model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
+        model.addAttribute("deposited", "$" + dc.format(acc.getDeposited()));
 
-        model.addAttribute("assets", acc.getAssets());
-        model.addAttribute("totalValue", "$" + (int) totalValue);
-        model.addAttribute("totalChange", "$" + Math.abs((int) totalChange));
-        model.addAttribute("isTotalChangePositive", totalChange > 0);
+        model.addAttribute("totalValue", "$" + dc.format(valueChangeOverall.current()));
+        double valueChange = valueChangeOverall.current() - valueChangeOverall.old();
+        model.addAttribute("totalChange", "$" + dc.format(valueChange));
+        model.addAttribute("isTotalChangePositive", valueChange > 0);
 
-        model.addAttribute("mostProfitableName", mostProfitableName);
-        model.addAttribute("mostProfitableChange", "$" + Math.abs((int) mostProfitableChange));
-        model.addAttribute("isMostProfitablePositive", mostProfitableChange > 0);
+        double valueChangeTodayN = valueChangeToday.current() - valueChangeToday.old();
+        double valueChangePercent = (valueChangeTodayN / valueChangeToday.old()) * 100;
+        model.addAttribute("valueChangeToday", "$" + dc.format(valueChangeTodayN));
+        model.addAttribute("valueChangeTodayPercent", dc.format(valueChangePercent) + "%");
+        model.addAttribute("isValueChangeTodayPositive", valueChangeTodayN > 0);
 
-        model.addAttribute("leastProfitableName", leastProfitableName);
-        model.addAttribute("leastProfitableChange", "$" + Math.abs((int) leastProfitableChange));
-        model.addAttribute("isLeastProfitablePositive", leastProfitableChange > 0);
+        double mostProfitAmount = mostProfitableOverall.current() - mostProfitableOverall.old();
+        double mostProfitPercent = (mostProfitAmount / mostProfitableOverall.old()) * 100;
+        model.addAttribute("mostProfitableName", mostProfitableOverall.name());
+        model.addAttribute("mostProfitableChange",
+                "$" + dc.format(mostProfitAmount) + " or " + dc.format(mostProfitPercent) + "%");
+        model.addAttribute("isMostProfitablePositive", mostProfitAmount > 0);
+
+        double leastProfitAmount = leastProfitableOverall.current() - leastProfitableOverall.old();
+        double leastProfitPercent = (leastProfitAmount / leastProfitableOverall.old()) * 100;
+        model.addAttribute("leastProfitableName", leastProfitableOverall.name());
+        model.addAttribute("leastProfitableChange",
+                "$" + dc.format(leastProfitAmount) + " or " + dc.format(leastProfitPercent) + "%");
+        model.addAttribute("isLeastProfitablePositive", leastProfitAmount > 0);
+
+        double mostProfitAmountToday = mostProfitableToday.current() - mostProfitableToday.old();
+        double mostProfitPercentToday = (mostProfitAmountToday / mostProfitableToday.old()) * 100;
+        model.addAttribute("mostProfitableTodayName", mostProfitableToday.name());
+        model.addAttribute("mostProfitableTodayChange",
+                "$" + dc.format(mostProfitAmountToday) + " or " + dc.format(mostProfitPercentToday) + "%");
+        model.addAttribute("isMostProfitableTodayPositive", mostProfitAmountToday > 0);
+
+        double leastProfitAmountToday = leastProfitableToday.current() - leastProfitableToday.old();
+        double leastProfitPercentToday = (leastProfitAmountToday / leastProfitableToday.old()) * 100;
+        model.addAttribute("leastProfitableTodayName", leastProfitableToday.name());
+        model.addAttribute("leastProfitableTodayChange",
+                "$" + dc.format(leastProfitAmountToday) + " or " + dc.format(leastProfitPercentToday) + "%");
+        model.addAttribute("isLeastProfitableTodayPositive", leastProfitPercentToday > 0);
 
         // display assets info
         model.addAttribute("assets", assetData);

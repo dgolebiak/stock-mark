@@ -84,7 +84,8 @@
                     <label class="form-label">Owned</label>
                     <div class="input-group mb-3">
                         <div class="form-floating">
-                            <input type="number" class="form-control" id="myStockHaveAmount" x-ref="myStockHaveAmount" disabled>
+                            <input type="number" class="form-control" id="myStockHaveAmount" x-ref="myStockHaveAmount"
+                                disabled>
                             <label>Amount</label>
                         </div>
                         <div class="form-floating">
@@ -106,7 +107,7 @@
                             <option value="buy">Buy</option>
                         </select>
 
-                        <input type="hidden" id="myStockTicker" name="ticker"/>
+                        <input type="hidden" id="myStockTicker" name="ticker" />
 
                         <div class="input-group mb-3">
                             <div class="form-floating">
@@ -213,31 +214,40 @@
                     </div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$23" disabled>
+                            <input type="text" class="form-control br-0"
+                                th:classappend="${isValueChangeTodayPositive} ? text-green : text-red"
+                                th:value="${valueChangeToday}" disabled>
                             <label>Value change</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="5.3%" disabled>
+                            <input type="text" class="form-control br-0 text-green"
+                                th:classappend="${isValueChangeTodayPositive} ? text-green : text-red"
+                                th:value="${valueChangeTodayPercent}" disabled>
                             <label>Percent change</label>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Samsung" disabled>
+                            <input type="text" class="form-control br-0" th:value="${mostProfitableTodayName}" disabled>
                             <label>Most profitable</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-green" value="$12" disabled>
+                            <input type="text" class="form-control br-0 text-green"
+                                th:classappend="${isMostProfitableTodayPositive} ? text-green : text-red"
+                                th:value="${mostProfitableTodayChange}" disabled>
                             <label>Change</label>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0" value="Tesla" disabled>
+                            <input type="text" class="form-control br-0" th:value="${leastProfitableTodayName}"
+                                disabled>
                             <label>Least profitable</label>
                         </div>
                         <div class="form-floating">
-                            <input type="text" class="form-control br-0 text-red" value="$8" disabled>
+                            <input type="text" class="form-control br-0 text-red"
+                                th:classappend="${isLeastProfitableTodayPositive} ? text-green : text-red"
+                                th:value="${leastProfitableTodayChange}" disabled>
                             <label>Change</label>
                         </div>
                     </div>
@@ -255,13 +265,13 @@
             <div class="content-right-scroll border">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a th:each="stock: ${assets}" th:x-data="${stock}"
-                        :class="(pcChange > 0) ? 'stock-positive' : 'stock-negative'" @click="openQuickView($data);"
+                        :class="(dayPcChange > 0) ? 'stock-positive' : 'stock-negative'" @click="openQuickView($data);"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="my-stocks-item-name" x-text="ticker"></strong>
                             <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value" x-text="'$'+totalValue"></small>
-                                <small class="my-stocks-item-pc" x-text="pcChange+'%'"></small>
+                                <small class="my-stocks-item-value" x-text="'$'+worth"></small>
+                                <small class="my-stocks-item-pc" x-text="dayPcChange+'%'"></small>
                             </div>
                         </div>
                     </a>
@@ -272,12 +282,12 @@
 
     <script>
         var myStockModal = new bootstrap.Modal(document.getElementById('myStockModal'));
-        function openQuickView({ ticker, amount, totalValue, pcChange }) {
+        function openQuickView({ ticker, amount, buyPrice, currentPrice, dayPcChange, worth }) {
             document.getElementById('myStockTitle').innerText = ticker;
             document.getElementById('myStockHaveAmount').value = amount;
-            document.getElementById('myStockTotalWorth').value = totalValue;
+            document.getElementById('myStockTotalWorth').value = worth;
             document.getElementById('myStockTicker').value = ticker;
-            document.getElementById('myStockPricePerUnit').value = totalValue/amount;
+            document.getElementById('myStockPricePerUnit').value = worth / amount;
             myStockModal.show();
         }
     </script>

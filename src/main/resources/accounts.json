@@ -13,6 +13,10 @@
             "AMZN": {
                 "amount": 5,
                 "buyPrice": 93.0
+            },
+            "MSFT": {
+                "amount": 2,
+                "buyPrice": 80.0
             }
         },
         "history": [
