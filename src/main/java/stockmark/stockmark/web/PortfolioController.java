@@ -62,7 +62,7 @@ public class PortfolioController {
 
                 // prep x-data
                 // example: x-data="{ ticker: 'TSLA', amount: 4, totalValue: 640, pcChange: 4.2
-                assetData[i] = String.format("{ ticker: '%s', amount: %d, totalValue: %d, pcChange: %f }", ticker,
+                assetData[i] = String.format("{ ticker: '%s', amount: %d, totalValue: %d, pcChange: %.2f }", ticker,
                         myShare.amount(), (int) myShareWorthToday, currentPcChange);
                 i++;
             } catch (NonExistentTickerException e) {
@@ -98,7 +98,7 @@ public class PortfolioController {
         // display assets info
         model.addAttribute("assets", assetData);
         model.addAttribute("globals",
-                String.format("{ balance: %f }", acc.getBalance()));
+                String.format("{ balance: %.2f }", acc.getBalance()));
         return "portfolio";
     }
 
