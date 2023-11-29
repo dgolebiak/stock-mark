@@ -32,6 +32,7 @@ public class TradeController {
 
         PricedStock[] stocks = Market.getInstance().getPricedStocks();
         
+        
         Arrays.sort(stocks, Comparator.comparing(PricedStock::percentage));
         
         PricedStock[] worstStocks = Arrays.copyOf(stocks, stocks.length);
