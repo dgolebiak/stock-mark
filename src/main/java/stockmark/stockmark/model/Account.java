@@ -7,12 +7,19 @@ import java.util.Map;
 import java.time.LocalDate;
 import stockmark.stockmark.model.Exceptions.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 // NOTES: Problems with:
 // private HashMap<Boolean, List<Shares>> history;
 // We need a history from start to finish, sort of like transactions in the order that it happened
 // Storing it like this will require further processing to get this into a presentable state to a user.
 
 // Single account for one user
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
     private String name;
     private String email;
@@ -117,8 +124,16 @@ public class Account {
     public Map<String, Share> getAssets() {
         return assets;
     }
-
     public List<Transaction> getHistory() {
         return history;
+    }
+
+    public Page<Transaction> getHistoryPage(Pageable pageable) {
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), history.size());
+
+        List<Transaction> pageContent = history.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, history.size());
     }
 }

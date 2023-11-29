@@ -22,7 +22,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="transactions.css">
+    <script>
+    </script>
 </head>
 
 <body>
@@ -52,7 +54,7 @@
                 </a>
                 <ul class="dropdown-menu text-small">
                     <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade.html">Trade</a></li>
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="transactions.html">Transactions</a></li>
+                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="transactions">Transactions</a></li>
                     <li class="dropdown-item-mobile">
                         <hr class="dropdown-divider">
                     </li>
@@ -70,23 +72,27 @@
         
     
     
-    
-    <table class="table table-striped">
+    <div class="content">
+        <table class="table table-striped" id="transactionTable" aria-describedby="A table showing all transactions.">
             <tr>
-                <th style="background-color: lightgray">Stock Name</th>  
-                <th style="background-color: lightgray">Bought / Sold</th>
-                <th style="background-color: lightgray">Amount</th>
-                <th style="background-color: lightgray">Unit Price</th>
-                <th style="background-color: lightgray">Transaction Date</th>
+                <th class="cell-header" style="background-color: lightgray">Stock Name</th>  
+                <th class="cell-header" style="background-color: lightgray">Bought / Sold</th>
+                <th class="cell-header" style="background-color: lightgray">Amount</th>
+                <th class="cell-header" style="background-color: lightgray">Unit Price</th>
+                <th class="cell-header" style="background-color: lightgray">Transaction Date</th>
             </tr>
-            <tr th:each="transaction: ${history}">
-                <td th:text="${transaction.ticker}"/>
-                <td th:text="${transaction.action}"/>
-                <td th:text="${transaction.amount}"/>
-                <td th:text="${transaction.unitPrice}"/>
-                <td th:text="${transaction.time}"/>
+            <tr th:each="transaction : ${history}" style="text-align: center">
+                <td class="cell" th:text="${transaction.ticker}"/>
+                <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${transaction.action}"/>
+                <td class="cell" th:text="${transaction.amount}"/>
+                <td class="cell" th:text="${transaction.unitPrice + ' $'}"/>
+                <td class="cell" th:text="${transaction.time}"/>
             </tr>
         </table>
+        <div class="page-link-row">
+            <a class="page-link" th:each="page : ${pagesList}" th:href="@{/transactions(page=${page})}" th:text="${page+1}" th:style="${page == currentPage ? 'color: gray' : 'color: white'}"/>
+        </div>
+    </div>
 
 </body>
 

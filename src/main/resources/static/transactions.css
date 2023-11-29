@@ -1,0 +1,43 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1250px;
+    margin: 25px auto;
+    padding: 25px 50px;
+}
+
+.cell {
+    font-style: normal;
+}
+
+.cell-header {
+    font-style: normal;
+}
+
+.page-link-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.page-link {
+    font-size: 18px;
+    color: white;
+    text-decoration-style: none;
+}
+
+@media screen and (max-width: 1086px) {
+    .content {
+        margin: 0 auto;
+        padding: 25px 100px;
+    }
+}
+
+@media screen and (max-width: 756px) {
+    .content {
+        padding: 25px 25px;
+    }
+}
