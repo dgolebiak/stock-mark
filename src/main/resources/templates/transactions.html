@@ -53,8 +53,8 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu text-small">
+                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="portfolio">Portfolio</a></li>
                     <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade.html">Trade</a></li>
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="transactions">Transactions</a></li>
                     <li class="dropdown-item-mobile">
                         <hr class="dropdown-divider">
                     </li>
@@ -74,18 +74,18 @@
     
     <div class="content">
         <table class="table table-striped" id="transactionTable" aria-describedby="A table showing all transactions.">
-            <tr>
-                <th class="cell-header" style="background-color: lightgray">Stock Name</th>  
-                <th class="cell-header" style="background-color: lightgray">Bought / Sold</th>
-                <th class="cell-header" style="background-color: lightgray">Amount</th>
-                <th class="cell-header" style="background-color: lightgray">Unit Price</th>
-                <th class="cell-header" style="background-color: lightgray">Transaction Date</th>
+            <tr style="border: 1px solid white;"class="header">
+                <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Stock Name</th>  
+                <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Bought / Sold</th>
+                <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Amount</th>
+                <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Unit Price</th>
+                <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Transaction Date</th>
             </tr>
-            <tr th:each="transaction : ${history}" style="text-align: center">
+            <tr th:each="transaction : ${history}">
                 <td class="cell" th:text="${transaction.ticker}"/>
-                <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${transaction.action}"/>
+                <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${#strings.capitalize(transaction.action)}"/>
                 <td class="cell" th:text="${transaction.amount}"/>
-                <td class="cell" th:text="${transaction.unitPrice + ' $'}"/>
+                <td class="cell" th:text="${'$'+transaction.unitPrice}"/>
                 <td class="cell" th:text="${transaction.time}"/>
             </tr>
         </table>

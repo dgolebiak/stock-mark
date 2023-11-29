@@ -9,10 +9,12 @@
 
 .cell {
     font-style: normal;
-}
-
-.cell-header {
-    font-style: normal;
+    border: 1px solid white;
+    padding: 0;
+    box-shadow: none;
+    font-family: 'Rubik';
+    color: #212529;
+    text-align: center;
 }
 
 .page-link-row {
