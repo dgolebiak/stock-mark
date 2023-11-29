@@ -51,7 +51,7 @@
                 "buyPrice": 0.5
             }
         },
-        "history": null
+        "history": []
     },
     {
         "name": "Sander",
@@ -65,6 +65,6 @@
                 "buyPrice": 235.0
             }
         },
-        "history": null
+        "history": []
     }
 ]
