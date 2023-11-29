@@ -1,5 +1,9 @@
 package stockmark.stockmark.model;
 
+import stockmark.stockmark.model.Types.RealStonksResponse;
+import stockmark.stockmark.model.Types.StockObserver;
+import stockmark.stockmark.model.Types.Ticker;
+
 public class StockUpdater extends Thread {
     private Ticker ticker;
     private StockObserver observer;

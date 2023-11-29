@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import stockmark.stockmark.model.Types.RealStonksResponse;
+
 public class ExternalAPI {
     private ExternalAPI() {}
 

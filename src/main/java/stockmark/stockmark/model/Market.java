@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
+import stockmark.stockmark.model.Types.StockObserver;
+import stockmark.stockmark.model.Types.Ticker;
 
 record LocalStockInfo(double price, double pcChange){};
 

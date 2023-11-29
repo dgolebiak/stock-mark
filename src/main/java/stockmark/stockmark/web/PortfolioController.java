@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.Share;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
+import stockmark.stockmark.model.Types.Share;
 
 record ClientAsset(String ticker, int totalValue, double pcChange) {
 }

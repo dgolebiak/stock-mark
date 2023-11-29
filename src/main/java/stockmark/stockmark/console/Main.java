@@ -5,8 +5,8 @@ import java.util.Arrays;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.Share;
 import stockmark.stockmark.model.Exceptions.*;
+import stockmark.stockmark.model.Types.Share;
 
 public class Main {
     public static void main(String[] args) {

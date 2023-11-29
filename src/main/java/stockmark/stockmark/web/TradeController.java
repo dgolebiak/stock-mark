@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
-import stockmark.stockmark.model.Ticker;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
+import stockmark.stockmark.model.Types.Ticker;
 
 @Controller
 public class TradeController {

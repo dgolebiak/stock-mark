@@ -7,6 +7,8 @@ import java.util.Map;
 import java.time.LocalDate;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
+import stockmark.stockmark.model.Types.Share;
+import stockmark.stockmark.model.Types.Transaction;
 
 // NOTES: Problems with:
 // private HashMap<Boolean, List<Shares>> history;
