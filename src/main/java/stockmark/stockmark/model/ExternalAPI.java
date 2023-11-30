@@ -1,12 +1,17 @@
 package stockmark.stockmark.model;
 
+import java.io.File;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import stockmark.stockmark.model.Types.RealStonksResponse;
 
@@ -36,7 +41,34 @@ public class ExternalAPI {
         }
     }
 
-    public static void inquireHistory(String ticker, int lastNdays) {
+    public static double[] inquireHistory(String ticker, int lastNdays) {
 
+        int i = 0;
+        double[] history = new double[lastNdays];
+
+        long currentUnixTimestamp = Instant.now().getEpochSecond();
+        long unixTimestampNDaysAgo = Instant.now().minusSeconds(lastNdays * 24*60*60).getEpochSecond();
+
+        HttpRequest request = HttpRequest.newBuilder()
+		.uri(URI.create("https://telescope-stocks-options-price-charts.p.rapidapi.com/price/" + ticker + "?period1=" + unixTimestampNDaysAgo + "&period2=" + currentUnixTimestamp + "&interval=1d"))
+		.header("X-RapidAPI-Key", "f36b91a7bfmshea0da7f952d7754p1baea1jsnad99e9294baf")
+		.header("X-RapidAPI-Host", "telescope-stocks-options-price-charts.p.rapidapi.com")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+        try {
+         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+         JsonNode rootNode = new ObjectMapper().readTree(response.body());
+        JsonNode jsonHistory = rootNode.path("chart").path("result").get(0).path("indicators").path("adjclose").get(0).path("adjclose");
+
+        for (JsonNode element : jsonHistory){
+            history[i] = element.asDouble();
+            i++;
+        }
+        System.out.println(Arrays.toString(history));
+        return history;
+        
+        }catch (Exception e) {
+            System.out.println(e);
+            return null;
     }
-}
+}}
