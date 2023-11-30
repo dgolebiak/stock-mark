@@ -90,7 +90,7 @@
             </tr>
         </table>
         <div class="page-link-row">
-            <a class="page-link" th:each="page : ${pagesList}" th:href="@{/transactions(page=${page})}" th:text="${page+1}" th:style="${page == currentPage ? 'color: gray' : 'color: white'}"/>
+            <a class="page-link" th:each="page : ${pagesList}" th:href="@{/transactions(page=${page})}" th:text="${page+1}" th:style="${page == currentPage ? 'color: gray' : 'color: #d8d8d8'}"/>
         </div>
     </div>
 
