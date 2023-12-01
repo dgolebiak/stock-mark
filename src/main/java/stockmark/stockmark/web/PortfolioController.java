@@ -58,7 +58,7 @@ public class PortfolioController {
 
                 // prep x-data
                 assetData[i] = String.format(
-                        "{ ticker: '%s', amount: %d, buyPrice: %s, currentPrice: %s, dayPcChange: %s, worth: %s }",
+                        "{ ticker: '%s', amount: '%d', buyPrice: '%s', currentPrice: '%s', dayPcChange: '%s', worth: '%s' }",
                         ticker, myShare.amount(), dc.format(myShare.buyPrice()), dc.format(currentPrice),
                         dc.format(currentPcChange), dc.format(myShareWorthToday));
                 i++;
