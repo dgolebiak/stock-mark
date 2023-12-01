@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
+import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Ticker;
 
 @Controller
@@ -34,7 +36,8 @@ public class TradeController {
             return "redirect:/";
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
         // not complete
-        model.addAttribute("assets", acc.getAssets());
+        var assets = acc.getAssets();
+        // to be sent to html template
 
         Ticker[] tickers = Market.getInstance().getSupportedTickers();
         String[] stocks = new String[tickers.length];
@@ -44,8 +47,35 @@ public class TradeController {
         int i = 0;
         for (Ticker ticker : tickers){
              try {
-                stocks[i++] = String.format("{ name: '%s', price: '%s', pcChange: '%s' }", ticker.company() , 
-                dc.format(Market.getInstance().getPrice(ticker.name())), dc.format(Market.getInstance().getPercentChangeToday(ticker.name())));
+                int amount = 0;
+                double worth = 0;
+                double priceChangeDollar = 0;
+                double priceChangePercent = 0; 
+                if (assets.containsKey(ticker.name())){
+                amount = assets.get(ticker.name()).amount();
+                worth = amount * Market.getInstance().getPrice(ticker.name());
+                double oldWorth =  amount * assets.get(ticker.name()).buyPrice();
+                ChangeOverTime priceChange = new ChangeOverTime(ticker.name(), worth, oldWorth);
+                priceChangeDollar = priceChange.current() - priceChange.old();
+                priceChangePercent = 100 * (priceChange.current() / priceChange.old());        
+                }
+
+                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
+                ticker.company(),
+                ticker.name(), 
+                dc.format(Market.getInstance().getPrice(ticker.name())), 
+                Market.getInstance().getPercentChangeToday(ticker.name()) + "%", 
+                amount, 
+                dc.format(worth), 
+                dc.format(priceChangeDollar), 
+                dc.format(priceChangePercent)
+    ); 
+                
+                
+
+
+
+
             } catch (NonExistentTickerException e) {
                 e.printStackTrace();
             }
@@ -59,8 +89,39 @@ public class TradeController {
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
         Collections.reverse(Arrays.asList(worstStocks));
 
+        model.addAttribute("assets", acc.getAssets());
+
         model.addAttribute("pricedStocksWorstPerforming", stocks);
         model.addAttribute("pricedStocksBestPerforming", worstStocks);
         return "trade";
+    }
+    @GetMapping("/transaction")
+    public String onTransaction(@CookieValue(value = "uuid", defaultValue = "") String uuid, @RequestParam String action,
+            @RequestParam String ticker,
+            @RequestParam String quantity, Model model) {
+        // if not logged in; redirect to login
+        System.out.println("Initiate transaction");
+        if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/";
+
+        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+        int amountInt = Integer.parseInt(quantity);
+
+        if (action.equals("buy")) {
+            try {
+                acc.buyAsset(ticker, amountInt);
+            } catch (Exception e) {
+                // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                System.out.println(e);
+            }
+        } else if (action.equals("sell")) {
+            try {
+                acc.sellAsset(ticker, amountInt);
+            } catch (Exception e) {
+                // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                System.out.println(e);
+            }
+        }
+        return "redirect:/trade";
     }
 }

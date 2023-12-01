@@ -89,29 +89,29 @@
                             <div>
                                 <div class="top-left">
                                     <p class="modal-peak-title">Day's High ($)</p>
-                                    <p class="modal-peak-value">230</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                                 <div class="top-left">
                                     <p class="modal-peak-title">Month's High ($)</p>
-                                    <p class="modal-peak-value">240</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                                 <div class="top-right">
                                     <p class="modal-peak-title">Year High ($)</p>
-                                    <p class="modal-peak-value">240</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                             </div>
                             <div>
                                 <div class="bottom-left">
                                     <p class="modal-peak-title">Day's Low ($)</p>
-                                    <p class="modal-peak-value">220</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                                 <div class="bottom-left">
                                     <p class="modal-peak-title">Month's Low ($)</p>
-                                    <p class="modal-peak-value">210</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                                 <div class="bottom-right">
                                     <p class="modal-peak-title">Year Low ($)</p>
-                                    <p class="modal-peak-value">106</p>
+                                    <p class="modal-peak-value">N/A</p>
                                 </div>
                             </div>
                         </div>
@@ -121,17 +121,16 @@
                             <div class="modal-title">
                                 <div>
                                     <div class="symbol">
-                                        <p>TSLA</p>
+                                        <p id="stockTitle">N/A</p>
                                     </div>
                                     <div class="company">
-                                        <p>TESLA, INC.</p>
+                                        <p id="stockSymbol">N/A</p>
                                     </div>
                                 </div>
 
                                 <div class="current-prices">
-                                    <p>225.07 ($)</p>
-                                    <p style="margin:0 10px 0 50px;">+4.87 ($)</p>
-                                    <p>(2.2 %)</p>                             
+                                    <p id="stockPrice">N/A</p>
+                                    <p style="margin:0px 0px 0px 50px;" id="stockChangePercent">N/A</p>                           
                                 </div>
 
                             </div>
@@ -142,7 +141,7 @@
                                             <p>Owned Quantity</p>
                                         </div>
                                         <div class="owned-stats-value">
-                                            <p>13</p>
+                                            <p id="ownedQuantity">13</p>
                                         </div>
                                     </div>
                                     <div class="top-right">
@@ -150,7 +149,7 @@
                                             <p>Owned Value</p>
                                         </div>
                                         <div class="owned-stats-value">
-                                            <p>2925.91</p>
+                                            <p id="ownedValue">2925.91</p>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +159,7 @@
                                             <p>($) Change since purchase</p>
                                         </div>
                                         <div class="owned-stats-value">
-                                            <p>+ 213.34</p>
+                                            <p id="dollarChangeSincePurchase">+ 213.34</p>
                                         </div>
                                     </div>
                                     <div class="bottom-right">
@@ -168,13 +167,13 @@
                                             <p>(%) Change since purchase</p>
                                         </div>
                                         <div class="owned-stats-value">
-                                            <p>+ 7.86</p>
+                                            <p id="percentChangeSincePurchase">+ 7.86</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="order">
-                                <form action="">
+                                <form action="/transaction" id="transactionForm">
                                     <div class="order-options">
                                         <div>
                                             <label for="order-type">Order type</label>
@@ -194,12 +193,13 @@
                                             <input value="0" type="number" min="0" name="quantity" id="quantity">
                                         </div>
                                     </div>
+                                    <input type="hidden" id="myStockTicker" name="ticker" />
                                     <div class="place-order">
                                         <div>
                                            <p>Total Cost ($)</p>
-                                           <p>1125.00</p> 
+                                           <p id="totalValue">0</p> 
                                         </div>
-                                        <button type="submit">Place order</button>
+                                        <button type="submit" form="transactionForm" value="Submit">Place order</button>
                                     </div>
                                 </form>
                             </div>
@@ -220,8 +220,8 @@
             <div class="content-right-scroll">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a th:each ="stock : ${pricedStocksBestPerforming}" th:x-data="${stock}"
-                    x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                    :class="(pcChange > 0) ? 'stock-positive' : 'stock-negative'"
+                    @click="openQuickView($data);"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="my-stocks-item-name" x-text="name">Stock name</strong>
@@ -241,8 +241,8 @@
             <div class="content-right-scroll">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a th:each ="stock : ${pricedStocksWorstPerforming}" th:x-data="${stock}"
-                    x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
-                        data-bs-toggle="modal" data-bs-target="#myStockModal"
+                    :class="(pcChange > 0) ? 'stock-positive' : 'stock-negative'"
+                        @click="openQuickView($data);"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="my-stocks-item-name" x-text="name">Stock name</strong>
@@ -256,6 +256,34 @@
             </div>
         </div>
     </div>
+    <script>
 
+
+
+        var myStockModal = new bootstrap.Modal(document.getElementById('myStockModal'));
+        function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPriceChangeDollar, ownedPriceChangePercent}) {
+            document.getElementById('myStockTicker').value = symbol;
+            document.getElementById('stockTitle').innerText = symbol;
+            document.getElementById('stockSymbol').innerText = name;
+            document.getElementById('stockPrice').innerText = price;
+            document.getElementById('stockChangePercent').innerText = pcChange;
+
+            document.getElementById('ownedQuantity').innerText = amount;
+            document.getElementById('ownedValue').innerText = worth;
+            document.getElementById('dollarChangeSincePurchase').innerText = ownedPriceChangeDollar;
+            document.getElementById('percentChangeSincePurchase').innerText = ownedPriceChangePercent;
+
+            document.getElementById('totalValue').innerText = document.getElementById('quantity').value * price;
+
+            quantityInput = document.getElementById('quantity');
+            totalValue = document.getElementById('totalValue');
+            quantityInput.addEventListener("input", function() {
+                // Update the text content of the paragraph in real-time
+                totalValue.innerText = quantityInput.value * price;
+        });
+
+            myStockModal.show();
+        }
+    </script>
 </body>
 </html>
