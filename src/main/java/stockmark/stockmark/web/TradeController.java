@@ -62,11 +62,11 @@ public class TradeController {
                 priceChangePercent = 100 * (priceChange.current() / priceChange.old());        
                 }
 
-                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
+                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: %f, pcChange: %f, amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
                 ticker.company(),
                 ticker.name(), 
-                dc.format(Market.getInstance().getPrice(ticker.name())), 
-                Market.getInstance().getPercentChangeToday(ticker.name()) + "%", 
+                Market.getInstance().getPrice(ticker.name()), 
+                Market.getInstance().getPercentChangeToday(ticker.name()), 
                 amount, 
                 dc.format(worth), 
                 dc.format(priceChangeDollar), 
@@ -82,7 +82,7 @@ public class TradeController {
 
         Arrays.sort(stocks, Comparator.comparingDouble(s -> {
             String[] stockDetails = s.split(",");
-            return Double.parseDouble(stockDetails[2].replaceAll("[^\\d.-]", "").trim());
+            return Double.parseDouble(stockDetails[3].replaceAll("[^\\d.-]", "").trim());
         }));
 
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
