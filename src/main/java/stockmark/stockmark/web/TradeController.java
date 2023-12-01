@@ -39,7 +39,9 @@ public class TradeController {
         var assets = acc.getAssets();
         // to be sent to html template
 
-        Ticker[] tickers = Market.getInstance().getSupportedTickers();
+        Market market = Market.getInstance();
+
+        Ticker[] tickers = market.getSupportedTickers();
         String[] stocks = new String[tickers.length];
         
         
@@ -47,6 +49,7 @@ public class TradeController {
         int i = 0;
         for (Ticker ticker : tickers){
              try {
+<<<<<<< HEAD
                 int amount = 0;
                 double worth = 0;
                 double priceChangeDollar = 0;
@@ -75,6 +78,13 @@ public class TradeController {
 
 
 
+=======
+                double price = market.getPrice(ticker.name());
+                double pcChange = market.getPercentChangeToday(ticker.name());
+
+                stocks[i++] = String.format("{ name: '%s', price: %f, pcChange: %f }", 
+                    ticker.company() , price, pcChange);
+>>>>>>> 106d37921a665a43d3a2eecf767c0d6d815d6866
 
             } catch (NonExistentTickerException e) {
                 e.printStackTrace();
