@@ -2,9 +2,12 @@ package stockmark.stockmark.web;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,8 @@ import stockmark.stockmark.model.Types.Ticker;
 
 @Controller
 public class TradeController {
+    String[] stocks;
+
     @GetMapping("/trade")
     String onGetTrade(@CookieValue(value = "uuid", defaultValue = "") String uuid, Model model) {
 
@@ -42,7 +47,7 @@ public class TradeController {
         Market market = Market.getInstance();
 
         Ticker[] tickers = market.getSupportedTickers();
-        String[] stocks = new String[tickers.length];
+        stocks = new String[tickers.length];
         
         
 
@@ -71,10 +76,8 @@ public class TradeController {
                 dc.format(worth), 
                 dc.format(priceChangeDollar), 
                 dc.format(priceChangePercent)
-    ); 
-                
-                
-
+                ); 
+    
             } catch (NonExistentTickerException e) {
                 e.printStackTrace();
             }
@@ -94,6 +97,7 @@ public class TradeController {
         model.addAttribute("pricedStocksBestPerforming", worstStocks);
         return "trade";
     }
+
     @GetMapping("/transaction")
     public String onTransaction(@CookieValue(value = "uuid", defaultValue = "") String uuid, @RequestParam String action,
             @RequestParam String ticker,
@@ -122,5 +126,28 @@ public class TradeController {
             }
         }
         return "redirect:/trade";
+    }
+
+    @GetMapping("/search")
+    public String onSearch(String value, Model model) {
+        ArrayList<String> currentStocks = new ArrayList<>();
+        Pattern pattern = Pattern.compile("name: '(.*?)'");
+        Matcher matcher;
+        String stockName;
+        
+        for(String stock : stocks){
+            String[] stockDetails = stock.split(",");
+            matcher = pattern.matcher(stockDetails[0]);
+            if(matcher.find()){
+                stockName = matcher.group(1);
+                if (stockName.contains(value)) currentStocks.add(stock);
+            }
+        }
+
+        ArrayList<String> worstStocks = new ArrayList<>(currentStocks.reversed());
+
+        model.addAttribute("pricedStocksWorstPerforming", currentStocks);
+        model.addAttribute("pricedStocksBestPerforming", worstStocks);
+        return "trade";
     }
 }
