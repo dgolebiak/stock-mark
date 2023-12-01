@@ -220,14 +220,14 @@
             <div class="content-right-scroll">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a th:each ="stock : ${pricedStocksBestPerforming}" th:x-data="${stock}"
-                    x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        :class="pcChange >= 0 ? 'stock-positive' : 'stock-negative'"
                         data-bs-toggle="modal" data-bs-target="#myStockModal"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="my-stocks-item-name" x-text="name">Stock name</strong>
                             <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value" x-text="price">Stock price</small>
-                                <small class="my-stocks-item-pc" x-text="pcChange">Percentage Change</small>
+                                <small class="my-stocks-item-value" x-text="'$' + price">Stock price</small>
+                                <small class="my-stocks-item-pc" x-text="pcChange + '%'">Percentage Change</small>
                             </div>
                         </div>
                     </a>
@@ -241,14 +241,14 @@
             <div class="content-right-scroll">
                 <div class="list-group list-group-flush scrollarea" x-ref="myStocksList">
                     <a th:each ="stock : ${pricedStocksWorstPerforming}" th:x-data="${stock}"
-                    x-data="{ positive: true }" :class="positive ? 'stock-positive' : 'stock-negative'"
+                        :class="pcChange >= 0 ? 'stock-positive' : 'stock-negative'"
                         data-bs-toggle="modal" data-bs-target="#myStockModal"
                         class="my-stocks-item list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
                         <div class="d-flex w-100 align-items-center justify-content-between">
                             <strong class="my-stocks-item-name" x-text="name">Stock name</strong>
                             <div class="d-flex flex-column align-items-end">
-                                <small class="my-stocks-item-value" x-text="price">Stock price</small>
-                                <small class="my-stocks-item-pc" x-text="pcChange">Percentage Change</small>
+                                <small class="my-stocks-item-value" x-text="'$' + price">Stock price</small>
+                                <small class="my-stocks-item-pc" x-text="pcChange + '%'">Percentage Change</small>
                             </div>
                         </div>
                     </a>

@@ -36,7 +36,9 @@ public class TradeController {
         // not complete
         model.addAttribute("assets", acc.getAssets());
 
-        Ticker[] tickers = Market.getInstance().getSupportedTickers();
+        Market market = Market.getInstance();
+
+        Ticker[] tickers = market.getSupportedTickers();
         String[] stocks = new String[tickers.length];
         
         
@@ -44,8 +46,12 @@ public class TradeController {
         int i = 0;
         for (Ticker ticker : tickers){
              try {
-                stocks[i++] = String.format("{ name: '%s', price: '%s', pcChange: '%s' }", ticker.company() , 
-                dc.format(Market.getInstance().getPrice(ticker.name())), dc.format(Market.getInstance().getPercentChangeToday(ticker.name())));
+                double price = market.getPrice(ticker.name());
+                double pcChange = market.getPercentChangeToday(ticker.name());
+
+                stocks[i++] = String.format("{ name: '%s', price: %f, pcChange: %f }", 
+                    ticker.company() , price, pcChange);
+
             } catch (NonExistentTickerException e) {
                 e.printStackTrace();
             }
