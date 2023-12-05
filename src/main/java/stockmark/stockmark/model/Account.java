@@ -69,7 +69,7 @@ public class Account {
 
         balance -= assumedCost;
         String timestamp = LocalDate.now().toString();
-        history.add(new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
+        history.add(0, new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
 
         AccountManager.syncToDisk();
     }
@@ -96,7 +96,7 @@ public class Account {
         balance += stockPrice * sellAmount;
 
         // add to history
-        history.add(new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
+        history.add(0, new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
         AccountManager.syncToDisk();
     }
 
