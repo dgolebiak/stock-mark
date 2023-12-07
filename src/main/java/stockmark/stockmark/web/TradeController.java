@@ -129,11 +129,14 @@ public class TradeController {
     }
 
     @GetMapping("/search")
-    public String onSearch(String value, Model model) {
+    public String onSearch(@CookieValue(value = "uuid", defaultValue = "") String uuid, String value, Model model) {
         ArrayList<String> currentStocks = new ArrayList<>();
         Pattern pattern = Pattern.compile("name: '(.*?)'");
         Matcher matcher;
         String stockName;
+
+        if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/";
         
         for(String stock : stocks){
             String[] stockDetails = stock.split(",");

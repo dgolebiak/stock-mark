@@ -25,6 +25,20 @@ public class TransactionHistoryController {
         return renderTransactions(uuid, model, pageable);
     }
 
+    @GetMapping("/formathistory")
+    public String getHistoryText(@CookieValue(value = "uuid", defaultValue = "") String uuid, Model model, Pageable pageable) {
+        // if not logged in; redirect to login
+        if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/";
+
+        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+        String excelText = acc.getExcelHistoryString();
+
+        model.addAttribute("excelText", excelText);
+
+        return renderTransactions(uuid, model, pageable);
+    }
+
     public String renderTransactions(String uuid, Model model, Pageable pageable) {
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
 

@@ -69,8 +69,6 @@
             </div>
         </header>
     </div>
-        
-    
     
     <div class="content">
         <table class="table table-striped" id="transactionTable" aria-describedby="A table showing all transactions.">
@@ -82,11 +80,11 @@
                 <th class="cell" style="background-color: transparent; color: #d8d8d8; border: none;">Transaction Date</th>
             </tr>
             <tr th:each="transaction : ${history}">
-                <td class="cell" th:text="${transaction.ticker}"/>
+                <td class="cell" th:text="${transaction.ticker}">
                 <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${#strings.capitalize(transaction.action)}"/>
-                <td class="cell" th:text="${transaction.amount}"/>
-                <td class="cell" th:text="${'$'+transaction.unitPrice}"/>
-                <td class="cell" th:text="${transaction.time}"/>
+                <td class="cell" th:text="${transaction.amount}">
+                <td class="cell" th:text="${'$'+transaction.unitPrice}">
+                <td class="cell" th:text="${transaction.time}">
             </tr>
         </table>
         <div class="page-link-row">
@@ -94,6 +92,35 @@
         </div>
     </div>
 
-</body>
+    <form action="/formathistory" id="searchForm" class="d-flex">
+        <button type="submit" class="btn btn-dark">
+            Get excel text
+        </button>
+    </form>
 
+    <div th:if="${excelText}">
+        <div id="copyableText" th:text="${excelText}" style="display: none;">
+            display exceltext here
+        </div>
+
+        <button onclick="copyAllText()" class="btn btn-dark">
+            To Clipboard
+        </button>
+
+        <script>
+            function copyAllText(){
+                var copyableText = document.getElementById('copyableText').textContent;
+
+                var copyTextArea = document.createElement('textarea');
+                copyTextArea.textContent = copyableText;
+
+                document.body.appendChild(copyTextArea);
+                copyTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(copyTextArea);
+            }
+        </script>
+    </div>
+
+</body>
 </html>
