@@ -1,5 +1,9 @@
 package stockmark.stockmark.model;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import stockmark.stockmark.model.Types.Transaction;
@@ -17,5 +21,14 @@ public class ExcelFileCreator {
             .append("\n");
         }
         return excelString.toString();
+    }
+
+    public byte[] CreateExcelFile(ArrayList<Transaction> history){
+        try {
+            Workbook workbook = WorkbookFactory.create(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
