@@ -33,8 +33,7 @@ public class Account {
     private ArrayList<Transaction> history;
 
     // required by jackson
-    Account() {
-    }
+    Account() {}
 
     public Account(String name, String email, String password) {
         this.name = name;
