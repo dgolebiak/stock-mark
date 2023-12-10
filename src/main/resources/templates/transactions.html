@@ -105,14 +105,14 @@
             </tr>
             <tr th:each="transaction : ${history}">
                 <td class="cell" th:text="${transaction.ticker}">
-                <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${#strings.capitalize(transaction.action)}"/>
+                <td class="cell" th:style="${transaction.action == 'sell' ? 'color: red' : 'color: green'}" th:text="${#strings.capitalize(transaction.action)}">
                 <td class="cell" th:text="${transaction.amount}">
                 <td class="cell" th:text="${'$'+transaction.unitPrice}">
                 <td class="cell" th:text="${transaction.time}">
             </tr>
         </table>
         <div class="page-link-row">
-            <a class="page-link" th:each="page : ${pagesList}" th:href="@{/transactions(page=${page})}" th:text="${page+1}" th:style="${page == currentPage ? 'color: gray' : 'color: white'}"/>
+            <a class="page-link" th:each="page : ${pagesList}" th:href="@{/transactions(page=${page})}" th:text="${page+1}" th:style="${page == currentPage ? 'color: gray' : 'color: white'}">
         </div>
     </div>
 

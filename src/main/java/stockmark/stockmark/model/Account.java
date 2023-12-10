@@ -108,34 +108,34 @@ public class Account {
     }
 
     public ChangeOverTime calcMostProfitableOverall() {
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcMostProfitableOverall(assets);
     }
 
     public ChangeOverTime calcLeastProfitableOverall() {
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcLeastProfitableOverall(assets);
     }
 
     public ChangeOverTime calcMostProfitableToday() {
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcMostProfitableToday(assets);
     }
 
     public ChangeOverTime calcLeastProfitableToday() {
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcLeastProfitableToday(assets);
     }
 
     public ChangeOverTime calcValueChangeOverall() {
         double start = getDeposited();
         double after = getBalance();
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcValueChangeOverall(assets, start, after);
     }
 
     public ChangeOverTime calcValueChangeToday() {
-        AccountCalculator accountCalculator = new AccountCalculator();
+        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
         return accountCalculator.calcValueChangeToday(assets);
     }
 

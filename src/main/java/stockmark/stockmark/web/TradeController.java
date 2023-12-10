@@ -143,7 +143,7 @@ public class TradeController {
             matcher = pattern.matcher(stockDetails[0]);
             if(matcher.find()){
                 stockName = matcher.group(1);
-                if (stockName.contains(value)) currentStocks.add(stock);
+                if (stockName.toUpperCase().contains(value.toUpperCase())) currentStocks.add(stock);
             }
         }
 
