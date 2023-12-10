@@ -175,7 +175,7 @@ public class Account {
         return new PageImpl<>(pageContent, pageable, history.size());
     }
 
-    public String getExcelHistoryString() {
+    public String sendExcelHistoryString() {
         ExcelFileCreator efc = new ExcelFileCreator();
         return efc.getString(history);
     }

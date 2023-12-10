@@ -32,7 +32,7 @@ public class TransactionHistoryController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        String excelText = acc.getExcelHistoryString();
+        String excelText = acc.sendExcelHistoryString();
 
         model.addAttribute("excelText", excelText);
 

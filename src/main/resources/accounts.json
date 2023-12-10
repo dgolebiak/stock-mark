@@ -76,8 +76,7 @@
                 "unitPrice": 317.576,
                 "time": "2023-11-20"
             }
-        ],
-        "excelHistoryString": "buy\tAMZN\t3\t147.47\t2023-12-10\nsell\tTSLA\t4\t243.31\t2023-12-10\nsell\tAMZN\t4\t147.47\t2023-12-10\nbuy\tTSLA\t2\t243.31\t2023-12-10\nbuy\tTSLA\t2\t235.7\t2023-11-23\nbuy\tAMZN\t2\t146.63\t2023-11-22\nsell\tAMZN\t2\t146.63\t2023-11-21\nbuy\tMSFT\t5\t317.576\t2023-11-20\n"
+        ]
     },
     {
         "name": "David",
@@ -91,8 +90,7 @@
                 "buyPrice": 0.5
             }
         },
-        "history": [],
-        "excelHistoryString": ""
+        "history": []
     },
     {
         "name": "Sander",
@@ -106,7 +104,6 @@
                 "buyPrice": 235.0
             }
         },
-        "history": [],
-        "excelHistoryString": ""
+        "history": []
     }
 ]
