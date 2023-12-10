@@ -3,52 +3,81 @@
         "name": "Hassan Khan",
         "email": "hk.32@outlook.com",
         "password": "123",
-        "balance": 2247.8899999999994,
+        "balance": 4003.95,
         "deposited": 1550.0,
         "assets": {
             "MSFT": {
-                "amount": 5,
+                "amount": 2,
                 "buyPrice": 317.576
             },
             "TSLA": {
-                "amount": 4,
-                "buyPrice": 122.0
+                "amount": 2,
+                "buyPrice": 162.43666666666667
             },
             "AMZN": {
-                "amount": 5,
-                "buyPrice": 93.0
+                "amount": 4,
+                "buyPrice": 133.8525
             }
         },
         "history": [
             {
                 "action": "buy",
+                "ticker": "AMZN",
+                "amount": 3,
+                "unitPrice": 147.47,
+                "time": "2023-12-10"
+            },
+            {
+                "action": "sell",
+                "ticker": "TSLA",
+                "amount": 4,
+                "unitPrice": 243.31,
+                "time": "2023-12-10"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 4,
+                "unitPrice": 147.47,
+                "time": "2023-12-10"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 243.31,
+                "time": "2023-12-10"
+            },
+            {
+                "action": "buy",
                 "ticker": "TSLA",
                 "amount": 2,
                 "unitPrice": 235.7,
-                "time": "2023-11-26"
+                "time": "2023-11-23"
             },
             {
                 "action": "buy",
                 "ticker": "AMZN",
                 "amount": 2,
                 "unitPrice": 146.63,
-                "time": "2023-11-25"
+                "time": "2023-11-22"
             },
             {
                 "action": "sell",
                 "ticker": "AMZN",
                 "amount": 2,
                 "unitPrice": 146.63,
-                "time": "2023-11-25"
+                "time": "2023-11-21"
             },
             {
                 "action": "buy",
                 "ticker": "MSFT",
                 "amount": 5,
                 "unitPrice": 317.576,
-                "time": "2023-11-25"
+                "time": "2023-11-20"
             }
-        ]
+        ],
+        "excelHistoryString": "buy\tAMZN\t3\t147.47\t2023-12-10\nsell\tTSLA\t4\t243.31\t2023-12-10\nsell\tAMZN\t4\t147.47\t2023-12-10\nbuy\tTSLA\t2\t243.31\t2023-12-10\nbuy\tTSLA\t2\t235.7\t2023-11-23\nbuy\tAMZN\t2\t146.63\t2023-11-22\nsell\tAMZN\t2\t146.63\t2023-11-21\nbuy\tMSFT\t5\t317.576\t2023-11-20\n"
     },
     {
         "name": "David",
@@ -62,7 +91,8 @@
                 "buyPrice": 0.5
             }
         },
-        "history": []
+        "history": [],
+        "excelHistoryString": ""
     },
     {
         "name": "Sander",
@@ -76,6 +106,7 @@
                 "buyPrice": 235.0
             }
         },
-        "history": []
+        "history": [],
+        "excelHistoryString": ""
     }
 ]
