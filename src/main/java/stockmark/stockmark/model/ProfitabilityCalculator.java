@@ -6,7 +6,7 @@ import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
 
-public class AccountCalculator {
+public class ProfitabilityCalculator {
     public ChangeOverTime calcMostProfitableOverall(HashMap<String,Share> assets) {
         String mostProfitableName = null;
         double mostProfit = -1000000;
