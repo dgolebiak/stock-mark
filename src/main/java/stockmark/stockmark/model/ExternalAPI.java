@@ -4,11 +4,16 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import stockmark.stockmark.model.Types.RealStonksResponse;
+import stockmark.stockmark.model.Types.StockPriceStamp;
 
 public class ExternalAPI {
     private ExternalAPI() {}
@@ -36,7 +41,53 @@ public class ExternalAPI {
         }
     }
 
-    public static void inquireHistory(String ticker, int lastNdays) {
+    public static ArrayList<StockPriceStamp> inquireHistory(String ticker, int lastNdays, String interval) {
 
+        ArrayList<StockPriceStamp> history = new ArrayList<StockPriceStamp>();
+
+        long currentUnixTimestamp = Instant.now().getEpochSecond();
+        long unixTimestampNDaysAgo = Instant.now().minusSeconds(lastNdays * 24*60*60).getEpochSecond();
+
+        HttpRequest request = HttpRequest.newBuilder()
+		    .uri(URI.create("https://telescope-stocks-options-price-charts.p.rapidapi.com/price/" + ticker + "?period1=" + unixTimestampNDaysAgo + "&period2=" + currentUnixTimestamp + "&interval=" + interval))
+		    .header("X-RapidAPI-Key", "f36b91a7bfmshea0da7f952d7754p1baea1jsnad99e9294baf")
+		    .header("X-RapidAPI-Host", "telescope-stocks-options-price-charts.p.rapidapi.com")
+		    .method("GET", HttpRequest.BodyPublishers.noBody())
+		    .build();
+        
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            JsonNode rootNode = new ObjectMapper().readTree(response.body());
+            JsonNode dataRoot = rootNode.path("chart").path("result").get(0);
+
+            JsonNode jsonHistory = dataRoot.path("indicators").path("adjclose").get(0).path("adjclose");
+            JsonNode jsonTimestamp = dataRoot.path("timestamp");
+            JsonNode jsonQuoteData = dataRoot.path("indicators").path("quote");
+
+
+            String prettyJson = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(jsonQuoteData);
+            System.out.println(prettyJson);
+
+            if (jsonHistory.isArray() && jsonTimestamp.isArray()) {
+                for (int i = 0; i < jsonTimestamp.size(); i++) {
+                    double adjclose = jsonHistory.get(i).asDouble();
+                    long timestamp = jsonTimestamp.get(i).asLong();
+                    double high = jsonQuoteData.path("high").get(i).asDouble();
+                    double low = jsonQuoteData.path("low").get(i).asDouble();
+                    double open = jsonQuoteData.path("open").get(i).asDouble();
+                    double close = jsonQuoteData.path("close").get(i).asDouble();
+                    int volume = jsonQuoteData.path("volume").get(i).asInt();
+                    System.out.println();
+                    history.add(new StockPriceStamp(adjclose, timestamp, high, low, open, close, volume));
+                }
+            }
+
+            System.out.println(history.toString());
+            return history;
+        
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 }

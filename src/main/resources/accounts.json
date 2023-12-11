@@ -1,1 +1,249 @@
-[{"name":"Hassan Khan","email":"hk.32@outlook.com","password":"123","balance":1443.5499999999997,"deposited":1510.0,"assets":{"MSFT":{"amount":7,"buyPrice":293.60714285714283},"TSLA":{"amount":4,"buyPrice":122.0},"AMZN":{"amount":5,"buyPrice":93.0}},"history":[{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-26"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"TSLA","amount":2,"unitPrice":235.7,"time":"2023-11-25"},{"action":"buy","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"sell","ticker":"AMZN","amount":2,"unitPrice":146.63,"time":"2023-11-25"},{"action":"buy","ticker":"MSFT","amount":5,"unitPrice":379.05,"time":"2023-11-30"}]},{"name":"David","email":"david@outlook.com","password":"54321","balance":11.0,"deposited":0.5,"assets":{"TSLA":{"amount":24,"buyPrice":0.5}},"history":[]},{"name":"Sander","email":"sander@gmail.com","password":"123","balance":0.0,"deposited":100.0,"assets":{"TSLA":{"amount":4,"buyPrice":235.0}},"history":[]}]
+[
+    {
+        "name": "Hassan Khan",
+        "email": "hk.32@outlook.com",
+        "password": "123",
+        "balance": 1443.5499999999997,
+        "deposited": 1510.0,
+        "assets": {
+            "MSFT": {
+                "amount": 7,
+                "buyPrice": 293.60714285714283
+            },
+            "TSLA": {
+                "amount": 4,
+                "buyPrice": 122.0
+            },
+            "AMZN": {
+                "amount": 5,
+                "buyPrice": 93.0
+            }
+        },
+        "history": [
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-26"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "TSLA",
+                "amount": 2,
+                "unitPrice": 235.7,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "sell",
+                "ticker": "AMZN",
+                "amount": 2,
+                "unitPrice": 146.63,
+                "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "MSFT",
+                "amount": 5,
+                "unitPrice": 379.05,
+                "time": "2023-11-30"
+            }
+        ]
+    },
+    {
+        "name": "David",
+        "email": "david@outlook.com",
+        "password": "54321",
+        "balance": 11.0,
+        "deposited": 0.5,
+        "assets": {
+            "TSLA": {
+                "amount": 24,
+                "buyPrice": 0.5
+            }
+        },
+        "history": []
+    },
+    {
+        "name": "Sander",
+        "email": "sander@gmail.com",
+        "password": "123",
+        "balance": 0.0,
+        "deposited": 100.0,
+        "assets": {
+            "TSLA": {
+                "amount": 4,
+                "buyPrice": 235.0
+            }
+        },
+        "history": []
+    }
+]
