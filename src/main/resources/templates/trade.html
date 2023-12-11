@@ -159,9 +159,9 @@
                                     </div>
                                 </div>
 
-                                <div class="current-prices">
+                                <div class="current-prices" id="current-prices">
                                     <p id="stockPrice">N/A</p>
-                                    <p style="margin:0px 0px 0px 50px;" id="stockChangePercent">N/A</p>                           
+                                    <p style="margin:0px 0px 0px 50px;" class="my-stocks-item-pc" id="stockChangePercent">N/A</p>                           
                                 </div>
 
                             </div>
@@ -296,8 +296,15 @@
             document.getElementById('myStockTicker').value = symbol;
             document.getElementById('stockTitle').innerText = symbol;
             document.getElementById('stockSymbol').innerText = name;
-            document.getElementById('stockPrice').innerText = price;
-            document.getElementById('stockChangePercent').innerText = pcChange;
+            document.getElementById('stockPrice').innerText = "$" + price;
+
+            if (pcChange > 0) {
+                document.getElementById('current-prices').classList.add("stock-positive");
+            }
+            else{
+                document.getElementById('current-prices').classList.add("stock-negative");
+            }
+            document.getElementById('stockChangePercent').innerText = pcChange + "%";
 
             document.getElementById('ownedQuantity').innerText = amount;
             document.getElementById('ownedValue').innerText = worth;
