@@ -67,7 +67,7 @@ public class TradeController {
                 priceChangePercent = 100 * (priceChange.current() / priceChange.old());        
                 }
 
-                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: %f, pcChange: %f, amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
+                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: '%f', pcChange: '%f', amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
                 ticker.company(),
                 ticker.name(), 
                 Market.getInstance().getPrice(ticker.name()), 
