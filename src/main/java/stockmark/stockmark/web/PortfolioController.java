@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
@@ -77,12 +78,15 @@ public class PortfolioController {
             leastProfitableToday = new ChangeOverTime("...", 0, 0);
 
         // render portfolio template
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+
         model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
         model.addAttribute("deposited", "$" + dc.format(acc.getDeposited()));
 
         model.addAttribute("totalValue", "$" + dc.format(valueChangeOverall.current()));
         double valueChange = valueChangeOverall.current() - valueChangeOverall.old();
-        model.addAttribute("totalChange", "$" + dc.format(valueChange));
+        double valuePcChange = (int) (valueChange / valueChangeOverall.old() * 100);
+        model.addAttribute("totalChange", "$" + dc.format(valueChange) + " or " + dc.format(valuePcChange) + "%");
         model.addAttribute("isTotalChangePositive", valueChange > 0);
 
         double valueChangeTodayN = valueChangeToday.current() - valueChangeToday.old();

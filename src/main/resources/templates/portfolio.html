@@ -51,14 +51,14 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu text-small">
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade.html">Trade</a></li>
+                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade">Trade</a></li>
                     <li class="dropdown-item-mobile"><a class="dropdown-item" href="transactions">Transactions</a></li>
                     <li class="dropdown-item-mobile">
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal"
+                            data-bs-target="#leaderboardsModal">Leaderboards</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -150,6 +150,34 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-dark" form="depositForm" value="Submit">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- th:text="${transaction.ticker}" -->
+
+    <!-- Leaderboards Modal  -->
+    <div class="modal fade" id="leaderboardsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rubik" style="color: black;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Leaderboards</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ol class="list-group list-group-numbered">
+                        <li th:each="user: ${leaderboards}"
+                            class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold" th:text="${user.name}"></div>
+                            </div>
+                            <span class="badge bg-dark rounded-pill" th:text="${user.pcChange}"></span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

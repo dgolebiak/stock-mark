@@ -83,7 +83,7 @@
         "email": "david@outlook.com",
         "password": "54321",
         "balance": 11.0,
-        "deposited": 0.5,
+        "deposited": 1000,
         "assets": {
             "TSLA": {
                 "amount": 24,
@@ -97,7 +97,7 @@
         "email": "sander@gmail.com",
         "password": "123",
         "balance": 0.0,
-        "deposited": 100.0,
+        "deposited": 1000.0,
         "assets": {
             "TSLA": {
                 "amount": 4,

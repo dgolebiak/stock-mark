@@ -6,8 +6,10 @@ import stockmark.stockmark.model.Exceptions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class AccountManager {
@@ -80,7 +82,7 @@ public class AccountManager {
         }
     }
 
-    public static Collection<Account> getAccounts() {
-        return accounts.values();
+    public static List<Account> getAccounts() {
+        return new ArrayList<>(accounts.values());
     }
 }

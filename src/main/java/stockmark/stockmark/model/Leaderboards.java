@@ -1,27 +1,30 @@
 package stockmark.stockmark.model;
 
-import java.util.Collection;
-import java.util.PriorityQueue;
+import java.util.List;
 
+import stockmark.stockmark.model.Types.AccountMetric;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 
 public class Leaderboards {
-    public static Account[] getBestPerformers(int max) {
-        Collection<Account> accs = AccountManager.getAccounts();
-        if (max < accs.size())
-            max = accs.size();
+    public static AccountMetric[] getBestPerformers() {
+        List<Account> accs = AccountManager.getAccounts();
 
-        PriorityQueue<Account> maxHeap = new PriorityQueue<Account>(
-                (Account a, Account b) -> -Integer.compare(percentChange(a), percentChange(b)));
+        AccountMetric[] list = new AccountMetric[accs.size()];
 
-        Account[] list = new Account[max];
+        for (int i = 0; i < list.length; i++) {
+            double pcChange = -1000000;
+            Account acc = null;
 
-        for (Account acc : accs) {
-            maxHeap.add(acc);
-        }
+            for (Account inner : accs) {
+                var userPcChange = percentChange(inner);
+                if (userPcChange > pcChange) {
+                    acc = inner;
+                    pcChange = userPcChange;
+                }
+            }
 
-        for (int i = 0; i < max; i++) {
-            list[i] = maxHeap.remove();
+            list[i] = new AccountMetric(acc.getName(), percentChange(acc));
+            accs.remove(acc);
         }
 
         return list;
