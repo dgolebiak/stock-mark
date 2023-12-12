@@ -77,12 +77,10 @@ public class ExternalAPI {
                     double open = jsonQuoteData.path("open").get(i).asDouble();
                     double close = jsonQuoteData.path("close").get(i).asDouble();
                     int volume = jsonQuoteData.path("volume").get(i).asInt();
-                    System.out.println();
                     history.add(new StockPriceStamp(adjclose, timestamp, high, low, open, close, volume));
                 }
             }
-
-            System.out.println(history.toString());
+            
             return history;
         
         } catch (Exception e) {
