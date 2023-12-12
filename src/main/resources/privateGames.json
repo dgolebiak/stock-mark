@@ -1,0 +1,15 @@
+[
+    {
+        "gameName": "Game1",
+        "owner": "Sander",
+        "budget": 1000,
+        "startDate": 1702339403,
+        "endDate": 1703027002,
+        "players": [
+            "Sander",
+            "Hassan"
+        ]
+        
+    }
+]
+
