@@ -1,6 +1,7 @@
 package stockmark.stockmark.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import stockmark.stockmark.model.Exceptions.*;
 
 //import stockmark.stockmark.model.Exceptions.*;
 
@@ -30,14 +31,18 @@ public class PrivateGameManager {
         }
     }
 
-    public static void createGame(PrivateGame game){
-/*
+    public static void createGame(PrivateGame game) throws GameExistsException{
+
         if (games.containsKey(game.getGameName())) {
             throw new GameExistsException();
         } 
-        */
+        
         games.put(game.getGameName(), game);
         syncToDisk();
+    }
+
+    public static PrivateGame getGame(String gameName){
+        return games.get(gameName);
     }
 
     public static Collection<PrivateGame> getPrivateGames() {

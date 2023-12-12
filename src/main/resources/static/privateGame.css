@@ -1,0 +1,31 @@
+.createGameModal{
+    color:black;
+}
+
+.createGameDiv {
+    height:15vh;
+    width:100%;
+    text-align: center;}
+
+.createGameButton {
+    height:5vh;
+    width:10vw;
+    min-width: 150px;
+    margin:5vh 0 5vh 0;
+}
+
+.gameListObject {
+    width:40%;
+    margin:auto;
+    height:10vh;
+    background-color: green;
+    font-size: 1.2rem;
+    font-weight:600;
+    text-align: center;
+    color:#5D5C5C;
+    background-color: #D8D8D8;
+}
+
+.gameListObject:hover{
+    background-color: #ffffff;
+}

@@ -1,6 +1,7 @@
 package stockmark.stockmark.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import stockmark.stockmark.model.Exceptions.PlayerAlreadyInGameException;
 import stockmark.stockmark.model.Types.Transaction;
 
 import java.util.ArrayList;
@@ -29,8 +30,10 @@ public class PrivateGame {
         this.players = new ArrayList<String>();
     }
 
-    public void addPlayer(Account player){
-
+    public void addPlayer(Account player) throws PlayerAlreadyInGameException{
+        if(this.players.contains(player.getName())){
+            throw new PlayerAlreadyInGameException();
+        }
         this.players.add(player.getName());
 
         PrivateGameManager.syncToDisk();

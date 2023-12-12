@@ -1,15 +1,18 @@
 [
     {
-        "gameName": "Game1",
-        "owner": "Sander",
-        "budget": 1000,
-        "startDate": 1702339403,
-        "endDate": 1703027002,
+        "gameName": "Game2",
+        "startDate": 1701388800,
+        "endDate": 1701475200,
         "players": [
-            "Sander",
-            "Hassan"
-        ]
-        
+            "Sander"
+        ],
+        "gameBudget": 2321.0
+    },
+    {
+        "gameName": "Game1",
+        "startDate": 1701388800,
+        "endDate": 1702080000,
+        "players": [],
+        "gameBudget": 111.0
     }
 ]
-
