@@ -41,10 +41,14 @@ public class PrivateGameController {
 
         int i = 0;
         for (PrivateGame game : games){
-            gamesList[i++] = String.format("{ gameName: '%s', budget: '%s' }", 
+            gamesList[i++] = String.format("{ gameName: '%s', budget: '%s', isPlayerInGame: %b }", 
                     game.getGameName(),
-                    dc.format(game.getGameBudget())
-                    ); 
+                    dc.format(game.getGameBudget()),
+                    game.doesPlayerExist(acc.getName())
+                    );
+                    
+            System.out.println("Name: " + game.getGameName() + " Budget: " + game.getGameBudget());
+            System.out.println("Name: " + game.getGameName() + " Budget: " + dc.format(game.getGameBudget()));
             }
 
         model.addAttribute("privateGames", gamesList);
@@ -100,9 +104,8 @@ public class PrivateGameController {
             model.addAttribute("errorMessage", "You are already in this game!");
 
         }
-
-
         
         return "redirect:/privateGame";
     }
+    
 }

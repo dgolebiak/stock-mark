@@ -12,10 +12,10 @@ import java.util.HashMap;
 public class PrivateGame {
     //private String owner;
     private String gameName;
-    private double budget;
+    private double gameBudget;
     private long startDate;
     private long endDate;
-    private ArrayList<String> players;
+    private ArrayList<Player> players;
 
 
     // required by jackson
@@ -24,22 +24,31 @@ public class PrivateGame {
     public PrivateGame(String gameName, Account owner, double budget, long startDate, long endDate) {
        // this.owner = owner.getName();
         this.gameName = gameName;
-        this.budget = budget;
+        this.gameBudget = budget;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.players = new ArrayList<String>();
+        this.players = new ArrayList<Player>();
     }
 
     public void addPlayer(Account player) throws PlayerAlreadyInGameException{
-        if(this.players.contains(player.getName())){
+        if(doesPlayerExist(player.getName())){
             throw new PlayerAlreadyInGameException();
         }
-        this.players.add(player.getName());
+        this.players.add(new Player(player.getName(), this.gameBudget));
 
         PrivateGameManager.syncToDisk();
     }
 
-    public ArrayList<String> getPlayers(){
+    public boolean doesPlayerExist(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                return true;  // Player with the specified name found
+            }
+        }
+        return false;  // Player with the specified name not found
+    }
+
+    public ArrayList<Player> getPlayers(){
         return this.players;
     }
 
@@ -48,7 +57,7 @@ public class PrivateGame {
     }
 
     public double getGameBudget(){
-        return this.budget;
+        return this.gameBudget;
     }
 
     public long getStartDate(){

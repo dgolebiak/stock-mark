@@ -1,18 +1,27 @@
 [
     {
-        "gameName": "Game2",
-        "startDate": 1701388800,
-        "endDate": 1701475200,
-        "players": [
-            "Sander"
-        ],
-        "gameBudget": 2321.0
+        "gameName": "GGGame",
+        "startDate": 1701734400,
+        "endDate": 1702425600,
+        "players": [],
+        "gameBudget": 321321.2
     },
     {
-        "gameName": "Game1",
-        "startDate": 1701388800,
-        "endDate": 1702080000,
+        "gameName": "game3",
+        "startDate": 1701648000,
+        "endDate": 1702425600,
+        "players": [
+            {
+                "name": "Sander"
+            }
+        ],
+        "gameBudget": 0.0
+    },
+    {
+        "gameName": "new game",
+        "startDate": 1702425600,
+        "endDate": 1702512000,
         "players": [],
-        "gameBudget": 111.0
+        "gameBudget": 2.0
     }
 ]
