@@ -30,13 +30,23 @@ public class PrivateGame {
         this.players = new ArrayList<Player>();
     }
 
-    public void addPlayer(Account player) throws PlayerAlreadyInGameException{
-        if(doesPlayerExist(player.getName())){
+    public void addPlayer(String playerName) throws PlayerAlreadyInGameException{
+        if(doesPlayerExist(playerName)){
             throw new PlayerAlreadyInGameException();
         }
-        this.players.add(new Player(player.getName(), this.gameBudget));
+        this.players.add(new Player(playerName, this.gameBudget));
 
         PrivateGameManager.syncToDisk();
+    }
+
+    public void removePlayer(String playerName){
+        for (Player temp : this.players){
+            if(temp.getName() == playerName){
+                this.players.remove(temp);
+                break;
+            }
+        }
+        
     }
 
     public boolean doesPlayerExist(String playerName) {
@@ -50,6 +60,15 @@ public class PrivateGame {
 
     public ArrayList<Player> getPlayers(){
         return this.players;
+    }
+
+    public Player getPlayer(String name){
+        for (Player player : this.players){
+            if(player.getName().equals(name)){
+                return player;
+            }
+        }
+        return null;
     }
 
     public String getGameName(){

@@ -99,7 +99,8 @@ public class PrivateGameController {
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
         PrivateGame game = PrivateGameManager.getGame(gameViewGameName);
         try{
-        game.addPlayer(acc);
+        acc.joinGame(gameViewGameName);
+        game.addPlayer(acc.getName());
         }catch (PlayerAlreadyInGameException e){
             model.addAttribute("errorMessage", "You are already in this game!");
 

@@ -33,6 +33,14 @@ public class Player {
         return this.name;
     }
 
+    public double getBalance(){
+        return this.balance;
+    }
+
+    public HashMap<String, Share> getAssets(){
+        return this.assets;
+    }
+
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         double assumedCost = stockPrice * buyAmount;

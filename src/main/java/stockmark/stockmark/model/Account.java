@@ -31,6 +31,7 @@ public class Account {
     private double deposited;
     private HashMap<String, Share> assets;
     private ArrayList<Transaction> history;
+    private ArrayList<String> privateGames;
 
     // required by jackson
     Account() {}
@@ -41,6 +42,7 @@ public class Account {
         this.password = password;
         this.assets = new HashMap<String, Share>();
         this.history = new ArrayList<Transaction>();
+        this.privateGames = new ArrayList<String>();
     }
 
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
@@ -139,6 +141,20 @@ public class Account {
         return accountCalculator.calcValueChangeToday(assets);
     }
 
+    public void joinGame(String gameName) throws PlayerAlreadyInGameException{
+        for(String game : privateGames){
+            if(game == gameName){
+                throw new PlayerAlreadyInGameException();
+            }
+        }
+        privateGames.add(gameName);
+        AccountManager.syncToDisk();
+    }
+
+    public void leaveGame(String gameName){
+        privateGames.remove(gameName);
+    }
+
     public String getName() {
         return name;
     }
@@ -164,6 +180,10 @@ public class Account {
     }
     public List<Transaction> getHistory() {
         return history;
+    }
+
+    public ArrayList<String> getPrivateGames(){
+        return privateGames;
     }
 
     public Page<Transaction> getHistoryPage(Pageable pageable) {

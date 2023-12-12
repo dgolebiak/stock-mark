@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Market;
+import stockmark.stockmark.model.Player;
+import stockmark.stockmark.model.PrivateGame;
+import stockmark.stockmark.model.PrivateGameManager;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Ticker;
@@ -25,6 +28,7 @@ import stockmark.stockmark.model.Types.Ticker;
 @Controller
 public class TradeController {
     String[] stocks;
+    String[] privateGames;
 
     @GetMapping("/trade")
     String onGetTrade(@CookieValue(value = "uuid", defaultValue = "") String uuid, Model model) {
@@ -47,11 +51,19 @@ public class TradeController {
         Market market = Market.getInstance();
 
         Ticker[] tickers = market.getSupportedTickers();
+        ArrayList<String> personalGames = acc.getPrivateGames();
+
         stocks = new String[tickers.length];
+        privateGames = new String[personalGames.size()];
+
+        int i = 0;
+        for (String game : personalGames){
+            privateGames[i++] = game;
+        }
         
         
 
-        int i = 0;
+        i = 0;
         for (Ticker ticker : tickers){
              try {
                 int amount = 0;
@@ -93,13 +105,16 @@ public class TradeController {
 
         model.addAttribute("assets", acc.getAssets());
 
+        model.addAttribute("privateGames", privateGames);
         model.addAttribute("pricedStocksWorstPerforming", stocks);
         model.addAttribute("pricedStocksBestPerforming", worstStocks);
         return "trade";
     }
 
     @GetMapping("/transaction")
-    public String onTransaction(@CookieValue(value = "uuid", defaultValue = "") String uuid, @RequestParam String action,
+    public String onTransaction(@CookieValue(value = "uuid", defaultValue = "") String uuid, 
+            @RequestParam String orderType,
+            @RequestParam String action,
             @RequestParam String ticker,
             @RequestParam String quantity, Model model) {
         // if not logged in; redirect to login
@@ -110,21 +125,48 @@ public class TradeController {
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
         int amountInt = Integer.parseInt(quantity);
 
-        if (action.equals("buy")) {
-            try {
-                acc.buyAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
-            }
-        } else if (action.equals("sell")) {
-            try {
-                acc.sellAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
-            }
+        if(orderType.equals("market")){
+            System.out.println("Köpte i standard");
+            if (action.equals("buy")) {
+                try {
+                    acc.buyAsset(ticker, amountInt);
+                } catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            } else if (action.equals("sell")) {
+                try {
+                    acc.sellAsset(ticker, amountInt);
+                } catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            }            
         }
+        else{
+            System.out.println("ordertype: " + orderType);
+            System.out.println("Köper i något privat spel");
+            PrivateGame game = PrivateGameManager.getGame(orderType);
+            System.out.println("Game: " + game.getGameName());
+            Player player = game.getPlayer(acc.getName());
+            System.out.println("Player: " + player.getName());
+            if (action.equals("buy")) {
+                try {
+                    player.buyAsset(ticker, amountInt);
+                } catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            } else if (action.equals("sell")) {
+                try {
+                    player.sellAsset(ticker, amountInt);
+                } catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+        } 
+        }
+
         return "redirect:/trade";
     }
 

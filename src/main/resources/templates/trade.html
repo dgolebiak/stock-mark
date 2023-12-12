@@ -208,8 +208,9 @@
                                     <div class="order-options">
                                         <div>
                                             <label for="order-type">Order type</label>
-                                            <select name="order-type" id="order-type">
+                                            <select name="orderType" id="order-type">
                                                 <option value="market">Market</option>
+                                                <option th:each="privateGame : ${privateGames}" th:value="${privateGame}" th:text="${privateGame}">Market</option>
                                             </select>
                                         </div>
                                         <div>
