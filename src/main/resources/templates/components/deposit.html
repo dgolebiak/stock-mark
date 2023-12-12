@@ -1,0 +1,25 @@
+<div th:fragment="deposit">
+    <div class="modal fade" id="depositModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rubik" style="color: black;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deposit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/deposit" id="depositForm">
+                        <div class="mb-3">
+                            <label class="form-label">Deposit Amount</label>
+                            <input type="number" class="form-control" name="amount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark" form="depositForm" value="Submit">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -51,16 +51,28 @@ public class PortfolioController {
         int i = 0;
         for (String ticker : assets.keySet()) {
             try {
-                double currentPrice = Market.getInstance().getPrice(ticker);
+                double price = Market.getInstance().getPrice(ticker);
                 double currentPcChange = Market.getInstance().getPercentChangeToday(ticker);
                 Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * currentPrice;
-
+                int amount = myShare.amount();
+                double buyPrice = myShare.buyPrice();
+                double worth = amount * price;
+                ChangeOverTime priceChange = new ChangeOverTime(ticker, worth, amount * buyPrice);
+                double priceChangeDollar = priceChange.current() - priceChange.old();
+                double priceChangePercent = 100 * (priceChange.current() / priceChange.old());
                 // prep x-data
                 assetData[i] = String.format(
-                        "{ ticker: '%s', amount: '%d', buyPrice: '%s', currentPrice: '%s', dayPcChange: '%s', worth: '%s' }",
-                        ticker, myShare.amount(), dc.format(myShare.buyPrice()), dc.format(currentPrice),
-                        dc.format(currentPcChange), dc.format(myShareWorthToday));
+                        "{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: '%d', worth: '%s', buyPrice: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s'}",
+                        ticker, 
+                        ticker,
+                        dc.format(price),
+                        dc.format(currentPcChange), 
+                        amount,
+                        dc.format(worth),
+                        dc.format(buyPrice),
+                        dc.format(priceChangeDollar), 
+                        dc.format(priceChangePercent)
+                    );
                 i++;
             } catch (NonExistentTickerException e) {
                 System.out.println("Non existent ticker, but data came from database so internal error...");

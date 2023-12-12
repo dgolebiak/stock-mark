@@ -20,7 +20,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
-
+    <script th:src="@{/js/modal.js}"></script>
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="trade.css">
@@ -51,7 +51,7 @@
                 </svg>
             </a>
             <ul class="dropdown-menu text-small">
-                <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade.html">Trade</a></li>
+                <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade">Trade</a></li>
                 <li class="dropdown-item-mobile"><a class="dropdown-item" href="transactions">Transactions</a></li>
                 <li class="dropdown-item-mobile">
                     <hr class="dropdown-divider">
@@ -73,28 +73,7 @@
     <div class="separator"></div>
 
     <!-- Deposit Modal  -->
-    <div class="modal fade" id="depositModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rubik" style="color: black;">
-                <div class="modal-header">
-                    <h5 class="modal-title">Deposit</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/deposit" id="depositForm">
-                        <div class="mb-3">
-                            <label class="form-label">Deposit Amount</label>
-                            <input type="number" class="form-control" name="amount">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-dark" form="depositForm" value="Submit">Deposit</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="~{components/deposit :: deposit}"></div>
 
     <div class="input-group search-bar">
         <form action="/search" id="searchForm" class="d-flex">
@@ -108,140 +87,7 @@
         </form>
     </div>
 
-      <div class="modal fade" id="myStockModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content rubik">
-                <div class="modal-body">
-                    <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-content-left">
-                        <div class="modal-graph">
-                        </div>
-                        <div class="modal-peaks">
-                            <div>
-                                <div class="top-left">
-                                    <p class="modal-peak-title">Day's High ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                                <div class="top-left">
-                                    <p class="modal-peak-title">Month's High ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                                <div class="top-right">
-                                    <p class="modal-peak-title">Year High ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="bottom-left">
-                                    <p class="modal-peak-title">Day's Low ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                                <div class="bottom-left">
-                                    <p class="modal-peak-title">Month's Low ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                                <div class="bottom-right">
-                                    <p class="modal-peak-title">Year Low ($)</p>
-                                    <p class="modal-peak-value">N/A</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-content-right">
-                        <div>
-                            <div class="modal-title">
-                                <div>
-                                    <div class="symbol">
-                                        <p id="stockTitle">N/A</p>
-                                    </div>
-                                    <div class="company">
-                                        <p id="stockSymbol">N/A</p>
-                                    </div>
-                                </div>
-
-                                <div class="current-prices">
-                                    <p id="stockPrice">N/A</p>
-                                    <p style="margin:0px 0px 0px 50px;" id="stockChangePercent">N/A</p>                           
-                                </div>
-
-                            </div>
-                            <div class="modal-owned">
-                                <div class="owned-stats">
-                                    <div class="top-left">
-                                        <div class="owned-stats-title">
-                                            <p>Owned Quantity</p>
-                                        </div>
-                                        <div class="owned-stats-value">
-                                            <p id="ownedQuantity">13</p>
-                                        </div>
-                                    </div>
-                                    <div class="top-right">
-                                        <div class="owned-stats-title">
-                                            <p>Owned Value</p>
-                                        </div>
-                                        <div class="owned-stats-value">
-                                            <p id="ownedValue">2925.91</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="owned-stats">
-                                    <div class="bottom-left">
-                                        <div class="owned-stats-title">
-                                            <p>($) Change since purchase</p>
-                                        </div>
-                                        <div class="owned-stats-value">
-                                            <p id="dollarChangeSincePurchase">+ 213.34</p>
-                                        </div>
-                                    </div>
-                                    <div class="bottom-right">
-                                        <div class="owned-stats-title">
-                                            <p>(%) Change since purchase</p>
-                                        </div>
-                                        <div class="owned-stats-value">
-                                            <p id="percentChangeSincePurchase">+ 7.86</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="order">
-                                <form action="/transaction" id="transactionForm">
-                                    <div class="order-options">
-                                        <div>
-                                            <label for="order-type">Order type</label>
-                                            <select name="order-type" id="order-type">
-                                                <option value="market">Market</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label for="action">Action</label>
-                                            <select name="action" id="action">
-                                                <option value="buy">Buy</option>
-                                                <option value="sell">Sell</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label for="quantity">Quantity</label>
-                                            <input value="0" type="number" min="0" name="quantity" id="quantity">
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="myStockTicker" name="ticker" />
-                                    <div class="place-order">
-                                        <div>
-                                           <p>Total Cost ($)</p>
-                                           <p id="totalValue">0</p> 
-                                        </div>
-                                        <button type="submit" form="transactionForm" value="Submit">Place order</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div th:replace="~{components/modal :: modal}"></div> 
 
     <div class="content">
         <div class="content-right rubik" x-data>
@@ -287,34 +133,5 @@
             </div>
         </div>
     </div>
-    <script>
-
-
-
-        var myStockModal = new bootstrap.Modal(document.getElementById('myStockModal'));
-        function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPriceChangeDollar, ownedPriceChangePercent}) {
-            document.getElementById('myStockTicker').value = symbol;
-            document.getElementById('stockTitle').innerText = symbol;
-            document.getElementById('stockSymbol').innerText = name;
-            document.getElementById('stockPrice').innerText = price;
-            document.getElementById('stockChangePercent').innerText = pcChange;
-
-            document.getElementById('ownedQuantity').innerText = amount;
-            document.getElementById('ownedValue').innerText = worth;
-            document.getElementById('dollarChangeSincePurchase').innerText = ownedPriceChangeDollar;
-            document.getElementById('percentChangeSincePurchase').innerText = ownedPriceChangePercent;
-
-            document.getElementById('totalValue').innerText = document.getElementById('quantity').value * price;
-
-            quantityInput = document.getElementById('quantity');
-            totalValue = document.getElementById('totalValue');
-            quantityInput.addEventListener("input", function() {
-                // Update the text content of the paragraph in real-time
-                totalValue.innerText = quantityInput.value * price;
-        });
-
-            myStockModal.show();
-        }
-    </script>
 </body>
 </html>

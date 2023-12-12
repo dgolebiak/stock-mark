@@ -64,10 +64,6 @@ public class ExternalAPI {
             JsonNode jsonTimestamp = dataRoot.path("timestamp");
             JsonNode jsonQuoteData = dataRoot.path("indicators").path("quote");
 
-
-            String prettyJson = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(jsonQuoteData);
-            System.out.println(prettyJson);
-
             if (jsonHistory.isArray() && jsonTimestamp.isArray()) {
                 for (int i = 0; i < jsonTimestamp.size(); i++) {
                     double adjclose = jsonHistory.get(i).asDouble();
@@ -80,7 +76,7 @@ public class ExternalAPI {
                     history.add(new StockPriceStamp(adjclose, timestamp, high, low, open, close, volume));
                 }
             }
-            
+
             return history;
         
         } catch (Exception e) {

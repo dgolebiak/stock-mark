@@ -67,15 +67,15 @@ public class TradeController {
                 priceChangePercent = 100 * (priceChange.current() / priceChange.old());        
                 }
 
-                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: %f, pcChange: %f, amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
-                ticker.company(),
-                ticker.name(), 
-                Market.getInstance().getPrice(ticker.name()), 
-                Market.getInstance().getPercentChangeToday(ticker.name()), 
-                amount, 
-                dc.format(worth), 
-                dc.format(priceChangeDollar), 
-                dc.format(priceChangePercent)
+                stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
+                    ticker.company(),
+                    ticker.name(), 
+                    dc.format(Market.getInstance().getPrice(ticker.name())), 
+                    dc.format(Market.getInstance().getPercentChangeToday(ticker.name())), 
+                    amount, 
+                    dc.format(worth), 
+                    dc.format(priceChangeDollar), 
+                    dc.format(priceChangePercent)
                 ); 
     
             } catch (NonExistentTickerException e) {
