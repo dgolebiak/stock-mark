@@ -5,7 +5,8 @@ STOCKMARK
 2. Usage
 
 # Installation
-You will only need to clone this repository.
+1. Clone this repostory.
+2. Make sure you have at least Java version 21.
 
 # Usage
 To use and run the application you need to run the StockmarkApplication.java
