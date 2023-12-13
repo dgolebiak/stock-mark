@@ -71,126 +71,100 @@
 
     <!-- Separator -->
     <div class="separator"></div>
+    <div class="large-separator"></div>
 
-<!-- Button trigger Create Game Modal -->
-<div class="createGameDiv">
-    <button type="button" class="createGameButton btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGameModal">
-        Create Game
-    </button>    
-</div>
 
-<!-- Create Game Modal -->
-<div class="modal fade createGameModal" id="createGameModal" tabindex="-1" aria-labelledby="createGameModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createGameModalTitle">Create Private Game</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/createGame" id="createGameForm">
-                    <label for="gameName">Game Name:</label>
-                    <input type="text" id="gameName" name="gameName" oninput="checkInputs()"><br><br>
-                    <label for="budget">Budget:</label>
-                    <input type="number" step="0.01" id="budget" name="budget" oninput="checkInputs()"><br><br>
-                    <label for="startDate">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate" oninput="checkInputs()">
-                    <label for="endDate">End Date:</label>
-                    <input type="date" id="endDate" name="endDate" oninput="checkInputs()">
-                  </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="createGameModal">Cancel</button>
-                <button type="submit" value="Submit" form="createGameForm" class="btn btn-primary" id ="createButton" disabled>Create</button>
-            </div>
-        </div>
+    <div class="gameTitlesDiv">
+        <a class="gameTitlesOptions active" onclick="activate(this, 'openGames')">All Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'myGames')">My Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'createGame')">Create Game</a>
     </div>
-</div>
-
-<!-- Game View Modal -->
-<div class="modal fade gameModal" id="gameModal" tabindex="-1" aria-labelledby="gameModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="gameModalTitle">Create Private Game</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/joinGame" id="joinGameForm">
-                    <input type="text" id="gameViewGameName" name="gameViewGameName" readonly/>
-                    <p id="gameViewBudget">Budget</p>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="createGameModal">Cancel</button>
-                <button type="submit" id="joinButton" value="Submit" form="joinGameForm" class="btn btn-primary">Join Game</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-  
-
-        <a th:each ="game : ${privateGames}" th:x-data="${game}"
-                    class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
-            <div class="gameElement">
-                <p x-text="gameName">Game Name</p>
-            </div>
-        </a>
-
-
-    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible" role="alert">
-        <div th:text="${errorMessage}">
-        </div>
-        <button type="button" class="btn-close"
-            data-bs-dismiss="alert" aria-label="Close">
-        </button>
-    </div>
-
-    <script>
-        var gameModal = new bootstrap.Modal(document.getElementById('gameModal'));
-        function openGameView({ gameName, budget, playerInGame }) {
-            document.getElementById('gameViewGameName').value = gameName;
-            document.getElementById('gameViewBudget').innerText = budget;
-            gameModal.show();
-        }
-
-
-        function checkInputs() {
-            // Get input values
-            var gameName = document.getElementById('gameName').value;
-            var budget = document.getElementById('budget').value;
-            var startDate = document.getElementById('startDate').value;
-            var endDate = document.getElementById('endDate').value;
-
-            // Get the create button
-            var createButton = document.getElementById('createButton');
-
-            // Check if any input is empty
-            var inputsNotEmpty = (gameName !== '' && budget !== '' && startDate !== '' && endDate !== '');
-
-            var currentDate = new Date();
-            var selectedStartDate = new Date(startDate);
-            var selectedEndDate = new Date(endDate);
-
-            var isStartDateValid = selectedStartDate >= currentDate;
-            var isEndDateValid = selectedEndDate > selectedStartDate;
-
-            console.log("Inputs: " + inputsNotEmpty);
-            console.log("Start date: " + isStartDateValid);
-            console.log("End date: " + isEndDateValid);
-
-            if (!(isStartDateValid && isEndDateValid && inputsNotEmpty)) {
-                createButton.disabled = true;
-            } else {
-                // Enable or disable the create button based on input values
-                createButton.disabled = false;
-            }
+    
+    <!-- Game View Modal -->
+    <div class="modal fade gameModal" id="gameModal" tabindex="-1" aria-labelledby="gameModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="left-body">
+                        <h5 class="modal-title" id="gameModalTitle">N/A</h5>
+                        <div class="gameInformation">
+                            <form action="/joinGame" id="joinGameForm">
+                                <input type="text" id="gameViewGameName" name="gameViewGameName" hidden/>
+                                <input type="text" id="isPlayerInGame" name="isPlayerInGame" hidden/>
+                            </form>  
+                            <div>
+                                <p>Budget:</p>
+                                <p id="gameViewBudget">N/A</p>                            
+                            </div>
+                            <div>
+                                <p>Start Date:</p>
+                                <p id="gameViewStartDate">N/A</p>                           
+                            </div>
+                            <div>
+                                <p>End Date:</p>
+                                <p id="gameViewEndDate">N/A</p>                                
+                            </div>
+                
+                        </div>
+                    </div>
+                    <div class="right-body">
+                        <div th:each ="player : ${playersInGame}" th:x-data="${player}"
+                            class="playerRanking" aria-current="true">
+                            <p x-text="playerName">Player</p>
+                            <p x-text="playerBalance">Balance</p>
+                        </div>  
+                    </div>                   
+                </div>
 
             
-    }
-        
-    </script>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="createGameModal">Cancel</button>
+                    <button type="submit" id="joinButton" value="Submit" form="joinGameForm" class="btn btn-primary">Join Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div id="gameContent">
+            <div class="gameList inactiveGameOptions activeGameOptions" id="openGames">
+                <a th:each ="game : ${privateGames}" th:x-data="${game}"
+                            class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
+                    <div class="gameNameDiv">
+                        <p x-text="gameName">OpenGamese</p>
+                    </div>
+                </a>    
+            </div>
+    
+            <div class="gameList inactiveGameOptions" id="myGames">
+                <a th:each ="myGame : ${myPrivateGames}" th:x-data="${myGame}"
+                            class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
+                    <div class="gameNameDiv">
+                        <p x-text="gameName">MY Game1</p>
+                    </div>
+                </a>     
+            </div>    
+            <div class="gameList inactiveGameOptions" id="createGame">
+                    <div>
+                        <form action="/createGame" id="createGameForm">
+                            <label for="gameName">Game Name:</label>
+                            <input type="text" id="gameName" name="gameName" oninput="checkInputs()"><br><br>
+                            <label for="budget">Budget:</label>
+                            <input type="number" step="0.01" id="budget" name="budget" oninput="checkInputs()"><br><br>
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate" oninput="checkInputs()">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate" oninput="checkInputs()">
+                          </form>
+                    </div>
+                    <div>
+                        <button type="submit" value="Submit" form="createGameForm" class="btn btn-primary" id ="createButton" disabled>Create</button>
+                    </div>
+            </div>  
+        </div>
+
+    <script src="privateGame.js"></script>
+
 </body>
 
 </html>

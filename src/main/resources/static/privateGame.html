@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="privateGame.css">
 </head>
 
-<body>
+<body th:x-data="${globals}">
     <div class="head-div">
         <header>
             <a class="header-title smaller-screen-header" href="#">Stockmark</a>
@@ -71,52 +71,75 @@
 
     <!-- Separator -->
     <div class="separator"></div>
-
-<!-- Button trigger modal -->
-<div class="createGameDiv">
-    <button type="button" class="createGameButton btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-        Create Game
-    </button>    
-</div>
+    <div class="large-separator"></div>
 
 
-<!-- Modal -->
-<div class="modal fade gameModal" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Create Private Game</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="" id="gameForm">
-                    <label for="gameName">Game Name:</label>
-                    <input type="text" id="gameName" name="gameName"><br><br>
-                    <label for="budget">Budget:</label>
-                    <input type="text" id="budget" name="budget"><br><br>
-                    <label for="startDate">Start Date:</label>
-                    <input type="date" id="startDate" name="startDate">
-                    <label for="endDate">End Date:</label>
-                    <input type="date" id="endDate" name="endDate">
-                  </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" value="Submit" form="gameForm" class="btn btn-primary">Create</button>
+    <div class="gameTitlesDiv">
+        <a class="gameTitlesOptions active" onclick="activate(this, 'openGames')">All Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'myGames')">My Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'createGame')">Create Game</a>
+    </div>
+    
+    <!-- Game View Modal -->
+    <div class="modal fade gameModal" id="gameModal" tabindex="-1" aria-labelledby="gameModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gameModalTitle">Create Private Game</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/joinGame" id="joinGameForm">
+                        <input type="text" id="gameViewGameName" name="gameViewGameName" readonly/>
+                        <p id="gameViewBudget">Budget</p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="createGameModal">Cancel</button>
+                    <button type="submit" id="joinButton" value="Submit" form="joinGameForm" class="btn btn-primary">Join Game</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-    <a class="gameListObject list-group-item py-3 lh-tight" aria-current="true">
-        <div class="gameElement">
-            <p x-text="gameName">Game Name</p>
+    
+        <div id="gameContent">
+            <div class="gameList inactiveGameOptions activeGameOptions" id="openGames">
+                <a th:each ="game : ${privateGames}" th:x-data="${game}"
+                            class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
+                    <div class="gameNameDiv">
+                        <p x-text="gameName">OpenGamese</p>
+                    </div>
+                </a>    
+            </div>
+    
+            <div class="gameList inactiveGameOptions" id="myGames">
+                <a th:each ="myGame : ${myPrivateGames}" th:x-data="${myGame}"
+                            class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
+                    <div class="gameNameDiv">
+                        <p x-text="gameName">MY Game1</p>
+                    </div>
+                </a>     
+            </div>    
+            <div class="gameList inactiveGameOptions" id="createGame">
+                    <div>
+                        <form action="/createGame" id="createGameForm">
+                            <label for="gameName">Game Name:</label>
+                            <input type="text" id="gameName" name="gameName" oninput="checkInputs()"><br><br>
+                            <label for="budget">Budget:</label>
+                            <input type="number" step="0.01" id="budget" name="budget" oninput="checkInputs()"><br><br>
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate" oninput="checkInputs()">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate" oninput="checkInputs()">
+                          </form>
+                    </div>
+                    <div>
+                        <button type="submit" value="Submit" form="createGameForm" class="btn btn-primary" id ="createButton" disabled>Create</button>
+                    </div>
+            </div>  
         </div>
-    </a>
 
+    <script src="privateGame.js"></script>
 
 </body>
 

@@ -143,7 +143,7 @@ public class Account {
 
     public void joinGame(String gameName) throws PlayerAlreadyInGameException{
         for(String game : privateGames){
-            if(game == gameName){
+            if(game.equals(gameName)){
                 throw new PlayerAlreadyInGameException();
             }
         }
@@ -153,6 +153,7 @@ public class Account {
 
     public void leaveGame(String gameName){
         privateGames.remove(gameName);
+        AccountManager.syncToDisk();
     }
 
     public String getName() {

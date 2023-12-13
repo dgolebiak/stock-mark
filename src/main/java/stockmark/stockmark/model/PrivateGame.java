@@ -41,11 +41,13 @@ public class PrivateGame {
 
     public void removePlayer(String playerName){
         for (Player temp : this.players){
-            if(temp.getName() == playerName){
+            if(temp.getName().equals(playerName)){
                 this.players.remove(temp);
                 break;
             }
         }
+
+        PrivateGameManager.syncToDisk();
         
     }
 
