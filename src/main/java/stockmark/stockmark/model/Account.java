@@ -179,4 +179,9 @@ public class Account {
         ExcelFileCreator efc = new ExcelFileCreator();
         return efc.getString(history);
     }
+
+    public String sendExcelHistoryFile() {
+        ExcelFileCreator efc = new ExcelFileCreator();
+        return efc.createExcelFile(history);
+    }
 }

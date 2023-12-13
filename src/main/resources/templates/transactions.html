@@ -145,6 +145,11 @@
             }
         </script>
     </div>
+    <div th:if="${excelFile}">
+        <a th:href="'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + ${excelFile}" download="history.xlsx">
+            <button class="btn btn-dark">Get Excel File</button>
+        </a>
+    </div>
 
 </body>
 </html>

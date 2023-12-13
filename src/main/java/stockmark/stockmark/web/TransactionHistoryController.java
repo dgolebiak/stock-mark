@@ -33,8 +33,10 @@ public class TransactionHistoryController {
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
         String excelText = acc.sendExcelHistoryString();
+        String excelFile = acc.sendExcelHistoryFile();
 
         model.addAttribute("excelText", excelText);
+        model.addAttribute("excelFile", excelFile);
 
         return renderTransactions(uuid, model, pageable);
     }
