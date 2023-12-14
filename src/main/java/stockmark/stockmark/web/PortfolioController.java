@@ -136,10 +136,15 @@ public class PortfolioController {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
             return "redirect:/";
-
-        double depositAmount = Double.parseDouble(amount);
-        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        acc.deposit(depositAmount);
+        
+        try{
+            double depositAmount = Double.parseDouble(amount);
+            Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+            acc.deposit(depositAmount);
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+        }
 
         return "redirect:/portfolio";
     }
@@ -153,22 +158,30 @@ public class PortfolioController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        int amountInt = Integer.parseInt(amount);
+        try {
+            int amountInt = Integer.parseInt(amount);
 
-        if (action.equals("buy")) {
-            try {
-                acc.buyAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
+            if (action.equals("buy")) {
+                try {
+                    acc.buyAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            } 
+            else if (action.equals("sell")) {
+                try {
+                    acc.sellAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
             }
-        } else if (action.equals("sell")) {
-            try {
-                acc.sellAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
-            }
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
         }
 
         return "redirect:/portfolio";

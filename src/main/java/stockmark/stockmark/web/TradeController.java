@@ -108,23 +108,31 @@ public class TradeController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        int amountInt = Integer.parseInt(quantity);
-
-        if (action.equals("buy")) {
+        try{
+            int amountInt = Integer.parseInt(quantity);
+            if (action.equals("buy")) {
             try {
                 acc.buyAsset(ticker, amountInt);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 // Handle properly later... frontend dis-allows erroneus inputs anyways.
                 System.out.println(e);
             }
-        } else if (action.equals("sell")) {
+            } else if (action.equals("sell")) {
             try {
                 acc.sellAsset(ticker, amountInt);
-            } catch (Exception e) {
+            } 
+            catch (Exception e) {
                 // Handle properly later... frontend dis-allows erroneus inputs anyways.
                 System.out.println(e);
             }
+            }
         }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+
+        
         return "redirect:/trade";
     }
 

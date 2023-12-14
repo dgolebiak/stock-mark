@@ -101,10 +101,11 @@ public class Account {
     }
 
     public void deposit(double amount) {
-        deposited += amount;
-        balance += amount;
-        
-        AccountManager.syncToDisk();
+        if (amount > 0) {
+            deposited += amount;
+            balance += amount;
+            AccountManager.syncToDisk();
+        }
     }
 
     public ChangeOverTime calcMostProfitableOverall() {
