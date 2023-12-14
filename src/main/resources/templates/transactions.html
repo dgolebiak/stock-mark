@@ -28,48 +28,7 @@
 </head>
 
 <body>
-    <div class="head-div">
-        <header>
-            <a class="header-title smaller-screen-header" href="#">Stockmark</a>
-            <nav>
-                <a href="portfolio">Portfolio</a>
-                <a href="trade">Trade</a>
-                <a class = "active">Transactions</a>
-                <a href="privateGame">Games</a>
-            </nav>
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block link-body-emphasis text-decoration-none" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <svg id="profile-icon" xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="#D8D8D8"
-                        class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd"
-                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg>
-                    <svg id="burger-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#D8D8D8"
-                        class="bi bi-menu-up" viewBox="0 0 16 16">
-                        <path
-                            d="M7.646 15.854a.5.5 0 0 0 .708 0L10.207 14H14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3.793l1.853 1.854zM1 9V6h14v3H1zm14 1v2a1 1 0 0 1-1 1h-3.793a1 1 0 0 0-.707.293l-1.5 1.5-1.5-1.5A1 1 0 0 0 5.793 13H2a1 1 0 0 1-1-1v-2h14zm0-5H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v2zM2 11.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 0-1h-8a.5.5 0 0 0-.5.5zm0-4a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11a.5.5 0 0 0-.5.5zm0-4a.5.5 0 0 0 .5.5h6a.5.5 0 0 0 0-1h-6a.5.5 0 0 0-.5.5z" />
-                    </svg>
-                </a>
-                <ul class="dropdown-menu text-small">
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="portfolio">Portfolio</a></li>
-                    <li class="dropdown-item-mobile"><a class="dropdown-item" href="trade">Trade</a></li>
-                    <li class="dropdown-item-mobile">
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#depositModal">Deposit</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal"
-                            data-bs-target="#leaderboardsModal">Leaderboards</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
-                </ul>
-            </div>
-        </header>
-    </div>
+    <div th:replace="navbar :: navigationBar"></div>
 
     <!-- Deposit Modal  -->
     <div class="modal fade" id="depositModal" tabindex="-1" aria-hidden="true">
