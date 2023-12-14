@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 import stockmark.stockmark.model.Types.ChangeOverTime;
@@ -91,6 +92,7 @@ public class TradeController {
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
         Collections.reverse(Arrays.asList(worstStocks));
 
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
         model.addAttribute("assets", acc.getAssets());
 
         model.addAttribute("pricedStocksWorstPerforming", stocks);

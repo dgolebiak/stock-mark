@@ -53,6 +53,7 @@ public class TransactionHistoryController {
         }
 
 
+        model.addAttribute("assets", acc.getAssets());
         model.addAttribute("history", historyPage.getContent());
         model.addAttribute("currentPage", historyPage.getNumber());
         model.addAttribute("pagesList", pagesList);
