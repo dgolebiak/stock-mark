@@ -26,12 +26,12 @@
     right:1vw;
 }
 
-.modal-content {
+.modal-content-sander {
     background-color: #D9D9D9;
     color:#5D5C5C;
 }
 
-.modal-body {
+.sander-modal {
     display: flex;
     padding:25px;
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import stockmark.stockmark.model.Types.Transaction;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 
 @Controller
 public class TransactionHistoryController {
@@ -53,7 +54,7 @@ public class TransactionHistoryController {
         }
 
 
-        model.addAttribute("assets", acc.getAssets());
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
         model.addAttribute("history", historyPage.getContent());
         model.addAttribute("currentPage", historyPage.getNumber());
         model.addAttribute("pagesList", pagesList);
