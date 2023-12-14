@@ -108,35 +108,29 @@ public class Account {
     }
 
     public ChangeOverTime calcMostProfitableOverall() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcMostProfitableOverall(assets);
+        return ProfitabilityCalculator.calcMostProfitableOverall(assets);
     }
 
     public ChangeOverTime calcLeastProfitableOverall() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcLeastProfitableOverall(assets);
+        return ProfitabilityCalculator.calcLeastProfitableOverall(assets);
     }
 
     public ChangeOverTime calcMostProfitableToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcMostProfitableToday(assets);
+        return ProfitabilityCalculator.calcMostProfitableToday(assets);
     }
 
     public ChangeOverTime calcLeastProfitableToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcLeastProfitableToday(assets);
+        return ProfitabilityCalculator.calcLeastProfitableToday(assets);
     }
 
     public ChangeOverTime calcValueChangeOverall() {
         double start = getDeposited();
         double after = getBalance();
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcValueChangeOverall(assets, start, after);
+        return ProfitabilityCalculator.calcValueChangeOverall(assets, start, after);
     }
 
     public ChangeOverTime calcValueChangeToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcValueChangeToday(assets);
+        return ProfitabilityCalculator.calcValueChangeToday(assets);
     }
 
     public String getName() {
@@ -176,12 +170,10 @@ public class Account {
     }
 
     public String sendExcelHistoryString() {
-        ExcelFileCreator efc = new ExcelFileCreator();
-        return efc.getString(history);
+        return ExcelFileCreator.createExcelString(history);
     }
 
     public String sendExcelHistoryFile() {
-        ExcelFileCreator efc = new ExcelFileCreator();
-        return efc.createExcelFile(history);
+        return ExcelFileCreator.createExcelFile(history);
     }
 }

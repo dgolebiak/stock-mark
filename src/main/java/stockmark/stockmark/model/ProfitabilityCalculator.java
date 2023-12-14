@@ -7,7 +7,7 @@ import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
 
 public class ProfitabilityCalculator {
-    public ChangeOverTime calcMostProfitableOverall(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcMostProfitableOverall(HashMap<String,Share> assets) {
         String mostProfitableName = null;
         double mostProfit = -1000000;
 
@@ -39,7 +39,7 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(mostProfitableName, worth, oldWorth);
     }
 
-    public ChangeOverTime calcLeastProfitableOverall(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcLeastProfitableOverall(HashMap<String,Share> assets) {
         String leastProfitableName = null;
         double leastProfit = 1000000;
 
@@ -71,7 +71,7 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(leastProfitableName, worth, oldWorth);
     }
 
-    public ChangeOverTime calcMostProfitableToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcMostProfitableToday(HashMap<String,Share> assets) {
         String mostProfitableName = null;
         double mostProfit = -1000000;
 
@@ -106,7 +106,7 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(mostProfitableName, worth, oldWorth);
     }
 
-    public ChangeOverTime calcLeastProfitableToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcLeastProfitableToday(HashMap<String,Share> assets) {
         String leastProfitableName = null;
         double leastProfit = 1000000;
 
@@ -141,7 +141,7 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(leastProfitableName, worth, oldWorth);
     }
 
-    public ChangeOverTime calcValueChangeOverall(HashMap<String,Share> assets, double start, double after) {
+    public static ChangeOverTime calcValueChangeOverall(HashMap<String,Share> assets, double start, double after) {
         // add assets value to after
         for (String ticker : assets.keySet()) {
             try {
@@ -157,7 +157,7 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(null, after, start);
     }
 
-    public ChangeOverTime calcValueChangeToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcValueChangeToday(HashMap<String,Share> assets) {
         double yesterdayValue = 0;
         double todayValue = 0;
 

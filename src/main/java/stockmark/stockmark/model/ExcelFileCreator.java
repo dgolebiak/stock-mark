@@ -13,7 +13,7 @@ import java.util.Base64;
 import stockmark.stockmark.model.Types.Transaction;
 
 public class ExcelFileCreator {
-    public String getString(ArrayList<Transaction> history) {
+    public static String createExcelString(ArrayList<Transaction> history) {
         StringBuilder excelString = new StringBuilder();
 
         for (Transaction transaction : history) {
@@ -27,7 +27,7 @@ public class ExcelFileCreator {
         return excelString.toString();
     }
 
-    public String createExcelFile(ArrayList<Transaction> history){
+    public static String createExcelFile(ArrayList<Transaction> history){
         try {
             Workbook workbook = WorkbookFactory.create(true);
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
