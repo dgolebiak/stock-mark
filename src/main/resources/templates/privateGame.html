@@ -75,46 +75,59 @@
 
 
     <div class="gameTitlesDiv">
-        <a class="gameTitlesOptions active" onclick="activate(this, 'openGames')">All Games</a>
-        <a class="gameTitlesOptions" onclick="activate(this, 'myGames')">My Games</a>
-        <a class="gameTitlesOptions" onclick="activate(this, 'createGame')">Create Game</a>
+        <a class="gameTitlesOptions active" onclick="activate(this, 'gameTitlesOptions', 'gameList', 'openGames')">All Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'gameTitlesOptions', 'gameList', 'myGames')">My Games</a>
+        <a class="gameTitlesOptions" onclick="activate(this, 'gameTitlesOptions', 'gameList', 'createGame')">Create Game</a>
     </div>
     
     <!-- Game View Modal -->
     <div class="modal fade gameModal" id="gameModal" tabindex="-1" aria-labelledby="gameModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
+                <div class="modal-header">
+                    <a onclick="activate(this, 'header-options', 'gameViewOption', 'gameViewDetails')" class="header-options active">
+                        Game Details
+                    </a>
+                    <a onclick="activate(this, 'header-options', 'gameViewOption', 'gameViewPersonalDetails')" class="header-options">
+                        Personal Details
+                    </a>
+                </div>
                 <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-body">
-                    <div class="left-body">
-                        <h5 class="modal-title" id="gameModalTitle">N/A</h5>
-                        <div class="gameInformation">
-                            <form action="/joinGame" id="joinGameForm">
-                                <input type="text" id="gameViewGameName" name="gameViewGameName" hidden/>
-                                <input type="text" id="isPlayerInGame" name="isPlayerInGame" hidden/>
-                            </form>  
-                            <div>
-                                <p>Budget:</p>
-                                <p id="gameViewBudget">N/A</p>                            
+                    <div class="gameViewOption activeOption" id="gameViewDetails">
+                        <div class="left-body">
+                            <h5 class="modal-title" id="gameModalTitle">N/A</h5>
+                            <div class="gameInformation">
+                                <form action="/joinGame" id="joinGameForm">
+                                    <input type="text" id="gameViewGameName" name="gameViewGameName" hidden/>
+                                    <input type="text" id="isPlayerInGame" name="isPlayerInGame" hidden/>
+                                </form>  
+                                <div>
+                                    <p>Budget:</p>
+                                    <p id="gameViewBudget">N/A</p>                            
+                                </div>
+                                <div>
+                                    <p>Start Date:</p>
+                                    <p id="gameViewStartDate">N/A</p>                           
+                                </div>
+                                <div>
+                                    <p>End Date:</p>
+                                    <p id="gameViewEndDate">N/A</p>                                
+                                </div>
+                    
                             </div>
-                            <div>
-                                <p>Start Date:</p>
-                                <p id="gameViewStartDate">N/A</p>                           
-                            </div>
-                            <div>
-                                <p>End Date:</p>
-                                <p id="gameViewEndDate">N/A</p>                                
-                            </div>
-                
                         </div>
+                        <div class="right-body">
+                            <div th:each ="player : ${playersInGame}" th:x-data="${player}"
+                                class="playerRanking" aria-current="true">
+                                <p x-text="playerName">Player</p>
+                                <p x-text="playerBalance">Balance</p>
+                            </div>  
+                        </div>                       
                     </div>
-                    <div class="right-body">
-                        <div th:each ="player : ${playersInGame}" th:x-data="${player}"
-                            class="playerRanking" aria-current="true">
-                            <p x-text="playerName">Player</p>
-                            <p x-text="playerBalance">Balance</p>
-                        </div>  
-                    </div>                   
+                    <div class="gameViewOption" id="gameViewPersonalDetails">
+
+                    </div>
                 </div>
 
             
@@ -127,7 +140,7 @@
     </div>
     
         <div id="gameContent">
-            <div class="gameList inactiveGameOptions activeGameOptions" id="openGames">
+            <div class="gameList activeOption" id="openGames">
                 <a th:each ="game : ${privateGames}" th:x-data="${game}"
                             class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
                     <div class="gameNameDiv">
@@ -136,7 +149,7 @@
                 </a>    
             </div>
     
-            <div class="gameList inactiveGameOptions" id="myGames">
+            <div class="gameList" id="myGames">
                 <a th:each ="myGame : ${myPrivateGames}" th:x-data="${myGame}"
                             class="gameListObject list-group-item py-3 lh-tight" aria-current="true" @click="openGameView($data);">
                     <div class="gameNameDiv">
@@ -144,7 +157,7 @@
                     </div>
                 </a>     
             </div>    
-            <div class="gameList inactiveGameOptions" id="createGame">
+            <div class="gameList" id="createGame">
                     <div>
                         <form action="/createGame" id="createGameForm">
                             <label for="gameName">Game Name:</label>

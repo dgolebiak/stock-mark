@@ -46,6 +46,7 @@
     width:50%;
     margin:auto;
     color:black;
+    display:none;
 }
 
 .gameListObject {
@@ -74,14 +75,6 @@
 .gameEndsDiv{
     font-size: 1.2rem;
     width:30%;
-}
-
-.inactiveGameOptions {
-    display:none;
-}
-
-.activeGameOptions {
-    display:block;
 }
 
 .modal-content{
@@ -117,6 +110,23 @@
     width:50%;
     height:100%;
 }
+
+.modal-header{
+    justify-content: center;
+}
+
+.header-options{
+    color:#5D5C5C;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    margin:10px;
+}
+
+.header-options.active{
+    border-bottom:3px solid #5D5C5C;
+}
+
 .close-modal {
     position:absolute;
     top:2vh;
@@ -125,4 +135,12 @@
 
 .modal-footer{
     justify-content: center;
+}
+
+.gameViewOption{
+    display:none;
+}
+
+.activeOption {
+    display:block;
 }

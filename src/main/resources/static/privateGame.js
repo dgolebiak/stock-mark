@@ -52,8 +52,8 @@ function checkInputs() {
     }   
 }
 
-function activate(clickedLink, activatedContent){
-    var tabs = document.querySelectorAll('.gameTitlesOptions');
+function activate(clickedLink, concernedTabs, concernedContent, activatedContent){
+    var tabs = document.querySelectorAll('.' + concernedTabs);
     tabs.forEach(function(tab) {
         tab.classList.remove('active');
       });
@@ -62,12 +62,12 @@ function activate(clickedLink, activatedContent){
       clickedLink.classList.add('active');
 
       // Inactivate all content
-      var contents = document.querySelectorAll('.gameList');
+      var contents = document.querySelectorAll('.' + concernedContent);
       contents.forEach(function(content) {
-        content.classList.remove('activeGameOptions');
+        content.classList.remove('activeOption');
       });
 
       // Activate choosen content
       var activateContent = document.getElementById(activatedContent);
-      activateContent.classList.add('activeGameOptions');
+      activateContent.classList.add('activeOption');
 }
