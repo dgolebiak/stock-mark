@@ -1,4 +1,4 @@
 package stockmark.stockmark.model.Types;
 
 // Ticker("Google", "GOOG")
-public record Ticker(String company, String name){}
+public record Ticker(String company, String name, double priceToday, double pcChangeToday){}

@@ -1,8 +1,7 @@
 package stockmark.stockmark.model;
 
 import java.io.File;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,10 +14,9 @@ record LocalStockInfo(double price, double pcChange){};
 public class Market implements StockObserver {
     private static final String tickersFile = "./src/main/resources/tickers.json";
     private static Market instance;
-
-    private ConcurrentHashMap<String, LocalStockInfo> priceMap = new ConcurrentHashMap<String, LocalStockInfo>();
     private Ticker[] tickers;
-    private AtomicBoolean allLoaded;
+    private int updates;
+    private final int numTickers;
 
     private Market() {
         try {
@@ -26,15 +24,12 @@ public class Market implements StockObserver {
             File fileObj = new File(tickersFile);
             tickers = new ObjectMapper().readValue(fileObj, Ticker[].class);
 
-            allLoaded = new AtomicBoolean();
             for (Ticker ticker : tickers) {
                 new StockUpdater(ticker, this);
             }
 
-            // wait till all is loaded
-            while (!allLoaded.get()) {
-            }
-            System.out.println("Initial prices have been loaded!");
+            numTickers = tickers.length;
+            updates = 0;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -54,10 +49,17 @@ public class Market implements StockObserver {
 
     // called by Stock instances
     public void updatePrice(Ticker ticker, double price, double pcChange) {
-        priceMap.put(ticker.name(), new LocalStockInfo(price, pcChange));
-        if (!allLoaded.get()) {
-            if (priceMap.size() == tickers.length)
-                allLoaded.set(true);
+        updates++;
+        for (int i = 0; i < tickers.length; i++) {
+            if (tickers[i].name() == ticker.name()) {
+                tickers[i] = new Ticker(ticker.company(), ticker.name(), price, pcChange);
+                break;
+            }
+        }
+
+        if (updates >= numTickers) {
+            updates = 0;
+            syncToDisk();
         }
     }
 
@@ -82,14 +84,31 @@ public class Market implements StockObserver {
     }
 
     public double getPrice(String ticker) throws NonExistentTickerException {
-        if (isSupportedTicker(ticker))
-            return priceMap.get(ticker).price();
+        for (Ticker t : tickers) {
+            if (t.name().equals(ticker))
+                return t.priceToday();
+        }
         throw new NonExistentTickerException();
     }
 
     public double getPercentChangeToday(String ticker) throws NonExistentTickerException {
-        if (isSupportedTicker(ticker))
-            return priceMap.get(ticker).pcChange();
+        for (Ticker t : tickers) {
+            if (t.name().equals(ticker))
+                return t.pcChangeToday();
+        }
         throw new NonExistentTickerException();
+    }
+
+    // persist data to disk
+    private void syncToDisk() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(
+                    new File(tickersFile),
+                    tickers);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error saving tickers.");
+        }
     }
 }

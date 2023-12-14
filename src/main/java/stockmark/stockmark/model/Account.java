@@ -103,42 +103,37 @@ public class Account {
     }
 
     public void deposit(double amount) {
-        deposited += amount;
-        balance += amount;
-        
-        AccountManager.syncToDisk();
+        if (amount > 0) {
+            deposited += amount;
+            balance += amount;
+            AccountManager.syncToDisk();
+        }
     }
 
     public ChangeOverTime calcMostProfitableOverall() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcMostProfitableOverall(assets);
+        return ProfitabilityCalculator.calcMostProfitableOverall(assets);
     }
 
     public ChangeOverTime calcLeastProfitableOverall() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcLeastProfitableOverall(assets);
+        return ProfitabilityCalculator.calcLeastProfitableOverall(assets);
     }
 
     public ChangeOverTime calcMostProfitableToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcMostProfitableToday(assets);
+        return ProfitabilityCalculator.calcMostProfitableToday(assets);
     }
 
     public ChangeOverTime calcLeastProfitableToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcLeastProfitableToday(assets);
+        return ProfitabilityCalculator.calcLeastProfitableToday(assets);
     }
 
     public ChangeOverTime calcValueChangeOverall() {
         double start = getDeposited();
         double after = getBalance();
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcValueChangeOverall(assets, start, after);
+        return ProfitabilityCalculator.calcValueChangeOverall(assets, start, after);
     }
 
     public ChangeOverTime calcValueChangeToday() {
-        ProfitabilityCalculator accountCalculator = new ProfitabilityCalculator();
-        return accountCalculator.calcValueChangeToday(assets);
+        return ProfitabilityCalculator.calcValueChangeToday(assets);
     }
 
     public void joinGame(String gameName) throws PlayerAlreadyInGameException{
@@ -197,7 +192,10 @@ public class Account {
     }
 
     public String sendExcelHistoryString() {
-        ExcelFileCreator efc = new ExcelFileCreator();
-        return efc.getString(history);
+        return ExcelFileCreator.createExcelString(history);
+    }
+
+    public String sendExcelHistoryFile() {
+        return ExcelFileCreator.createExcelFile(history);
     }
 }

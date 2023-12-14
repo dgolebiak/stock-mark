@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
@@ -77,12 +78,15 @@ public class PortfolioController {
             leastProfitableToday = new ChangeOverTime("...", 0, 0);
 
         // render portfolio template
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+
         model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
         model.addAttribute("deposited", "$" + dc.format(acc.getDeposited()));
 
         model.addAttribute("totalValue", "$" + dc.format(valueChangeOverall.current()));
         double valueChange = valueChangeOverall.current() - valueChangeOverall.old();
-        model.addAttribute("totalChange", "$" + dc.format(valueChange));
+        double valuePcChange = (int) (valueChange / valueChangeOverall.old() * 100);
+        model.addAttribute("totalChange", "$" + dc.format(valueChange) + " or " + dc.format(valuePcChange) + "%");
         model.addAttribute("isTotalChangePositive", valueChange > 0);
 
         double valueChangeTodayN = valueChangeToday.current() - valueChangeToday.old();
@@ -132,10 +136,15 @@ public class PortfolioController {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
             return "redirect:/";
-
-        double depositAmount = Double.parseDouble(amount);
-        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        acc.deposit(depositAmount);
+        
+        try{
+            double depositAmount = Double.parseDouble(amount);
+            Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+            acc.deposit(depositAmount);
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+        }
 
         return "redirect:/portfolio";
     }
@@ -149,22 +158,30 @@ public class PortfolioController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        int amountInt = Integer.parseInt(amount);
+        try {
+            int amountInt = Integer.parseInt(amount);
 
-        if (action.equals("buy")) {
-            try {
-                acc.buyAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
+            if (action.equals("buy")) {
+                try {
+                    acc.buyAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            } 
+            else if (action.equals("sell")) {
+                try {
+                    acc.sellAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
             }
-        } else if (action.equals("sell")) {
-            try {
-                acc.sellAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
-            }
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
         }
 
         return "redirect:/portfolio";

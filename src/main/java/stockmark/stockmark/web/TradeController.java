@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Player;
 import stockmark.stockmark.model.PrivateGame;
@@ -103,6 +104,7 @@ public class TradeController {
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
         Collections.reverse(Arrays.asList(worstStocks));
 
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
         model.addAttribute("assets", acc.getAssets());
 
         model.addAttribute("privateGames", privateGames);
@@ -123,25 +125,27 @@ public class TradeController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        int amountInt = Integer.parseInt(quantity);
-
+        try{
+            int amountInt = Integer.parseInt(quantity);
         if(orderType.equals("market")){
             System.out.println("Köpte i standard");
-            if (action.equals("buy")) {
+                if (action.equals("buy")) {
                 try {
                     acc.buyAsset(ticker, amountInt);
-                } catch (Exception e) {
+                } 
+            catch (Exception e) {
                     // Handle properly later... frontend dis-allows erroneus inputs anyways.
                     System.out.println(e);
                 }
-            } else if (action.equals("sell")) {
+                } else if (action.equals("sell")) {
                 try {
                     acc.sellAsset(ticker, amountInt);
-                } catch (Exception e) {
+                } 
+            catch (Exception e) {
                     // Handle properly later... frontend dis-allows erroneus inputs anyways.
                     System.out.println(e);
                 }
-            }            
+                }            
         }
         else{
             System.out.println("ordertype: " + orderType);
@@ -167,6 +171,12 @@ public class TradeController {
         } 
         }
 
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+
+        
         return "redirect:/trade";
     }
 
