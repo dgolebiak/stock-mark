@@ -79,6 +79,7 @@ public class PortfolioController {
 
         // render portfolio template
         model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+        model.addAttribute("activePage", "portfolio");
 
         model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
         model.addAttribute("deposited", "$" + dc.format(acc.getDeposited()));

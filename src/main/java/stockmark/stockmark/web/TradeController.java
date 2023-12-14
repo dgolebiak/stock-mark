@@ -106,6 +106,7 @@ public class TradeController {
 
         model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
         model.addAttribute("assets", acc.getAssets());
+        model.addAttribute("activePage", "trade");
 
         model.addAttribute("privateGames", privateGames);
         model.addAttribute("pricedStocksWorstPerforming", stocks);

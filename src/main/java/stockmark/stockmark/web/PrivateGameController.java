@@ -83,6 +83,7 @@ public class PrivateGameController {
                     );
             }
 
+        model.addAttribute("activePage", "privateGame");
         model.addAttribute("privateGames", gamesList);
         model.addAttribute("myPrivateGames", myGamesList);
         model.addAttribute("globals",

@@ -55,6 +55,7 @@ public class TransactionHistoryController {
 
 
         model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+        model.addAttribute("activePage", "transactions");
         model.addAttribute("history", historyPage.getContent());
         model.addAttribute("currentPage", historyPage.getNumber());
         model.addAttribute("pagesList", pagesList);
