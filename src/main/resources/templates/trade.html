@@ -46,7 +46,9 @@
         </form>
     </div>
 
-    <div th:replace="~{components/modal :: modal}"></div> 
+    <div th:replace="~{components/modal :: modal}"></div>
+
+    <input id="currentBalance" type="hidden" class="form-control br-0" th:value="${currentBalance}" disabled>
 
     <div class="content">
         <div class="content-right rubik" x-data>
