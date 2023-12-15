@@ -104,6 +104,7 @@ public class TradeController {
         String[] worstStocks = Arrays.copyOf(stocks, stocks.length);
         Collections.reverse(Arrays.asList(worstStocks));
 
+        model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
         model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
         model.addAttribute("assets", acc.getAssets());
         model.addAttribute("activePage", "trade");
