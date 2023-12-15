@@ -111,18 +111,41 @@
     padding-top:5px;
 }
 
-
-
 .modal-graph {
+    position: relative;
     width:100%;
     height:35vh;
     background-color: #676767;
 }
 
+.date-picker-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 3px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.date-picker-button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: #FFFDF5;
+    color: #212529;
+}
+
+.date-picker-button:hover {
+    background-color: #cdcdcd;
+}
+
 .modal-peaks {
     margin-top:25px;
     padding:10px;
-    background-color:#FFFDF5;;
+    background-color:#FFFDF5;
 }
 
 .modal-peaks div {
@@ -181,31 +204,4 @@
     width:40%;
     margin-top:auto;
     margin-bottom:auto;
-}
-
-
-.content {
-    display: flex;
-    justify-content: center;
-    max-width: 1250px;
-    margin: 25px auto;
-    padding: 25px 50px;
-    height: calc(100% - 250px);
-}
-
-.content-left {
-    width: 50%;
-}
-
-.content-right {
-    width: 50%;
-}
-
-.content-right-scroll {
-    overflow: auto;
-    border-left:1px solid #5D5C5C;
-}
-
-.content-left-scroll {
-    overflow: auto;
 }

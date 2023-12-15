@@ -16,6 +16,7 @@ import stockmark.stockmark.model.Market;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
+import stockmark.stockmark.model.Types.Ticker;
 
 record ClientAsset(String ticker, int totalValue, double pcChange) {
 }
@@ -51,6 +52,7 @@ public class PortfolioController {
         int i = 0;
         for (String ticker : assets.keySet()) {
             try {
+                String name = "";
                 double price = Market.getInstance().getPrice(ticker);
                 double currentPcChange = Market.getInstance().getPercentChangeToday(ticker);
                 Share myShare = assets.get(ticker);
@@ -61,9 +63,17 @@ public class PortfolioController {
                 double priceChangeDollar = priceChange.current() - priceChange.old();
                 double priceChangePercent = 100 * (priceChange.current() / priceChange.old());
                 // prep x-data
+                Ticker[] tickers = Market.getInstance().getSupportedTickers();
+                for (int j = 0; j < tickers.length; j++) {
+                    if (tickers[j].name().equals(ticker)) {
+                        name = tickers[j].company();
+                        break;
+                    }
+                }
+
                 assetData[i] = String.format(
                         "{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: '%d', worth: '%s', buyPrice: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s'}",
-                        ticker, 
+                        name, 
                         ticker,
                         dc.format(price),
                         dc.format(currentPcChange), 

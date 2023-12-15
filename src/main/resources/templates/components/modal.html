@@ -1,4 +1,7 @@
 <div th:fragment="modal">
+    <script src="https://cdn.jsdelivr.net/npm/moment@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="modal fade" id="myStockModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content rubik">
@@ -6,6 +9,14 @@
                     <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="modal-content-left">
                         <div class="modal-graph">
+                            <canvas id="graph"></canvas>
+                            <div class="date-picker-content">
+                                <button class="date-picker-button" onclick="fetchRender(30, '1d')">1m</button>
+                                <button class="date-picker-button" onclick="fetchRender(90, '1d')">3m</button>
+                                <button class="date-picker-button" onclick="fetchRender(365, '5d')">1y</button>
+                                <button class="date-picker-button" onclick="fetchRender(365*3, '1mo')">3y</button>
+                                <button class="date-picker-button" onclick="fetchRender(365*5, '1mo')">5y</button>
+                            </div>
                         </div>
                         <div class="modal-peaks">
                             <div>

@@ -6,7 +6,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,20 +59,14 @@ public class ExternalAPI {
             JsonNode rootNode = new ObjectMapper().readTree(response.body());
             JsonNode dataRoot = rootNode.path("chart").path("result").get(0);
 
-            JsonNode jsonHistory = dataRoot.path("indicators").path("adjclose").get(0).path("adjclose");
+            JsonNode jsonAdjClose = dataRoot.path("indicators").path("adjclose").get(0).path("adjclose");
             JsonNode jsonTimestamp = dataRoot.path("timestamp");
-            JsonNode jsonQuoteData = dataRoot.path("indicators").path("quote");
 
-            if (jsonHistory.isArray() && jsonTimestamp.isArray()) {
+            if (jsonAdjClose.isArray() && jsonTimestamp.isArray()) {
                 for (int i = 0; i < jsonTimestamp.size(); i++) {
-                    double adjclose = jsonHistory.get(i).asDouble();
+                    double adjclose = jsonAdjClose.get(i).asDouble();
                     long timestamp = jsonTimestamp.get(i).asLong();
-                    double high = jsonQuoteData.path("high").get(i).asDouble();
-                    double low = jsonQuoteData.path("low").get(i).asDouble();
-                    double open = jsonQuoteData.path("open").get(i).asDouble();
-                    double close = jsonQuoteData.path("close").get(i).asDouble();
-                    int volume = jsonQuoteData.path("volume").get(i).asInt();
-                    history.add(new StockPriceStamp(adjclose, timestamp, high, low, open, close, volume));
+                    history.add(new StockPriceStamp(adjclose, timestamp));
                 }
             }
 
