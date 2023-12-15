@@ -68,6 +68,17 @@
     background-color:#D8D8D8;
 }
 
+.modal-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.mygraph {
+    display: flex !important;
+    width: 400px !important;
+    background: gray !important;
+}
+
 @media screen and (max-width: 1250px) {
     .content-right {
         width: 36%;

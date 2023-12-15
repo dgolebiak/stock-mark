@@ -79,7 +79,6 @@
             </div>
         </div>
     </div>
-
     <div class="content">
         <table class="table table-striped" id="transactionTable" aria-describedby="A table showing all transactions.">
             <tr style="border: 1px solid white;" class="header">
@@ -143,4 +142,29 @@
 
 </body>
 
+    <div th:if="${excelText}">
+        <div id="copyableText" th:text="${excelText}" style="display: none;">
+            display exceltext here
+        </div>
+
+        <button onclick="copyAllText()" class="btn btn-dark">
+            To Clipboard
+        </button>
+
+        <script>
+            function copyAllText(){
+                var copyableText = document.getElementById('copyableText').textContent;
+
+                var copyTextArea = document.createElement('textarea');
+                copyTextArea.textContent = copyableText;
+
+                document.body.appendChild(copyTextArea);
+                copyTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(copyTextArea);
+            }
+        </script>
+    </div>
+
+</body>
 </html>

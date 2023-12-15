@@ -3,9 +3,13 @@
         "name": "Hassan Khan",
         "email": "hk.32@outlook.com",
         "password": "123",
-        "balance": 3338.7999999999997,
+        "balance": 1443.5499999999997,
         "deposited": 1510.0,
         "assets": {
+            "MSFT": {
+                "amount": 7,
+                "buyPrice": 293.60714285714283
+            },
             "TSLA": {
                 "amount": 4,
                 "buyPrice": 122.0
@@ -13,10 +17,6 @@
             "AMZN": {
                 "amount": 5,
                 "buyPrice": 93.0
-            },
-            "MSFT": {
-                "amount": 2,
-                "buyPrice": 80.0
             }
         },
         "history": [
@@ -208,6 +208,13 @@
                 "amount": 2,
                 "unitPrice": 146.63,
                 "time": "2023-11-25"
+            },
+            {
+                "action": "buy",
+                "ticker": "MSFT",
+                "amount": 5,
+                "unitPrice": 379.05,
+                "time": "2023-11-30"
             }
         ]
     },

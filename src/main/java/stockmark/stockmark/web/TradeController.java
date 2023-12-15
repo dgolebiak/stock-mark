@@ -81,14 +81,14 @@ public class TradeController {
                 }
 
                 stocks[i++] = String.format("{ name: '%s', symbol: '%s', price: '%s', pcChange: '%s', amount: %d, worth: '%s', ownedPriceChangeDollar: '%s', ownedPriceChangePercent: '%s' }", 
-                ticker.company(),
-                ticker.name(), 
-                dc.format(Market.getInstance().getPrice(ticker.name())), 
-                dc.format(Market.getInstance().getPercentChangeToday(ticker.name())), 
-                amount, 
-                dc.format(worth), 
-                dc.format(priceChangeDollar), 
-                dc.format(priceChangePercent)
+                    ticker.company(),
+                    ticker.name(), 
+                    dc.format(Market.getInstance().getPrice(ticker.name())), 
+                    dc.format(Market.getInstance().getPercentChangeToday(ticker.name())), 
+                    amount, 
+                    dc.format(worth), 
+                    dc.format(priceChangeDollar), 
+                    dc.format(priceChangePercent)
                 ); 
     
             } catch (NonExistentTickerException e) {

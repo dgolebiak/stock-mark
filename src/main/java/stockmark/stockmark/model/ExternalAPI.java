@@ -5,13 +5,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import stockmark.stockmark.model.Types.RealStonksResponse;
+import stockmark.stockmark.model.Types.StockPriceStamp;
 
 public class ExternalAPI {
     private ExternalAPI() {}
@@ -39,34 +40,41 @@ public class ExternalAPI {
         }
     }
 
-    public static double[] inquireHistory(String ticker, int lastNdays) {
+    public static ArrayList<StockPriceStamp> inquireHistory(String ticker, int lastNdays, String interval) {
 
-        int i = 0;
-        double[] history = new double[lastNdays];
+        ArrayList<StockPriceStamp> history = new ArrayList<StockPriceStamp>();
 
         long currentUnixTimestamp = Instant.now().getEpochSecond();
         long unixTimestampNDaysAgo = Instant.now().minusSeconds(lastNdays * 24*60*60).getEpochSecond();
 
         HttpRequest request = HttpRequest.newBuilder()
-		.uri(URI.create("https://telescope-stocks-options-price-charts.p.rapidapi.com/price/" + ticker + "?period1=" + unixTimestampNDaysAgo + "&period2=" + currentUnixTimestamp + "&interval=1d"))
-		.header("X-RapidAPI-Key", "f36b91a7bfmshea0da7f952d7754p1baea1jsnad99e9294baf")
-		.header("X-RapidAPI-Host", "telescope-stocks-options-price-charts.p.rapidapi.com")
-		.method("GET", HttpRequest.BodyPublishers.noBody())
-		.build();
-        try {
-         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-         JsonNode rootNode = new ObjectMapper().readTree(response.body());
-        JsonNode jsonHistory = rootNode.path("chart").path("result").get(0).path("indicators").path("adjclose").get(0).path("adjclose");
-
-        for (JsonNode element : jsonHistory){
-            history[i] = element.asDouble();
-            i++;
-        }
-        System.out.println(Arrays.toString(history));
-        return history;
+		    .uri(URI.create("https://telescope-stocks-options-price-charts.p.rapidapi.com/price/" + ticker + "?period1=" + unixTimestampNDaysAgo + "&period2=" + currentUnixTimestamp + "&interval=" + interval))
+		    .header("X-RapidAPI-Key", "f36b91a7bfmshea0da7f952d7754p1baea1jsnad99e9294baf")
+		    .header("X-RapidAPI-Host", "telescope-stocks-options-price-charts.p.rapidapi.com")
+		    .method("GET", HttpRequest.BodyPublishers.noBody())
+		    .build();
         
-        }catch (Exception e) {
+        try {
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            JsonNode rootNode = new ObjectMapper().readTree(response.body());
+            JsonNode dataRoot = rootNode.path("chart").path("result").get(0);
+
+            JsonNode jsonAdjClose = dataRoot.path("indicators").path("adjclose").get(0).path("adjclose");
+            JsonNode jsonTimestamp = dataRoot.path("timestamp");
+
+            if (jsonAdjClose.isArray() && jsonTimestamp.isArray()) {
+                for (int i = 0; i < jsonTimestamp.size(); i++) {
+                    double adjclose = jsonAdjClose.get(i).asDouble();
+                    long timestamp = jsonTimestamp.get(i).asLong();
+                    history.add(new StockPriceStamp(adjclose, timestamp));
+                }
+            }
+
+            return history;
+        
+        } catch (Exception e) {
             System.out.println(e);
             return null;
+        }
     }
-}}
+}

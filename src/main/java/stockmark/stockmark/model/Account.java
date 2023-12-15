@@ -115,7 +115,6 @@ public class Account {
 
         // add to history
         history.add(0, new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
-
         AccountManager.syncToDisk();
     }
 
