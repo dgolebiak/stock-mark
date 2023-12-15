@@ -17,6 +17,7 @@ function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPrice
     document.getElementById('dollarChangeSincePurchase').innerText = ownedPriceChangeDollar;
     document.getElementById('percentChangeSincePurchase').innerText = ownedPriceChangePercent;
     document.getElementById('totalValue').innerText = (Math.round(document.getElementById('quantity').value * price * 100) / 100).toFixed(2);
+    document.getElementById('myStockTicker').value = symbol;
     currentSymbol = symbol;
 
     let quantityInput = document.getElementById('quantity');
