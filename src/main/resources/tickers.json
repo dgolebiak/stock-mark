@@ -1,1 +1,32 @@
-[{"company":"Apple","name":"AAPL","priceToday":197.74,"pcChangeToday":-0.19},{"company":"Amazon","name":"AMZN","priceToday":148.15,"pcChangeToday":0.5},{"company":"Google","name":"GOOG","priceToday":133.31,"pcChangeToday":0.08},{"company":"Tesla","name":"TSLA","priceToday":252.91,"pcChangeToday":0.74},{"company":"Microsoft","name":"MSFT","priceToday":367.11,"pcChangeToday":0.32}]
+[
+    {
+        "company": "Apple",
+        "name": "AAPL",
+        "priceToday": 197.91,
+        "pcChangeToday": -0.1
+    },
+    {
+        "company": "Amazon",
+        "name": "AMZN",
+        "priceToday": 148.08,
+        "pcChangeToday": 0.44
+    },
+    {
+        "company": "Google",
+        "name": "GOOG",
+        "priceToday": 133.5,
+        "pcChangeToday": 0.23
+    },
+    {
+        "company": "Tesla",
+        "name": "TSLA",
+        "priceToday": 252.75,
+        "pcChangeToday": 0.68
+    },
+    {
+        "company": "Microsoft",
+        "name": "MSFT",
+        "priceToday": 367.38,
+        "pcChangeToday": 0.4
+    }
+]

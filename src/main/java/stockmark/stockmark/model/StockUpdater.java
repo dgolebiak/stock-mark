@@ -21,14 +21,13 @@ public class StockUpdater extends Thread {
             if (res != null)
                 observer.updatePrice(ticker, res.price(), res.pcChange());
 
-                break;
-            /* try {
+            try {
                 Thread.sleep(120000);
             } catch (InterruptedException e) {
                 System.out.println("Exception:" + e);
                 e.printStackTrace();
                 return;
-            } */
+            }
         }
     }
 }

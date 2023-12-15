@@ -35,6 +35,7 @@ public class Market implements StockObserver {
         }
     }
 
+    // Only required to call once at the start of the application
     public static void Initialize() {
         if (instance != null)
             throw new RuntimeException("Market should not be initialized more than once!");

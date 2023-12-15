@@ -31,7 +31,7 @@ public class Leaderboards {
     }
 
     private static int percentChange(Account acc) {
-        ChangeOverTime change = acc.calcValueChangeOverall();
+        ChangeOverTime change = ProfitabilityCalculator.calcValueChangeOverall(acc);
         double diff = change.current() - change.old();
         return (int) (diff / change.old() * 100);
     }

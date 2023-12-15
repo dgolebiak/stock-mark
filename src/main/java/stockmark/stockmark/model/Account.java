@@ -39,6 +39,7 @@ public class Account {
         this.privateGames = new ArrayList<String>();
     }
 
+    // compare old & new password
     public boolean isValidPassword(String oldPassword) {
         if (this.password.equals(oldPassword)) {
             return true;
@@ -47,6 +48,7 @@ public class Account {
         }
     }
 
+    // update password
     public void changePassword(String oldPassword, String newPassword, String confNewPassword)
             throws IncorrectPasswordException {
         if (isValidPassword(oldPassword) && newPassword.equals(confNewPassword)) {
@@ -57,6 +59,7 @@ public class Account {
         }
     }
 
+    // to buy a stock
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         double assumedCost = stockPrice * buyAmount;
@@ -84,9 +87,11 @@ public class Account {
         String timestamp = LocalDate.now().toString();
         history.add(0, new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
 
+        // save
         AccountManager.syncToDisk();
     }
 
+    // to sell a stock
     public void sellAsset(String ticker, int sellAmount) throws NotEnoughAssetsException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         String timestamp = LocalDate.now().toString();
@@ -114,38 +119,13 @@ public class Account {
         AccountManager.syncToDisk();
     }
 
+    // simple add money functionality
     public void deposit(double amount) {
         if (amount > 0) {
             deposited += amount;
             balance += amount;
             AccountManager.syncToDisk();
         }
-    }
-
-    public ChangeOverTime calcMostProfitableOverall() {
-        return ProfitabilityCalculator.calcMostProfitableOverall(assets);
-    }
-
-    public ChangeOverTime calcLeastProfitableOverall() {
-        return ProfitabilityCalculator.calcLeastProfitableOverall(assets);
-    }
-
-    public ChangeOverTime calcMostProfitableToday() {
-        return ProfitabilityCalculator.calcMostProfitableToday(assets);
-    }
-
-    public ChangeOverTime calcLeastProfitableToday() {
-        return ProfitabilityCalculator.calcLeastProfitableToday(assets);
-    }
-
-    public ChangeOverTime calcValueChangeOverall() {
-        double start = getDeposited();
-        double after = getBalance();
-        return ProfitabilityCalculator.calcValueChangeOverall(assets, start, after);
-    }
-
-    public ChangeOverTime calcValueChangeToday() {
-        return ProfitabilityCalculator.calcValueChangeToday(assets);
     }
 
     public void joinGame(String gameName) throws PlayerAlreadyInGameException {
