@@ -18,8 +18,7 @@ public class PrivateGame {
     // required by jackson
     PrivateGame() {}
 
-    public PrivateGame(String gameName, Account owner, double budget, long startDate, long endDate) {
-       // this.owner = owner.getName();
+    public PrivateGame(String gameName, double budget, long startDate, long endDate) {
         this.gameName = gameName;
         this.gameBudget = budget;
         this.startDate = startDate;
