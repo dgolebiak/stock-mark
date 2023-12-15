@@ -45,6 +45,24 @@ public class Account {
         this.privateGames = new ArrayList<String>();
     }
 
+    public boolean isValidPassword(String oldPassword) {
+        if (this.password.equals(oldPassword)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void changePassword(String oldPassword, String newPassword, String confNewPassword)
+            throws IncorrectPasswordException {
+        if (isValidPassword(oldPassword) && newPassword.equals(confNewPassword)) {
+            this.password = newPassword;
+            AccountManager.syncToDisk();
+        } else {
+            throw new IncorrectPasswordException();
+        }
+    }
+
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         double assumedCost = stockPrice * buyAmount;
@@ -98,7 +116,7 @@ public class Account {
 
         // add to history
         history.add(0, new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
-        
+
         AccountManager.syncToDisk();
     }
 
@@ -136,9 +154,9 @@ public class Account {
         return ProfitabilityCalculator.calcValueChangeToday(assets);
     }
 
-    public void joinGame(String gameName) throws PlayerAlreadyInGameException{
-        for(String game : privateGames){
-            if(game.equals(gameName)){
+    public void joinGame(String gameName) throws PlayerAlreadyInGameException {
+        for (String game : privateGames) {
+            if (game.equals(gameName)) {
                 throw new PlayerAlreadyInGameException();
             }
         }
@@ -146,7 +164,7 @@ public class Account {
         AccountManager.syncToDisk();
     }
 
-    public void leaveGame(String gameName){
+    public void leaveGame(String gameName) {
         privateGames.remove(gameName);
         AccountManager.syncToDisk();
     }
@@ -174,11 +192,12 @@ public class Account {
     public Map<String, Share> getAssets() {
         return assets;
     }
+
     public List<Transaction> getHistory() {
         return history;
     }
 
-    public ArrayList<String> getPrivateGames(){
+    public ArrayList<String> getPrivateGames() {
         return privateGames;
     }
 
