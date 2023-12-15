@@ -7,7 +7,9 @@ import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
 
 public class ProfitabilityCalculator {
-    public static ChangeOverTime calcMostProfitableOverall(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcMostProfitableOverall(Account acc) {
+        var assets = acc.getAssets();
+
         String mostProfitableName = null;
         double mostProfit = -1000000;
 
@@ -39,7 +41,9 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(mostProfitableName, worth, oldWorth);
     }
 
-    public static ChangeOverTime calcLeastProfitableOverall(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcLeastProfitableOverall(Account acc) {
+        var assets = acc.getAssets();
+
         String leastProfitableName = null;
         double leastProfit = 1000000;
 
@@ -71,7 +75,8 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(leastProfitableName, worth, oldWorth);
     }
 
-    public static ChangeOverTime calcMostProfitableToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcMostProfitableToday(Account acc) {
+        var assets = acc.getAssets();
         String mostProfitableName = null;
         double mostProfit = -1000000;
 
@@ -106,7 +111,8 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(mostProfitableName, worth, oldWorth);
     }
 
-    public static ChangeOverTime calcLeastProfitableToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcLeastProfitableToday(Account acc) {
+        var assets = acc.getAssets();
         String leastProfitableName = null;
         double leastProfit = 1000000;
 
@@ -141,7 +147,10 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(leastProfitableName, worth, oldWorth);
     }
 
-    public static ChangeOverTime calcValueChangeOverall(HashMap<String,Share> assets, double start, double after) {
+    public static ChangeOverTime calcValueChangeOverall(Account acc) {
+        var assets = acc.getAssets();
+        double start = acc.getDeposited();
+        double after = acc.getBalance();
         // add assets value to after
         for (String ticker : assets.keySet()) {
             try {
@@ -157,7 +166,8 @@ public class ProfitabilityCalculator {
         return new ChangeOverTime(null, after, start);
     }
 
-    public static ChangeOverTime calcValueChangeToday(HashMap<String,Share> assets) {
+    public static ChangeOverTime calcValueChangeToday(Account acc) {
+        var assets = acc.getAssets();
         double yesterdayValue = 0;
         double todayValue = 0;
 

@@ -14,14 +14,11 @@ import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
 import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
+import stockmark.stockmark.model.ProfitabilityCalculator;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
 
-record ClientAsset(String ticker, int totalValue, double pcChange) {
-}
-
-// @CookieValue(value = "uuid", defaultValue = "") String uuid
 @Controller
 public class PortfolioController {
     @GetMapping("/portfolio")
@@ -40,14 +37,14 @@ public class PortfolioController {
         // to be sent to html template
         String[] assetData = new String[assets.size()];
 
-        ChangeOverTime mostProfitableOverall = acc.calcMostProfitableOverall();
-        ChangeOverTime leastProfitableOverall = acc.calcLeastProfitableOverall();
+        ChangeOverTime mostProfitableOverall = ProfitabilityCalculator.calcMostProfitableOverall(acc);
+        ChangeOverTime leastProfitableOverall = ProfitabilityCalculator.calcLeastProfitableOverall(acc);
 
-        ChangeOverTime mostProfitableToday = acc.calcMostProfitableToday();
-        ChangeOverTime leastProfitableToday = acc.calcLeastProfitableToday();
+        ChangeOverTime mostProfitableToday = ProfitabilityCalculator.calcMostProfitableToday(acc);
+        ChangeOverTime leastProfitableToday = ProfitabilityCalculator.calcLeastProfitableToday(acc);
 
-        ChangeOverTime valueChangeOverall = acc.calcValueChangeOverall();
-        ChangeOverTime valueChangeToday = acc.calcValueChangeToday();
+        ChangeOverTime valueChangeOverall = ProfitabilityCalculator.calcValueChangeOverall(acc);
+        ChangeOverTime valueChangeToday = ProfitabilityCalculator.calcValueChangeToday(acc);
 
         int i = 0;
         for (String ticker : assets.keySet()) {

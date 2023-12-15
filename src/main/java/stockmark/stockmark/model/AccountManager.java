@@ -16,6 +16,7 @@ public class AccountManager {
     private static HashMap<String, Account> accounts;
     private static HashMap<UUID, String> loggedIn = new HashMap<UUID, String>();
 
+    // Only required to call once at the start of the application
     public static void Initialize() {
         if (accounts != null)
             throw new RuntimeException("AccountManager should not be initialized more than once!");
