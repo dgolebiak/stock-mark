@@ -1,10 +1,10 @@
 package stockmark.stockmark.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.time.LocalDate;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
@@ -14,12 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-// NOTES: Problems with:
-// private HashMap<Boolean, List<Shares>> history;
-// We need a history from start to finish, sort of like transactions in the order that it happened
-// Storing it like this will require further processing to get this into a presentable state to a user.
-
-// Single account for one user
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -31,10 +25,10 @@ public class Account {
     private double deposited;
     private HashMap<String, Share> assets;
     private ArrayList<Transaction> history;
+    private ArrayList<String> privateGames;
 
-    // required by jackson
-    Account() {
-    }
+    // required by jackson so ignore
+    Account() {}
 
     public Account(String name, String email, String password) {
         this.name = name;
@@ -42,8 +36,30 @@ public class Account {
         this.password = password;
         this.assets = new HashMap<String, Share>();
         this.history = new ArrayList<Transaction>();
+        this.privateGames = new ArrayList<String>();
     }
 
+    // compare old & new password
+    public boolean isValidPassword(String oldPassword) {
+        if (this.password.equals(oldPassword)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // update password
+    public void changePassword(String oldPassword, String newPassword, String confNewPassword)
+            throws IncorrectPasswordException {
+        if (isValidPassword(oldPassword) && newPassword.equals(confNewPassword)) {
+            this.password = newPassword;
+            AccountManager.syncToDisk();
+        } else {
+            throw new IncorrectPasswordException();
+        }
+    }
+
+    // to buy a stock
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         double assumedCost = stockPrice * buyAmount;
@@ -69,11 +85,13 @@ public class Account {
 
         balance -= assumedCost;
         String timestamp = LocalDate.now().toString();
-        history.add(new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
+        history.add(0, new Transaction("buy", ticker, buyAmount, stockPrice, timestamp));
 
+        // save
         AccountManager.syncToDisk();
     }
 
+    // to sell a stock
     public void sellAsset(String ticker, int sellAmount) throws NotEnoughAssetsException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         String timestamp = LocalDate.now().toString();
@@ -96,191 +114,33 @@ public class Account {
         balance += stockPrice * sellAmount;
 
         // add to history
-        history.add(new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
+        history.add(0, new Transaction("sell", ticker, sellAmount, stockPrice, timestamp));
+
         AccountManager.syncToDisk();
     }
 
+    // simple add money functionality
     public void deposit(double amount) {
-        deposited += amount;
-        balance += amount;
+        if (amount > 0) {
+            deposited += amount;
+            balance += amount;
+            AccountManager.syncToDisk();
+        }
+    }
+
+    public void joinGame(String gameName) throws PlayerAlreadyInGameException {
+        for (String game : privateGames) {
+            if (game.equals(gameName)) {
+                throw new PlayerAlreadyInGameException();
+            }
+        }
+        privateGames.add(gameName);
         AccountManager.syncToDisk();
     }
 
-    public ChangeOverTime calcMostProfitableOverall() {
-        String mostProfitableName = null;
-        double mostProfit = -1000000;
-
-        double worth = 0;
-        double oldWorth = 0;
-
-        for (String ticker : assets.keySet()) {
-            try {
-                double currentPrice = Market.getInstance().getPrice(ticker);
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * currentPrice;
-                double howMuchIpaidForIt = (double) myShare.amount() * myShare.buyPrice();
-                double profit = myShareWorthToday - howMuchIpaidForIt;
-
-                // calc most profitable overall
-                if (profit > mostProfit) {
-                    mostProfit = profit;
-                    mostProfitableName = ticker;
-                    worth = myShareWorthToday;
-                    oldWorth = howMuchIpaidForIt;
-                }
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-
-        if (mostProfitableName == null)
-            return null;
-        return new ChangeOverTime(mostProfitableName, worth, oldWorth);
-    }
-
-    public ChangeOverTime calcLeastProfitableOverall() {
-        String leastProfitableName = null;
-        double leastProfit = 1000000;
-
-        double worth = 0;
-        double oldWorth = 0;
-
-        for (String ticker : assets.keySet()) {
-            try {
-                double currentPrice = Market.getInstance().getPrice(ticker);
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * currentPrice;
-                double howMuchIpaidForIt = (double) myShare.amount() * myShare.buyPrice();
-                double profit = myShareWorthToday - howMuchIpaidForIt;
-
-                // calc least profitable overall
-                if (profit < leastProfit) {
-                    leastProfit = profit;
-                    leastProfitableName = ticker;
-                    worth = myShareWorthToday;
-                    oldWorth = howMuchIpaidForIt;
-                }
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-
-        if (leastProfitableName == null)
-            return null;
-        return new ChangeOverTime(leastProfitableName, worth, oldWorth);
-    }
-
-    public ChangeOverTime calcMostProfitableToday() {
-        String mostProfitableName = null;
-        double mostProfit = -1000000;
-
-        double worth = 0;
-        double oldWorth = 0;
-
-        for (String ticker : assets.keySet()) {
-            try {
-                double priceToday = Market.getInstance().getPrice(ticker);
-                double pcChangeToday = Market.getInstance().getPercentChangeToday(ticker);
-                double priceYesterday = (100.0/(pcChangeToday+100.0) * priceToday);
-
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * priceToday;
-                double myShareWorthYesterday = (double) myShare.amount() * priceYesterday;
-                double profit = myShareWorthToday - myShareWorthYesterday;
-
-                // calc most profitable today
-                if (profit > mostProfit) {
-                    mostProfit = profit;
-                    mostProfitableName = ticker;
-                    worth = myShareWorthToday;
-                    oldWorth = myShareWorthYesterday;
-                }
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-
-        if (mostProfitableName == null)
-            return null;
-        return new ChangeOverTime(mostProfitableName, worth, oldWorth);
-    }
-
-    public ChangeOverTime calcLeastProfitableToday() {
-        String leastProfitableName = null;
-        double leastProfit = 1000000;
-
-        double worth = 0;
-        double oldWorth = 0;
-
-        for (String ticker : assets.keySet()) {
-            try {
-                double priceToday = Market.getInstance().getPrice(ticker);
-                double pcChangeToday = Market.getInstance().getPercentChangeToday(ticker);
-                double priceYesterday = (100.0/(pcChangeToday+100.0) * priceToday);
-
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * priceToday;
-                double myShareWorthYesterday = (double) myShare.amount() * priceYesterday;
-                double profit = myShareWorthToday - myShareWorthYesterday;
-
-                // calc least profitable today
-                if (profit < leastProfit) {
-                    leastProfit = profit;
-                    leastProfitableName = ticker;
-                    worth = myShareWorthToday;
-                    oldWorth = myShareWorthYesterday;
-                }
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-
-        if (leastProfitableName == null)
-            return null;
-        return new ChangeOverTime(leastProfitableName, worth, oldWorth);
-    }
-
-    public ChangeOverTime calcValueChangeOverall() {
-        double start = getDeposited();
-        double after = getBalance();
-
-        // add assets value to after
-        for (String ticker : assets.keySet()) {
-            try {
-                double currentPrice = Market.getInstance().getPrice(ticker);
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * currentPrice;
-                after += myShareWorthToday;
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-
-        return new ChangeOverTime(null, after, start);
-    }
-
-    public ChangeOverTime calcValueChangeToday() {
-        double yesterdayValue = 0;
-        double todayValue = 0;
-
-        // add assets value to value
-        for (String ticker : assets.keySet()) {
-            try {
-                double priceToday = Market.getInstance().getPrice(ticker);
-                double pcChangeToday = Market.getInstance().getPercentChangeToday(ticker);
-                double priceYesterday = (100.0/(pcChangeToday+100.0) * priceToday);
-
-                Share myShare = assets.get(ticker);
-                double myShareWorthToday = (double) myShare.amount() * priceToday;
-                todayValue += myShareWorthToday;
-
-                double myShareWorthYesterday = (double) myShare.amount() * priceYesterday;
-                yesterdayValue += myShareWorthYesterday;
-            } catch (NonExistentTickerException e) {
-                System.out.println("Non existent ticker, but data came from database so internal error...");
-            }
-        }
-        return new ChangeOverTime(null, todayValue, yesterdayValue);
+    public void leaveGame(String gameName) {
+        privateGames.remove(gameName);
+        AccountManager.syncToDisk();
     }
 
     public String getName() {
@@ -306,8 +166,13 @@ public class Account {
     public Map<String, Share> getAssets() {
         return assets;
     }
+
     public List<Transaction> getHistory() {
         return history;
+    }
+
+    public ArrayList<String> getPrivateGames() {
+        return privateGames;
     }
 
     public Page<Transaction> getHistoryPage(Pageable pageable) {
@@ -317,5 +182,13 @@ public class Account {
         List<Transaction> pageContent = history.subList(start, end);
 
         return new PageImpl<>(pageContent, pageable, history.size());
+    }
+
+    public String sendExcelHistoryString() {
+        return ExcelFileCreator.createExcelString(history);
+    }
+
+    public String sendExcelHistoryFile() {
+        return ExcelFileCreator.createExcelFile(history);
     }
 }

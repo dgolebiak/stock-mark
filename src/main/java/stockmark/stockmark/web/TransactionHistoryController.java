@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import stockmark.stockmark.model.Types.Transaction;
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 
 @Controller
 public class TransactionHistoryController {
@@ -21,6 +22,22 @@ public class TransactionHistoryController {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
             return "redirect:/";
+
+        return renderTransactions(uuid, model, pageable);
+    }
+
+    @GetMapping("/formathistory")
+    public String getHistoryText(@CookieValue(value = "uuid", defaultValue = "") String uuid, Model model, Pageable pageable) {
+        // if not logged in; redirect to login
+        if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
+            return "redirect:/";
+
+        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+        String excelText = acc.sendExcelHistoryString();
+        String excelFile = acc.sendExcelHistoryFile();
+
+        model.addAttribute("excelText", excelText);
+        model.addAttribute("excelFile", excelFile);
 
         return renderTransactions(uuid, model, pageable);
     }
@@ -37,6 +54,8 @@ public class TransactionHistoryController {
         }
 
 
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+        model.addAttribute("activePage", "transactions");
         model.addAttribute("history", historyPage.getContent());
         model.addAttribute("currentPage", historyPage.getNumber());
         model.addAttribute("pagesList", pagesList);

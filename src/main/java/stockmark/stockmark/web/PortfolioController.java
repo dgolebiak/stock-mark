@@ -12,15 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import stockmark.stockmark.model.Account;
 import stockmark.stockmark.model.AccountManager;
+import stockmark.stockmark.model.Leaderboards;
 import stockmark.stockmark.model.Market;
+import stockmark.stockmark.model.ProfitabilityCalculator;
 import stockmark.stockmark.model.Exceptions.*;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
 
-record ClientAsset(String ticker, int totalValue, double pcChange) {
-}
-
-// @CookieValue(value = "uuid", defaultValue = "") String uuid
 @Controller
 public class PortfolioController {
     @GetMapping("/portfolio")
@@ -39,14 +37,14 @@ public class PortfolioController {
         // to be sent to html template
         String[] assetData = new String[assets.size()];
 
-        ChangeOverTime mostProfitableOverall = acc.calcMostProfitableOverall();
-        ChangeOverTime leastProfitableOverall = acc.calcLeastProfitableOverall();
+        ChangeOverTime mostProfitableOverall = ProfitabilityCalculator.calcMostProfitableOverall(acc);
+        ChangeOverTime leastProfitableOverall = ProfitabilityCalculator.calcLeastProfitableOverall(acc);
 
-        ChangeOverTime mostProfitableToday = acc.calcMostProfitableToday();
-        ChangeOverTime leastProfitableToday = acc.calcLeastProfitableToday();
+        ChangeOverTime mostProfitableToday = ProfitabilityCalculator.calcMostProfitableToday(acc);
+        ChangeOverTime leastProfitableToday = ProfitabilityCalculator.calcLeastProfitableToday(acc);
 
-        ChangeOverTime valueChangeOverall = acc.calcValueChangeOverall();
-        ChangeOverTime valueChangeToday = acc.calcValueChangeToday();
+        ChangeOverTime valueChangeOverall = ProfitabilityCalculator.calcValueChangeOverall(acc);
+        ChangeOverTime valueChangeToday = ProfitabilityCalculator.calcValueChangeToday(acc);
 
         int i = 0;
         for (String ticker : assets.keySet()) {
@@ -58,7 +56,7 @@ public class PortfolioController {
 
                 // prep x-data
                 assetData[i] = String.format(
-                        "{ ticker: '%s', amount: %d, buyPrice: %s, currentPrice: %s, dayPcChange: %s, worth: %s }",
+                        "{ ticker: '%s', amount: '%d', buyPrice: '%s', currentPrice: '%s', dayPcChange: '%s', worth: '%s' }",
                         ticker, myShare.amount(), dc.format(myShare.buyPrice()), dc.format(currentPrice),
                         dc.format(currentPcChange), dc.format(myShareWorthToday));
                 i++;
@@ -77,12 +75,16 @@ public class PortfolioController {
             leastProfitableToday = new ChangeOverTime("...", 0, 0);
 
         // render portfolio template
+        model.addAttribute("leaderboards", Leaderboards.getBestPerformers());
+        model.addAttribute("activePage", "portfolio");
+
         model.addAttribute("currentBalance", "$" + dc.format(acc.getBalance()));
         model.addAttribute("deposited", "$" + dc.format(acc.getDeposited()));
 
         model.addAttribute("totalValue", "$" + dc.format(valueChangeOverall.current()));
         double valueChange = valueChangeOverall.current() - valueChangeOverall.old();
-        model.addAttribute("totalChange", "$" + dc.format(valueChange));
+        double valuePcChange = (int) (valueChange / valueChangeOverall.old() * 100);
+        model.addAttribute("totalChange", "$" + dc.format(valueChange) + " or " + dc.format(valuePcChange) + "%");
         model.addAttribute("isTotalChangePositive", valueChange > 0);
 
         double valueChangeTodayN = valueChangeToday.current() - valueChangeToday.old();
@@ -132,10 +134,15 @@ public class PortfolioController {
         // if not logged in; redirect to login
         if (uuid.equals("") || !AccountManager.isLoggedIn(java.util.UUID.fromString(uuid)))
             return "redirect:/";
-
-        double depositAmount = Double.parseDouble(amount);
-        Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        acc.deposit(depositAmount);
+        
+        try{
+            double depositAmount = Double.parseDouble(amount);
+            Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
+            acc.deposit(depositAmount);
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+        }
 
         return "redirect:/portfolio";
     }
@@ -149,22 +156,30 @@ public class PortfolioController {
             return "redirect:/";
 
         Account acc = AccountManager.getFromUUID(java.util.UUID.fromString(uuid));
-        int amountInt = Integer.parseInt(amount);
+        try {
+            int amountInt = Integer.parseInt(amount);
 
-        if (action.equals("buy")) {
-            try {
-                acc.buyAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
+            if (action.equals("buy")) {
+                try {
+                    acc.buyAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
+            } 
+            else if (action.equals("sell")) {
+                try {
+                    acc.sellAsset(ticker, amountInt);
+                } 
+                catch (Exception e) {
+                    // Handle properly later... frontend dis-allows erroneus inputs anyways.
+                    System.out.println(e);
+                }
             }
-        } else if (action.equals("sell")) {
-            try {
-                acc.sellAsset(ticker, amountInt);
-            } catch (Exception e) {
-                // Handle properly later... frontend dis-allows erroneus inputs anyways.
-                System.out.println(e);
-            }
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
         }
 
         return "redirect:/portfolio";

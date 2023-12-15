@@ -1,22 +1,32 @@
 [
     {
         "company": "Apple",
-        "name": "AAPL"
+        "name": "AAPL",
+        "priceToday": 198.08,
+        "pcChangeToday": -0.02
     },
     {
         "company": "Amazon",
-        "name": "AMZN"
+        "name": "AMZN",
+        "priceToday": 147.5,
+        "pcChangeToday": 0.05
     },
     {
         "company": "Google",
-        "name": "GOOG"
+        "name": "GOOG",
+        "priceToday": 133.08,
+        "pcChangeToday": -0.09
     },
     {
         "company": "Tesla",
-        "name": "TSLA"
+        "name": "TSLA",
+        "priceToday": 250.59,
+        "pcChangeToday": -0.18
     },
     {
         "company": "Microsoft",
-        "name": "MSFT"
+        "name": "MSFT",
+        "priceToday": 366.62,
+        "pcChangeToday": 0.19
     }
 ]
