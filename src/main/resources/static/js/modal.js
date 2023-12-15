@@ -19,7 +19,12 @@ function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPrice
     document.getElementById('percentChangeSincePurchase').innerText = ownedPriceChangePercent;
     document.getElementById('totalValue').innerText = (Math.round(document.getElementById('quantity').value * price * 100) / 100).toFixed(2);
     document.getElementById('myStockTicker').value = symbol;
+    document.getElementById('quantity').value = 0;
     currentSymbol = symbol;
+
+    document.getElementById('totalValue').style.color = "#5d5c5c";
+    document.getElementById('placeButton').disabled = false;
+    document.getElementById('placeButton').style.backgroundColor = "#4a88ff";
 
     let quantityInput = document.getElementById('quantity');
     let totalValue = document.getElementById('totalValue');
@@ -27,13 +32,15 @@ function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPrice
         let currentBalance = document.getElementById('currentBalance').value.substring(1);
         // Update the text content of the paragraph in real-time
         totalValue.innerText = (Math.round(quantityInput.value * price * 100) / 100).toFixed(2);
-        if (quantityInput.value * price > currentBalance) {
+        if (quantityInput.value * price > currentBalance || quantityInput.value == 0) {
             console.log("Hello")
             document.getElementById('totalValue').style.color = "red";
             document.getElementById('placeButton').disabled = true;
+            document.getElementById('placeButton').style.backgroundColor = "lightgray";
         } else {
             document.getElementById('totalValue').style.color = "#5d5c5c";
             document.getElementById('placeButton').disabled = false;
+            document.getElementById('placeButton').style.backgroundColor = "#4a88ff";
         }
     });
 
