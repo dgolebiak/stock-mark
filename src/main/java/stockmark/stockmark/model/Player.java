@@ -1,15 +1,13 @@
 package stockmark.stockmark.model;
-import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import stockmark.stockmark.model.Exceptions.BalanceTooLowException;
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 import stockmark.stockmark.model.Exceptions.NotEnoughAssetsException;
 import stockmark.stockmark.model.Types.Share;
-import stockmark.stockmark.model.Types.Transaction;
+
+//Class for players in Private Games.
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Player {
@@ -29,18 +27,22 @@ public class Player {
         this.assets = new HashMap<String, Share>();
     }
 
+    //Returns player name. Returns String.
     public String getName(){
         return this.name;
     }
 
+    //Returns balance. Returns double.
     public double getBalance(){
         return this.balance;
     }
 
+    //Returns assets/owned stocks. Returns HashMap<String, Share>
     public HashMap<String, Share> getAssets(){
         return this.assets;
     }
 
+    //Buys a stock in a private game. Throws exception if not enough balannce or invalid stock symbol.
     public void buyAsset(String ticker, int buyAmount) throws BalanceTooLowException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         double assumedCost = stockPrice * buyAmount;
@@ -69,6 +71,7 @@ public class Player {
         PrivateGameManager.syncToDisk();
     }
 
+    //Sells a stock in a private game. Throws exception if not enough stocks are owned or invalid stock symbol.
     public void sellAsset(String ticker, int sellAmount) throws NotEnoughAssetsException, NonExistentTickerException {
         double stockPrice = Market.getInstance().getPrice(ticker);
         Share share = assets.get(ticker);

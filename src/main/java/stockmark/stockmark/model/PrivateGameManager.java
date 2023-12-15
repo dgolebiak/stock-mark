@@ -11,10 +11,13 @@ import java.util.Collection;
 import java.util.HashMap;
 //import java.util.UUID;
 
+//Manager class for PrivateGames. Gets and saves PrivateGames to json file.
+
 public class PrivateGameManager {
     private static String privateGamesFile = "./src/main/resources/privateGames.json";
     private static HashMap<String, PrivateGame> games;
 
+    //Reads the private games from the json file and places them in a HashMap for quick access.
     public static void Initialize() {
         if (games != null)
             throw new RuntimeException("PrivateGameManager should not be initialized more than once!");
@@ -31,6 +34,7 @@ public class PrivateGameManager {
         }
     }
 
+    //Places a new game in the json file. Throws exception if a game with the given name already exists.
     public static void createGame(PrivateGame game) throws GameExistsException{
 
         if (games.containsKey(game.getGameName())) {
@@ -41,15 +45,17 @@ public class PrivateGameManager {
         syncToDisk();
     }
 
+    //Returns a game from a given game name. Returns PrivateGame.
     public static PrivateGame getGame(String gameName){
         return games.get(gameName);
     }
 
+    //Returns a collection of all PrivateGames. Returns Collection<PrivateGame>
     public static Collection<PrivateGame> getPrivateGames() {
         return games.values();
     }
 
-    // persist data to disk
+    // Saves the data to the json file.
     public static void syncToDisk() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
