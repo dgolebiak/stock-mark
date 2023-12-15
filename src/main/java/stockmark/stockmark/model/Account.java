@@ -14,12 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-// NOTES: Problems with:
-// private HashMap<Boolean, List<Shares>> history;
-// We need a history from start to finish, sort of like transactions in the order that it happened
-// Storing it like this will require further processing to get this into a presentable state to a user.
-
-// Single account for one user
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -33,7 +27,7 @@ public class Account {
     private ArrayList<Transaction> history;
     private ArrayList<String> privateGames;
 
-    // required by jackson
+    // required by jackson so ignore
     Account() {}
 
     public Account(String name, String email, String password) {

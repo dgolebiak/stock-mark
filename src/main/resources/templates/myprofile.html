@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <div th:replace="navbar :: navigationBar"></div>
+    <div th:replace="~{navbar :: navigationBar}"></div>
 
     <div style="width: 800px; margin: 0 auto; margin-top: 60px;">
         <h3>Full Name: <span th:text="${account.name}"></span></h3>

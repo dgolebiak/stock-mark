@@ -4,7 +4,7 @@
         "email": "hk.32@outlook.com",
         "password": "123",
         "balance": 4003.95,
-        "deposited": 1550.0,
+        "deposited": 3000.0,
         "assets": {
             "MSFT": {
                 "amount": 2,
@@ -84,10 +84,10 @@
         "email": "david@outlook.com",
         "password": "54321",
         "balance": 11.0,
-        "deposited": 0.5,
+        "deposited": 1200.0,
         "assets": {
             "TSLA": {
-                "amount": 24,
+                "amount": 8,
                 "buyPrice": 0.5
             }
         },
