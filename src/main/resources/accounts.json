@@ -5,6 +5,7 @@
         "password": "123",
         "balance": 1443.5499999999997,
         "deposited": 1510.0,
+        "privateGames": [],
         "assets": {
             "MSFT": {
                 "amount": 7,
@@ -224,6 +225,7 @@
         "password": "54321",
         "balance": 11.0,
         "deposited": 0.5,
+        "privateGames": [],
         "assets": {
             "TSLA": {
                 "amount": 24,
@@ -238,6 +240,7 @@
         "password": "123",
         "balance": 0.0,
         "deposited": 100.0,
+        "privateGames": [],
         "assets": {
             "TSLA": {
                 "amount": 4,
