@@ -121,7 +121,7 @@ public class PrivateGameController {
         long endUnixTimestamp = endInstant.getEpochSecond();
 
         try{
-        PrivateGameManager.createGame(new PrivateGame(gameName, acc, budget, startUnixTimestamp, endUnixTimestamp));
+        PrivateGameManager.createGame(new PrivateGame(gameName, budget, startUnixTimestamp, endUnixTimestamp));
         }catch (GameExistsException e){
             model.addAttribute("errorMessage", "A Game with this name already exists!");
         }
