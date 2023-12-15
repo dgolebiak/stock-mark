@@ -1,7 +1,5 @@
 package stockmark.stockmark.model;
 
-import java.util.HashMap;
-
 import stockmark.stockmark.model.Exceptions.NonExistentTickerException;
 import stockmark.stockmark.model.Types.ChangeOverTime;
 import stockmark.stockmark.model.Types.Share;
