@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     myStockModal = new bootstrap.Modal(document.getElementById('myStockModal'));
 });
 
+
 let currentSymbol;
 
 function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPriceChangeDollar, ownedPriceChangePercent}) {
@@ -23,10 +24,19 @@ function openQuickView({name, symbol, price, pcChange, amount, worth, ownedPrice
     let quantityInput = document.getElementById('quantity');
     let totalValue = document.getElementById('totalValue');
     quantityInput.addEventListener("input", function() {
+        let currentBalance = document.getElementById('currentBalance').value.substring(1);
         // Update the text content of the paragraph in real-time
         totalValue.innerText = (Math.round(quantityInput.value * price * 100) / 100).toFixed(2);
+        if (quantityInput.value * price > currentBalance) {
+            console.log("Hello")
+            document.getElementById('totalValue').style.color = "red";
+            document.getElementById('placeButton').disabled = true;
+        } else {
+            document.getElementById('totalValue').style.color = "#5d5c5c";
+            document.getElementById('placeButton').disabled = false;
+        }
     });
-    
+
     fetchRender();
     myStockModal.show();
 }
