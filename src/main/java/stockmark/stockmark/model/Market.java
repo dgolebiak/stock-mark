@@ -42,13 +42,14 @@ public class Market implements StockObserver {
         instance = new Market();
     }
 
+    // getInstance before every use, is singleton because only one instance exists at a time
     public static Market getInstance() {
         if (instance == null)
             throw new RuntimeException("Initialize Market first!");
         return instance;
     }
 
-    // called by Stock instances
+    // called by StockUpdater instances
     public void updatePrice(Ticker ticker, double price, double pcChange) {
         updates++;
         for (int i = 0; i < tickers.length; i++) {
@@ -64,10 +65,12 @@ public class Market implements StockObserver {
         }
     }
 
+    // get an array of all supported tickers
     public Ticker[] getSupportedTickers() {
         return tickers;
     }
 
+    // checks if a ticker is supported
     public boolean isSupportedTicker(Ticker ticker) {
         for (Ticker t : tickers) {
             if (t.equals(ticker))
@@ -76,6 +79,7 @@ public class Market implements StockObserver {
         return false;
     }
 
+    // checks if a ticker (string) is supported
     public boolean isSupportedTicker(String name) {
         for (Ticker t : tickers) {
             if (t.name().equals(name))
@@ -84,6 +88,7 @@ public class Market implements StockObserver {
         return false;
     }
 
+    // get the price of a stock ticker for example "GOOG" for Google
     public double getPrice(String ticker) throws NonExistentTickerException {
         for (Ticker t : tickers) {
             if (t.name().equals(ticker))
@@ -92,6 +97,7 @@ public class Market implements StockObserver {
         throw new NonExistentTickerException();
     }
 
+    // get the price change todya in percent of a stock ticker for example "AMZN" for Amazon
     public double getPercentChangeToday(String ticker) throws NonExistentTickerException {
         for (Ticker t : tickers) {
             if (t.name().equals(ticker))

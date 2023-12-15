@@ -7,6 +7,7 @@ import stockmark.stockmark.model.Types.Ticker;
 public class StockUpdater extends Thread {
     private Ticker ticker;
     private StockObserver observer;
+    private final long waitTime = 120000; // milliseconds
 
     public StockUpdater(Ticker ticker, StockObserver ob) {
         this.ticker = ticker;
@@ -14,6 +15,7 @@ public class StockUpdater extends Thread {
         this.start();
     }
 
+    // runs in the background as a thread and updates the prices once every x milliseconds
     @Override
     public void run() {
         while (true) {
@@ -22,7 +24,7 @@ public class StockUpdater extends Thread {
                 observer.updatePrice(ticker, res.price(), res.pcChange());
 
             try {
-                Thread.sleep(120000);
+                Thread.sleep(waitTime);
             } catch (InterruptedException e) {
                 System.out.println("Exception:" + e);
                 e.printStackTrace();
